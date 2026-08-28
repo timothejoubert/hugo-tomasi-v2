@@ -13,6 +13,9 @@ dist/
 # Generated backups
 backup/
 
+# Ancien site hugotomasi.com : mirroir + contenu récupéré pour migration Prismic
+old-site-hugotomasi/
+
 # Logs
 *.log
 
