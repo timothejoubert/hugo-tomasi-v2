@@ -39,7 +39,7 @@ export const prismicDocumentRoutes = [
 		name: prismicDocumentType.ABOUT,
 		type: prismicDocumentType.ABOUT,
 		path: '/:lang?/bio',
-		alias: [],
+		alias: ['/:lang?/about', '/:lang?/a-propos'],
 	},
 	{
 		name: prismicDocumentType.PROJECT_LISTING,
