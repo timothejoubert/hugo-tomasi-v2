@@ -1,7 +1,19 @@
 <script lang="ts" setup>
 import { getRoutePath, prismicDocumentType } from '~~/shared/prismic-schema'
 
+const { t } = useI18n()
 const { document } = await useFetchPage(prismicDocumentType.PROJECT, { fatal: false })
+
+const { title, description, canonicalUrl } = usePrismicMeta(document, { schemaOrgType: 'ItemPage' })
+
+if (document.value) {
+	usePrismicProjectSchemaOrg(document, {
+		title: title.value,
+		description: description.value,
+		canonicalUrl: canonicalUrl.value,
+		breadcrumb: [{ name: t('archive_page.heading'), item: getRoutePath(prismicDocumentType.PROJECT_LISTING) }],
+	})
+}
 </script>
 
 <template>

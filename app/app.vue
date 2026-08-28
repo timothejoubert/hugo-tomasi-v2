@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-await usePrismicPersonSchemaOrg()
 </script>
 
 <template>

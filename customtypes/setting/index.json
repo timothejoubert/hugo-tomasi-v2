@@ -2,24 +2,37 @@
   "format": "custom",
   "id": "setting",
   "json": {
-    "Main": {
-      "site_name": {
+    "Publisher": {
+      "publisher_name": {
         "config": {
-          "label": "Site name",
+          "label": "Publisher name",
           "placeholder": ""
         },
         "type": "Text"
       },
-      "email": {
+      "publisher_description": {
         "config": {
-          "label": "Email",
+          "label": "Publisher description",
           "placeholder": ""
         },
         "type": "Text"
-      }
-    },
-    "Socials": {
-      "socials": {
+      },
+      "publisher_url": {
+        "config": {
+          "label": "Publisher url",
+          "placeholder": "",
+          "select": null
+        },
+        "type": "Link"
+      },
+      "publisher_email": {
+        "config": {
+          "label": "Publisher email",
+          "placeholder": ""
+        },
+        "type": "Text"
+      },
+      "publisher_socials": {
         "config": {
           "fields": {
             "name": {
@@ -55,10 +68,27 @@
               "type": "Link"
             }
           },
-          "label": "Socials",
+          "label": "Publisher socials",
           "repeat": true
         },
         "type": "Group"
+      }
+    },
+    "Website": {
+      "website_description": {
+        "config": {
+          "label": "Website description",
+          "placeholder": ""
+        },
+        "type": "Text"
+      },
+      "website_logo": {
+        "config": {
+          "constraint": {},
+          "label": "Website logo",
+          "thumbnails": []
+        },
+        "type": "Image"
       }
     }
   },

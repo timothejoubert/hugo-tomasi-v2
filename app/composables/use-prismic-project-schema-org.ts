@@ -1,7 +1,7 @@
 import { toRef } from 'vue'
 import type { MaybeRefOrGetter } from 'vue'
+import { isFilled } from '@prismicio/client'
 import type { ProjectPageDocument } from '~~/prismicio-types'
-import { getFilledLinkToMedia } from '~/utils/prismic/filled'
 
 interface PrismicProjectSchemaOrgBreadcrumbEntry {
 	name: string
@@ -17,7 +17,9 @@ interface PrismicProjectSchemaOrgMeta {
 	breadcrumb?: PrismicProjectSchemaOrgBreadcrumbEntry[]
 }
 
-/** schema.org `CreativeWork` (or Prismic-driven subtype) node for a project document — `@type` is sourced verbatim from the `creative_work_type` Select field, no mapping needed. */
+/** schema.org `CreativeWork` node for a project document. There's no Prismic field to select a
+ * more specific subtype (`VisualArtwork`, `Photograph`, etc.) — `@type` always falls back to the
+ * generic `CreativeWork`, which is a safe default across any kind of creative portfolio. */
 export function usePrismicProjectSchemaOrg(documentOrRef: MaybeRefOrGetter<ProjectPageDocument | null | undefined>, meta: PrismicProjectSchemaOrgMeta) {
 	const doc = toRef(documentOrRef)
 	if (!doc.value) return
@@ -26,14 +28,12 @@ export function usePrismicProjectSchemaOrg(documentOrRef: MaybeRefOrGetter<Proje
 
 	useSchemaOrg([
 		{
-			'@type': data.creative_work_type || 'CreativeWork',
+			'@type': 'CreativeWork',
 			name: meta.title,
 			description: meta.description,
-			image: getFilledLinkToMedia(data.thumbnail)?.url,
-			dateCreated: data.date || undefined,
+			image: isFilled.image(data.main_media) ? data.main_media.url : undefined,
+			dateCreated: isFilled.date(data.creation_date) ? data.creation_date : undefined,
 			url: meta.canonicalUrl,
-			keywords: data.tag_group?.map(({ tag }) => tag).filter(Boolean),
-			award: data.awards?.map(({ name }) => name).filter(Boolean),
 		},
 		defineBreadcrumb({
 			itemListElement: [
