@@ -8,6 +8,7 @@ import { ensureProtocol } from '~/utils/url'
 import { I18N_DEFAULT_LOCALE } from '~~/i18n/i18n'
 import type { PageMetaAlternateLink } from '~/composables/use-page-meta'
 import { MEDIA_PROVIDER } from '~/constants/media'
+import { stripUrlQuery } from '~/utils/prismic/media'
 
 interface PrismicDocumentPageData extends Record<string, unknown> {
 	meta_title?: KeyTextField
@@ -51,7 +52,7 @@ export function usePrismicMeta(documentOrRef?: MaybeRefOrGetter<ReachableDocumen
 		const imgUrl = docData.value?.meta_image?.url || docData.value?.main_media?.url
 		if (imgUrl) {
 			return generateImg(
-				imgUrl,
+				stripUrlQuery(imgUrl),
 				{ width: 1200, height: 700 },
 				{ provider: MEDIA_PROVIDER, modifiers: { fit: 'crop' } },
 			)

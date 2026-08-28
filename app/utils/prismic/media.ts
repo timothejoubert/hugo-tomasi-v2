@@ -28,13 +28,21 @@ function parseEmbedId(embedUrl: string, providerName?: string | null) {
 	return undefined
 }
 
+/** Prismic serves image URLs with its own default transform query params baked in (e.g.
+ * `?auto=format,compress`) — left in place, they conflict with/shadow whatever a caller sets via
+ * `@nuxt/image`'s `modifiers` (imgix appends to the existing query string rather than replacing
+ * it). Stripping them here means `modifiers` is the single place controlling image transforms. */
+export function stripUrlQuery(url: string) {
+	return url.split('?')[0] || url
+}
+
 /** Normalizes any Prismic media-ish field (Image, Link-to-media, or a video Embed field) into one
  * shape, dispatching on the field's own shape (`isFilled.*`) rather than guessing from the URL. */
 export function getPrismicMediaData(field: MediaField | null | undefined): NormalizedMedia | undefined {
 	if (isFilled.image(field)) {
 		return {
 			type: 'image',
-			url: field.url,
+			url: stripUrlQuery(field.url),
 			width: field.dimensions?.width,
 			height: field.dimensions?.height,
 			alt: field.alt ?? '',
@@ -47,7 +55,7 @@ export function getPrismicMediaData(field: MediaField | null | undefined): Norma
 		const height = media.height ? Number(media.height) : undefined
 
 		return media.kind === 'image'
-			? { type: 'image', url: media.url, width, height, alt: media.name ?? '' }
+			? { type: 'image', url: stripUrlQuery(media.url), width, height, alt: media.name ?? '' }
 			: { type: 'video', url: media.url, width, height }
 	}
 
@@ -56,7 +64,7 @@ export function getPrismicMediaData(field: MediaField | null | undefined): Norma
 		const embed = parseEmbedId(embedField.embed_url, embedField.provider_name)
 		if (!embed) return undefined
 
-		return { ...embed, width: embedField.width, height: embedField.height }
+		return { type: 'embed', ...embed, width: embedField.width, height: embedField.height }
 	}
 
 	return undefined
