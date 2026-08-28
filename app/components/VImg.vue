@@ -1,5 +1,7 @@
 <script lang="ts">
 import type { ImageOptions } from '@nuxt/image'
+import { VPictureSource } from '#components'
+import type { VNode } from 'vue'
 
 export const vImgProps = {
 	src: { type: String, required: false },
@@ -103,6 +105,42 @@ export default defineComponent({
 			return result
 		})
 
+		// Art direction: VPictureSource children are config-only (they render nothing themselves,
+		// see VPictureSource.vue) — read their props straight off the slot's vnodes and turn each
+		// into a <picture><source> computed the same way the plain <img> case is above.
+		const pictureSources = computed(() => {
+			const vnodes = (context.slots.default?.() || []) as VNode[]
+
+			return vnodes
+				.filter(vnode => vnode.type === VPictureSource)
+				.map((vnode) => {
+					const sourceProps = vnode.props || {}
+					const sourceSrc = sourceProps.src || props.src!
+					const sourceWidth = parseSize(sourceProps.width)
+					const sourceHeight = parseSize(sourceProps.height)
+					const sourceOptions = {
+						provider: props.provider,
+						preset: props.preset,
+						densities: sourceProps.densities || props.densities,
+						modifiers: {
+							...modifiers.value,
+							width: sourceWidth,
+							height: sourceHeight,
+						},
+					} as ImageOptions
+
+					const sizesData = $img.getSizes(sourceSrc, { ...sourceOptions, sizes: sourceProps.sizes } as ImageOptions)
+
+					return {
+						media: sourceProps.media as string | undefined,
+						width: sourceWidth,
+						height: sourceHeight,
+						srcset: typeof sizesData !== 'string' ? sizesData?.srcset : undefined,
+						sizes: typeof sizesData !== 'string' ? sizesData?.sizes : undefined,
+					}
+				})
+		})
+
 		// @see https://github.com/nuxt/image/blob/main/src/runtime/components/nuxt-img.ts
 		if (props.preload) {
 			const isResponsive = responsiveImageData.value && typeof responsiveImageData.value !== 'string' && Object.values(responsiveImageData.value).every(v => v)
@@ -130,8 +168,8 @@ export default defineComponent({
 			})
 		}
 
-		return () =>
-			h('img', {
+		return () => {
+			const imgVNode = h('img', {
 				src: src.value,
 				srcset: typeof responsiveImageData.value !== 'string' ? responsiveImageData.value?.srcset : undefined,
 				sizes: internalSizes.value,
@@ -148,6 +186,20 @@ export default defineComponent({
 				onLoad,
 				onError,
 			})
+
+			if (!pictureSources.value.length) return imgVNode
+
+			return h('picture', {}, [
+				...pictureSources.value.map(source => h('source', {
+					media: source.media,
+					srcset: source.srcset,
+					sizes: source.sizes,
+					width: source.width,
+					height: source.height,
+				})),
+				imgVNode,
+			])
+		}
 	},
 })
 </script>

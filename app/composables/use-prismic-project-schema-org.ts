@@ -1,7 +1,7 @@
 import { toRef } from 'vue'
 import type { MaybeRefOrGetter } from 'vue'
-import type { ProjectDocument } from '~~/prismicio-types'
-import { getFilledLinkToMedia } from '~/utils/prismic/link-field'
+import type { ProjectPageDocument } from '~~/prismicio-types'
+import { getFilledLinkToMedia } from '~/utils/prismic/filled'
 
 interface PrismicProjectSchemaOrgBreadcrumbEntry {
 	name: string
@@ -18,7 +18,7 @@ interface PrismicProjectSchemaOrgMeta {
 }
 
 /** schema.org `CreativeWork` (or Prismic-driven subtype) node for a project document — `@type` is sourced verbatim from the `creative_work_type` Select field, no mapping needed. */
-export function usePrismicProjectSchemaOrg(documentOrRef: MaybeRefOrGetter<ProjectDocument | null | undefined>, meta: PrismicProjectSchemaOrgMeta) {
+export function usePrismicProjectSchemaOrg(documentOrRef: MaybeRefOrGetter<ProjectPageDocument | null | undefined>, meta: PrismicProjectSchemaOrgMeta) {
 	const doc = toRef(documentOrRef)
 	if (!doc.value) return
 

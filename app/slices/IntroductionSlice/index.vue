@@ -76,12 +76,11 @@ onBeforeUnmount(disposeIntersectionObserver)
         :class="[$style.item, item.type === 'text' ? $style['item--text'] : $style['item--media']]"
       >
         <template v-if="item.type === 'text'" preserveWhitespace="false">{{ item.content }}</template>
-        <NuxtImg
+        <VPrismicImg
           v-else-if="item.media"
-          :src="item.media.url"
+          :field="item.media"
           width="600"
           height="390"
-          provider="imgix"
           placeholder="/images/placeholder.jpg"
           :class="$style.image"
           fit="cover"

@@ -11,22 +11,10 @@ const revealed = computed(() => phase.value === 'page' || phase.value === 'done'
 const project = computed(() => props.document?.data)
 const prismic = usePrismic()
 
-const videoExtensions = ['mp4', 'mov']
-
-function endWidthVideoExt(url: string) {
-    const afterLastDot = url.substring(url?.lastIndexOf('.'))
-    return videoExtensions.some(ext => afterLastDot.startsWith('.' + ext))
-}
-
 const medias = computed(() => {
     if (!project.value) return []
 
-    return project.value.medias
-        ?.filter(m => prismic.isFilled.linkToMedia(m.media) && m.media.url)
-        .map(mediaGroup => ({
-            ...mediaGroup,
-            type: endWidthVideoExt(mediaGroup.media.url) ? 'video' : 'other',
-        }))
+    return project.value.medias?.filter(m => prismic.isFilled.linkToMedia(m.media) && m.media.url)
 })
 
 const tags = computed(() => {
@@ -80,15 +68,7 @@ const tags = computed(() => {
 					:key="`media-${i}`"
 					:class="$style.media"
 				>
-					<VVideoPlayer
-						v-if="mediaGroup.type === 'video' && mediaGroup.media?.url"
-						autoplay
-						muted
-						:controls="false"
-						loop
-						:src="mediaGroup.media.url"
-					/>
-					<VPrismicImg v-else :field="mediaGroup.media" />
+					<VPrismicMedia :field="mediaGroup.media" background />
 				</div>
 			</div>
 			<VProjectNeighbors

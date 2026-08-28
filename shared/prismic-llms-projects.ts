@@ -1,8 +1,8 @@
-import type { ProjectDocument } from '../prismicio-types'
-import { asText, createClient, filter } from '@prismicio/client'
+import type { ProjectPageDocument } from '../prismicio-types'
+import { asText, createClient } from '@prismicio/client'
 import { getRoutePath, type PrismicRouteName, prismicDocumentType } from './prismic-schema'
 
-function toLlmsEntry(routeName: PrismicRouteName, doc: ProjectDocument) {
+function toLlmsEntry(routeName: PrismicRouteName, doc: ProjectPageDocument) {
 	return {
 		title: doc.data.title || doc.uid,
 		path: getRoutePath(routeName, { uid: doc.uid }),
@@ -15,10 +15,10 @@ export async function getPrismicLlmsProjects(repositoryName: string) {
 	const client = createClient(repositoryName)
 
 	const [projects] = await Promise.all([
-		client.getAllByType(prismicDocumentType.PROJECT_PAGE),
+		client.getAllByType(prismicDocumentType.PROJECT),
 	])
 
 	return [
-		...projects.map(doc => toLlmsEntry('projet', doc)),
+		...projects.map(doc => toLlmsEntry('project_page', doc)),
 	]
 }

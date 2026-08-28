@@ -106,6 +106,34 @@ d'anciens chemins de composants (`atoms/molecules/organisms`, supprimés
 depuis un flattening de `app/components/`). La checklist ci-dessus existe
 pour éviter que ça se reproduise sur le prochain projet.
 
+## Migration Prismic en cours : simplification des champs média (4 → 2)
+
+`MediaSlice` et `home_page` sont passés d'un modèle à 4 champs (`image` +
+`internal_video` + `video_id`/`provider_name` ou `embed_id`/`embed_platform`
+saisis à la main + `embed_video`) à un modèle à 2 champs (`media:
+Link[select=media]` + `embed_video: Embed`). Les fichiers locaux
+(`customtypes/home_page/index.json`, `app/slices/MediaSlice/model.json`) et
+le code (`VPrismicMedia`, `app/utils/prismic/media.ts`) sont déjà à jour
+pour le nouveau modèle. Il reste à appliquer ça côté Prismic.io :
+
+1. `npx prismic login` (authentification navigateur, one-time).
+2. `pnpm media-migration:backup` (`scripts/media-migration/1-backup.js`) —
+   capture les valeurs actuelles de `image`/`internal_video`/`video_id`/
+   `provider_name`/`embed_id`/`embed_platform` sur `home_page` et tous les
+   `project_page` contenant un `MediaSlice`, **avant** que le schéma change.
+3. `npx prismic push` — pousse le nouveau schéma (`media` + `embed_video`)
+   sur Prismic.
+4. Générer un **write token** (dashboard Prismic → Settings → API &
+   Security) et l'ajouter à `.env` sous `PRISMIC_WRITE_TOKEN`.
+5. `pnpm media-migration:run` (`scripts/media-migration/2-migrate.js`) —
+   reconstruit `media`/`embed_video` à partir du snapshot de l'étape 2 via
+   la Migration API (`createMigration`/`createWriteClient`), et **stage** le
+   résultat comme une release Prismic (rien n'est publié automatiquement).
+6. Relire la release dans le dashboard Prismic (onglet Releases), puis la
+   publier manuellement une fois vérifiée.
+7. `pnpm type-gen` pour régénérer `prismicio-types.d.ts` avec le nouveau
+   schéma.
+
 ## Points en suspens (non traités automatiquement)
 
 - `public/favicon*`, `apple-touch-icon.png` et `site.webmanifest` sont

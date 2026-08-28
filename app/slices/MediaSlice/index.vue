@@ -1,50 +1,28 @@
 <script setup lang="ts">
-import { type Content } from '@prismicio/client'
-import { isFilledImageField, isFilledLinkToMediaField, isVideoEmbedField } from '~/utils/prismic/guard'
+import { isFilled, type Content } from '@prismicio/client'
 
 const props = defineProps(getSliceComponentProps<Content.MediaSliceSlice>())
 
 const medias = props.slice.items
 const hasOneMedia = medias?.length === 1
-const firstMedia = medias?.[0]?.image
 
-const filledMedias = computed(() => {
-  return medias.map((media) => {
-    let reference
+// Each item carries two sibling fields (`media` for uploaded image/video, `embed_video` for a
+// hosted YouTube/Vimeo embed) — only one is ever filled per item, so resolve to whichever it is
+// before handing a single field to VPrismicMedia.
+function resolveMediaField(item: (typeof medias)[number]) {
+	return isFilled.embed(item.embed_video) ? item.embed_video : item.media
+}
 
-    const nativeVideo = isFilledLinkToMediaField(media.internal_video)
-    const image = isFilledImageField(media.image) ? media.image : undefined
-    if (isVideoEmbedField(media.embed_video)) {
-      reference = media.embed_video
-    } else if (media.video_id && media.provider_name) {
-      reference = { video_id: media.video_id, provider_name: media.provider_name }
-    } else if (nativeVideo) {
-      reference = media.internal_video
-    } else if (image) {
-      reference = image
-    }
-
-    return {
-      reference,
-      video: {
-        background: !!nativeVideo,
-      },
-      image: {
-        reference: image,
-        width: '812',
-        height: '475',
-        tag: 'img',
-        sizes: hasOneMedia
-          ? 'xs:100vw sm:100md md:100vw lg:75vw xl:75vw xxl:75vw hd:75vw qhd:75vw'
-          : 'xs:100vw sm:100md md:100vw lg:50vw xl:50vw xxl:50vw hd:50vw qhd:50vw',
-      },
-    }
-  })
-})
+// Uploaded videos autoplay/mute/loop with no controls (background-style); embeds keep their
+// normal player controls.
+function isBackgroundVideo(item: (typeof medias)[number]) {
+	return isFilled.linkToMedia(item.media) && item.media.kind !== 'image'
+}
 
 const title = props.slice.primary?.title
 const content = props.slice.primary?.content
 const isFullWidth = props.slice.primary?.full_width
+const firstMedia = medias?.[0]
 </script>
 
 <template>
@@ -53,20 +31,28 @@ const isFullWidth = props.slice.primary?.full_width
       <div v-if="title" :content="title" :class="$style.title" class="text-body-m">{{ title }}</div>
       <VText v-if="content" :content="content" :class="$style.content" class="text-body-s" />
 
-      <VPrismicImg :reference="firstMedia" :class="[$style.image, $style['image--fullwidth']]">
-        <VPictureSource :media="`(max-width: 540px)`" sizes="xs:100vw sm:100md md:100vw" width="375" height="300" />
+      <VPrismicMedia
+        v-if="firstMedia"
+        :field="resolveMediaField(firstMedia)"
+        :class="[$style.image, $style['image--fullwidth']]"
+      >
+        <VPictureSource media="(max-width: 540px)" sizes="xs:100vw sm:100md md:100vw" width="375" height="300" />
         <VPictureSource sizes="lg:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw" width="1278" height="447" />
-      </VPrismicImg>
+      </VPrismicMedia>
     </template>
 
-    <template v-else-if="filledMedias?.length">
+    <template v-else>
       <VPrismicMedia
-        v-for="(item, mediaIndex) in filledMedias"
+        v-for="(item, mediaIndex) in medias"
         :key="mediaIndex"
         :class="[$style.image, $style['image--default'], $style[`image--${hasOneMedia ? 'solo' : 'multiple'}`]]"
-        :reference="item.reference"
-        :video="item.video"
-        :image="item.image"
+        :field="resolveMediaField(item)"
+        :sizes="hasOneMedia
+          ? 'xs:100vw sm:100md md:100vw lg:75vw xl:75vw xxl:75vw hd:75vw qhd:75vw'
+          : 'xs:100vw sm:100md md:100vw lg:50vw xl:50vw xxl:50vw hd:50vw qhd:50vw'"
+        width="812"
+        height="475"
+        :background="isBackgroundVideo(item)"
       />
     </template>
   </section>

@@ -7,6 +7,7 @@ import { getFormattedLocale } from '~/composables/use-prismic-locale'
 import { ensureProtocol } from '~/utils/url'
 import { I18N_DEFAULT_LOCALE } from '~~/i18n/i18n'
 import type { PageMetaAlternateLink } from '~/composables/use-page-meta'
+import { MEDIA_PROVIDER } from '~/constants/media'
 
 interface PrismicDocumentPageData extends Record<string, unknown> {
 	meta_title?: KeyTextField
@@ -55,7 +56,7 @@ export function usePrismicMeta(documentOrRef?: MaybeRefOrGetter<ReachableDocumen
 			return generateImg(
 				imgUrl,
 				{ width: 1200, height: 700 },
-				{ provider: 'ipx', modifiers: { fit: 'crop' } },
+				{ provider: MEDIA_PROVIDER, modifiers: { fit: 'crop' } },
 			)
 		}
 		else {

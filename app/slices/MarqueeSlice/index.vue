@@ -40,7 +40,7 @@ const hasMedia = computed(() => !!mediaListRow.value?.[0])
       <VPrismicImg
         v-for="(media, mediaIndex) in row"
         :key="mediaIndex + media.url"
-        :reference="media"
+        :field="media"
         width="600"
         height="390"
         :class="$style.media"

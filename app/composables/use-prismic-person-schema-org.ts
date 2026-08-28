@@ -1,6 +1,6 @@
 import { asText, isFilled } from '@prismicio/client'
 import { callWithNuxt } from '#app'
-import { getFilledLinkToWeb } from '~/utils/prismic/link-field'
+import { getFilledLinkToWeb } from '~/utils/prismic/filled'
 
 /**
  * Global schema.org `Person` node, sourced from the `settings` singleton (contact/socials) and

@@ -261,48 +261,15 @@ interface HomePageDocumentData {
 	subtitle: prismic.KeyTextField;
 	
 	/**
-	 * Image field in *Home page*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: home_page.image
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/image
-	 */
-	image: prismic.ImageField<never>;
-	
-	/**
-	 * Internal video field in *Home page*
+	 * Media field in *Home page*
 	 *
 	 * - **Field Type**: Link to Media
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: home_page.internal_video
+	 * - **API ID Path**: home_page.media
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/link-to-media
 	 */
-	internal_video: prismic.LinkToMediaField<prismic.FieldState, never>;
-	
-	/**
-	 * embed_id field in *Home page*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: home_page.embed_id
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	embed_id: prismic.KeyTextField;
-	
-	/**
-	 * Embed platform field in *Home page*
-	 *
-	 * - **Field Type**: Select
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: home_page.embed_platform
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/select
-	 */
-	embed_platform: prismic.SelectField<"youtube" | "vimeo">;
+	media: prismic.LinkToMediaField<prismic.FieldState, never>;
 	
 	/**
 	 * Embed video field in *Home page*
@@ -971,44 +938,24 @@ export interface MediaSliceSliceDefaultPrimary {
  */
 export interface MediaSliceSliceDefaultItem {
 	/**
-	 * image field in *MediaSlice → Items*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: media_slice.items[].image
-	 * - **Documentation**: https://prismic.io/docs/fields/image
-	 */
-	image: prismic.ImageField<never>;
-	
-	/**
-	 * Internal video field in *MediaSlice → Items*
+	 * Media field in *MediaSlice → Items*
 	 *
 	 * - **Field Type**: Link to Media
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: media_slice.items[].internal_video
+	 * - **API ID Path**: media_slice.items[].media
 	 * - **Documentation**: https://prismic.io/docs/fields/link-to-media
 	 */
-	internal_video: prismic.LinkToMediaField<prismic.FieldState, never>;
+	media: prismic.LinkToMediaField<prismic.FieldState, never>;
 	
 	/**
-	 * Embed id field in *MediaSlice → Items*
+	 * Embed video field in *MediaSlice → Items*
 	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: L'identifiant vidéo de la plateforme de streaming vidéo 
-	 * - **API ID Path**: media_slice.items[].video_id
-	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 * - **Field Type**: Embed
+	 * - **Placeholder**: Exemple youtube: Copier le lien dans le button "Partager"
+	 * - **API ID Path**: media_slice.items[].embed_video
+	 * - **Documentation**: https://prismic.io/docs/fields/embed
 	 */
-	video_id: prismic.KeyTextField;
-	
-	/**
-	 * Embed platform field in *MediaSlice → Items*
-	 *
-	 * - **Field Type**: Select
-	 * - **Placeholder**: Le nom de la plateforme de streaming vidéo
-	 * - **API ID Path**: media_slice.items[].provider_name
-	 * - **Documentation**: https://prismic.io/docs/fields/select
-	 */
-	provider_name: prismic.SelectField<"youtube" | "vimeo">;
+	embed_video: prismic.EmbedField
 	
 	/**
 	 * Display meta field in *MediaSlice → Items*
@@ -1020,16 +967,6 @@ export interface MediaSliceSliceDefaultItem {
 	 * - **Documentation**: https://prismic.io/docs/fields/boolean
 	 */
 	display_meta: prismic.BooleanField;
-	
-	/**
-	 * Embed video field in *MediaSlice → Items*
-	 *
-	 * - **Field Type**: Embed
-	 * - **Placeholder**: Exemple youtube: Copier le lien dans le button "Partager"
-	 * - **API ID Path**: media_slice.items[].embed_video
-	 * - **Documentation**: https://prismic.io/docs/fields/embed
-	 */
-	embed_video: prismic.EmbedField
 }
 
 /**

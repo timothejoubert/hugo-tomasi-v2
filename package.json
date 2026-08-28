@@ -17,7 +17,9 @@
         "lint:js": "eslint .",
         "lint:css": "stylelint \"**/*.{vue,css,scss}\"",
         "type-gen": "npx prismic gen types && node scripts/sync-prismic-routes.js",
-        "prismic:backup": "node scripts/prismic-backup.js"
+        "prismic:backup": "node scripts/prismic-backup.js",
+        "media-migration:backup": "node --env-file=.env scripts/media-migration/1-backup.js",
+        "media-migration:run": "node --env-file=.env scripts/media-migration/2-migrate.js"
     },
     "dependencies": {
         "@nuxt/eslint": "1.17.0",

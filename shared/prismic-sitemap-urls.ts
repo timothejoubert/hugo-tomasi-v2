@@ -1,10 +1,10 @@
-import type { ProjectDocument } from '../prismicio-types'
-import { createClient, filter, isFilled } from '@prismicio/client'
+import type { ProjectPageDocument } from '../prismicio-types'
+import { createClient, isFilled } from '@prismicio/client'
 import { getRoutePath, type PrismicRouteName, prismicDocumentType } from './prismic-schema'
 
-function toSitemapUrl(routeName: PrismicRouteName, doc: ProjectDocument) {
-	const thumbnail = doc.data.thumbnail
-	const thumbnailUrl = isFilled.linkToMedia(thumbnail) ? thumbnail.url : undefined
+function toSitemapUrl(routeName: PrismicRouteName, doc: ProjectPageDocument) {
+	const thumbnail = doc.data.main_media
+	const thumbnailUrl = isFilled.image(thumbnail) ? thumbnail.url : undefined
 
 	return {
 		loc: getRoutePath(routeName, { uid: doc.uid }),
@@ -22,10 +22,10 @@ export async function getPrismicSitemapUrls(repositoryName: string) {
 	const client = createClient(repositoryName)
 
 	const [projects] = await Promise.all([
-		client.getAllByType(prismicDocumentType.PROJECT_PAGE),
+		client.getAllByType(prismicDocumentType.PROJECT),
 	])
 
 	return [
-		...projects.map(doc => toSitemapUrl('projet', doc)),
+		...projects.map(doc => toSitemapUrl('project_page', doc)),
 	]
 }

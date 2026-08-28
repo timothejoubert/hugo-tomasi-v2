@@ -5,10 +5,6 @@
   ],
   "routes": [
     {
-      "type": "error_page",
-      "path": "/404"
-    },
-    {
       "type": "home_page",
       "path": "/:lang?"
     },
@@ -23,10 +19,6 @@
     {
       "type": "project_page",
       "path": "/:lang?/projets/:uid"
-    },
-    {
-      "type": "web_page",
-      "path": "/:lang?/:uid"
     }
   ]
 }
