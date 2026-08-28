@@ -13,3 +13,7 @@ $grid-max-widths: (
 $grid-columns: (
     0: 12,
 ) !default;
+
+// Horizontal page/slice padding — distinct from $gutters (the CSS-grid column gap above).
+// Used by .slice-container/.slice-container-xl/.slice-container--fullwidth (see _grid.scss).
+$page-gutter: 24px !default;

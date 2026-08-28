@@ -18,6 +18,9 @@
   "show_setting.grid_value_label": "Nombre de colonnes",
   "show_setting.grid_value_hint": "Valeur comprise entre {min} et {max}",
   "theme_switcher.legend": "Thème de couleur",
+  "theme_switcher.main": "Neutre",
+  "theme_switcher.blue": "Bleu",
+  "theme_switcher.green": "Vert",
   "back_to_projects.aria_label": "Retour a tous les projets",
   "name": "Nom",
   "date": "Date",
@@ -36,8 +39,5 @@
   "sort_descending": "Trié par {label} par ordre décroissant",
   "about_page.formations": "Formations",
   "about_page.experiences": "Expériences",
-  "theme_switcher.main": "Neutre",
-  "theme_switcher.blue": "Bleu",
-  "theme_switcher.green": "Vert",
   "button.default_label": "En savoir plus"
 }

@@ -1,21 +1,12 @@
+// Single neutral theme (Figma PORTFOLIO_STARTER palette) — replaces the former main/blue/green
+// accent themes. Kept as a map (rather than flat variables) so the existing `theme()`/
+// `theme-variants()` mixins in mixins/_theme.scss keep working unchanged.
 $themes: (
-    main: (
-		color-surface: #2D2D2D,
-        color-background: #151515,
-        color-content: #DBE6EC,
-        color-accent: #E3FD41,
+    default: (
+        color-background: #181717,
+        color-content: #FFF,
+        color-surface: #F7F7F7,
+        color-accent: #999,
     ),
-    blue: (
-        color-surface: #272737,
-		color-background: #040915,
-        color-content: #b8bdd6,
-        color-accent: #f09042,
-    ),
-    green: (
-        color-surface: #232828,
-		color-background: #160d17,
-        color-content: #69f7a6,
-        color-accent: #ff5252,
-    )
 );
-$default-theme: main;
+$default-theme: default;

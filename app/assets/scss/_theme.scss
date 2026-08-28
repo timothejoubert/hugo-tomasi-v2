@@ -2,8 +2,10 @@
 @use "variables/themes" as *;
 
 :root {
+    // Single theme now (see variables/_themes.scss) — set statically here instead of at runtime
+    // via a theme switcher, since there's nothing left to switch between.
+    @include theme($default-theme);
+
     background-color: var(--color-background);
     color: var(--color-content);
-
-    // @include theme($default-theme); // Set in VThmeSwitcher
 }

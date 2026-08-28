@@ -52,7 +52,7 @@ const { activate: onButtonMagnetEvent } = useMagnetHover()
         >
             <div :class="$style.inner">
                 <VThemeSwitcher />
-                <!-- <VColumnsInput /> -->
+                <VColumnsInput />
             </div>
         </div>
     </div>
