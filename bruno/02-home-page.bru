@@ -1,0 +1,17 @@
+meta {
+  name: Home Page
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/documents/search
+  body: none
+  auth: none
+}
+
+params:query {
+  ref: {{masterRef}}
+  q: [[at(document.type,"home_page")]]
+  lang: *
+}

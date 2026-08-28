@@ -1,0 +1,29 @@
+{
+  "description": "ProjectPushSlice",
+  "id": "project_push_slice",
+  "name": "ProjectPushSlice",
+  "type": "SharedSlice",
+  "variations": [
+    {
+      "description": "Default",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/hugo-tomasi-v2/shared-slices/project_push_slice/default/f177c5ce273b450881ad69f7730d252d40c97661.png?auto=compress%2Cformat",
+      "items": {},
+      "name": "Default",
+      "primary": {
+        "project_reference": {
+          "config": {
+            "customtypes": [
+              "project_page"
+            ],
+            "label": "Project reference",
+            "select": "document"
+          },
+          "type": "Link"
+        }
+      },
+      "version": "initial"
+    }
+  ]
+}

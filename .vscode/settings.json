@@ -1,0 +1,15 @@
+{
+	"editor.insertSpaces": false,
+	"editor.tabSize": 4,
+	"editor.detectIndentation": false,
+	"editor.formatOnSave": false,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit",
+		"source.fixAll.stylelint": "explicit"
+	},
+	"eslint.probe": ["javascript", "typescript", "vue"],
+	"stylelint.validate": ["css", "scss", "vue"],
+	"stylelint.configFile": "./stylelint.config.mjs",
+	"css.validate": false,
+	"scss.validate": false
+}

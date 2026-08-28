@@ -1,0 +1,17 @@
+meta {
+  name: Menu
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/documents/search
+  body: none
+  auth: none
+}
+
+params:query {
+  ref: {{masterRef}}
+  q: [[at(document.type,"menu")]]
+  lang: *
+}

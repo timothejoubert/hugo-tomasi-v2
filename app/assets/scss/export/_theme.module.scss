@@ -1,0 +1,9 @@
+@use "../variables/themes" as *;
+
+@each $theme-key, $theme in $themes {
+    @each $key, $value in $theme {
+        :export {
+            #{"" + $theme-key}--#{$key}: $value;
+        }
+    }
+}

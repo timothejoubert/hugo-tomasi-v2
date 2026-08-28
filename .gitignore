@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Nuxt build output
+.nuxt/
+.output/
+dist/
+
+# Env files (keep .env.sample tracked)
+.env
+.env.netlify
+
+# Generated backups
+backup/
+
+# Logs
+*.log
+
+# OS
+.DS_Store

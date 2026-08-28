@@ -1,0 +1,17 @@
+meta {
+  name: Projet — By UID
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/documents/search
+  body: none
+  auth: none
+}
+
+params:query {
+  ref: {{masterRef}}
+  q: [[at(document.type,"project")],[at(my.project.uid,"{{projectUid}}")]]
+  lang: *
+}

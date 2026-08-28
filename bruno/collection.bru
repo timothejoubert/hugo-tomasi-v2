@@ -1,0 +1,13 @@
+script:pre-request {
+  const baseUrl = bru.getEnvVar("baseUrl");
+  if (!baseUrl) return;
+
+  if (!req.getUrl().includes("documents/search")) return;
+
+  const { data } = await axios.get(baseUrl);
+  const master = data.refs.find((r) => r.isMasterRef);
+  if (master) {
+    bru.setVar("masterRef", master.ref);
+    bru.setEnvVar("masterRef", master.ref);
+  }
+}

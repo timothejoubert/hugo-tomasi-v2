@@ -1,0 +1,93 @@
+{
+  "description": "MediaSlice",
+  "id": "media_slice",
+  "name": "MediaSlice",
+  "type": "SharedSlice",
+  "variations": [
+    {
+      "description": "Default",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/hugo-tomasi-v2/shared-slices/media_slice/default/db4f474388d972db31336874fcfff3eaaff8f1f5.png?auto=compress%2Cformat",
+      "items": {
+        "image": {
+          "config": {
+            "constraint": {},
+            "label": "image",
+            "thumbnails": []
+          },
+          "type": "Image"
+        },
+        "internal_video": {
+          "config": {
+            "label": "Internal video",
+            "placeholder": "",
+            "select": "media"
+          },
+          "type": "Link"
+        },
+        "video_id": {
+          "config": {
+            "label": "Embed id",
+            "placeholder": "L'identifiant vidéo de la plateforme de streaming vidéo "
+          },
+          "type": "Text"
+        },
+        "provider_name": {
+          "config": {
+            "label": "Embed platform",
+            "options": [
+              "youtube",
+              "vimeo"
+            ],
+            "placeholder": "Le nom de la plateforme de streaming vidéo"
+          },
+          "type": "Select"
+        },
+        "display_meta": {
+          "config": {
+            "default_value": false,
+            "label": "Display meta",
+            "placeholder_false": "false",
+            "placeholder_true": "true"
+          },
+          "type": "Boolean"
+        },
+        "embed_video": {
+          "config": {
+            "label": "Embed video",
+            "placeholder": "Exemple youtube: Copier le lien dans le button \"Partager\""
+          },
+          "type": "Embed"
+        }
+      },
+      "name": "Default",
+      "primary": {
+        "title": {
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
+        "content": {
+          "config": {
+            "label": "Content",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
+        "full_width": {
+          "config": {
+            "default_value": false,
+            "label": "Full width",
+            "placeholder_false": "false",
+            "placeholder_true": "true"
+          },
+          "type": "Boolean"
+        }
+      },
+      "version": "initial"
+    }
+  ]
+}

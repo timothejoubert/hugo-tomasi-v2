@@ -1,0 +1,37 @@
+{
+  "description": "IntroductionSlice",
+  "id": "introduction_slice",
+  "name": "IntroductionSlice",
+  "type": "SharedSlice",
+  "variations": [
+    {
+      "description": "Default",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/hugo-tomasi-v2/shared-slices/introduction_slice/default/c7e1086c6c0e19589a728225cb902ff9c13da03b.png?auto=compress%2Cformat",
+      "items": {
+        "medias": {
+          "config": {
+            "label": "Medias",
+            "placeholder": "",
+            "select": "media"
+          },
+          "type": "Link"
+        }
+      },
+      "name": "Default",
+      "primary": {
+        "content": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "content",
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
+        }
+      },
+      "version": "initial"
+    }
+  ]
+}

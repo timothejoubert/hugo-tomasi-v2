@@ -1,0 +1,47 @@
+html {
+    interpolate-size: allow-keywords;
+}
+
+body {
+    --app-padding-top: 24px;
+    --app-padding-left: 24px;
+    --app-padding-right: 24px;
+    --app-padding-bottom: 70px;
+
+    // --app-max-height: calc(100svh - var(--app-padding-top) - var(--app-padding-bottom));
+    --app-inner-max-height: calc(100svh - var(--app-padding-top) - var(--app-padding-bottom));
+
+    margin: initial;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+*:focus-visible {
+    outline: 2px solid var(--color-content, currentColor);
+    outline-offset: 6px;
+}
+
+.visually-hidden {
+    position: absolute;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: 0;
+    margin: -1px;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.35;
+}
+
+#__nuxt {
+	position: relative;
+    min-height: 100svh;
+    padding: var(--app-padding-top) var(--app-padding-right) var(--app-padding-bottom) var(--app-padding-left);
+
+    // min-height: calc(100vh - var(--app-padding-top) - var(--app-padding-bottom));
+}

@@ -1,0 +1,7 @@
+@use 'assets/scss/variables/grid' as *;
+
+@each $key, $value in $grid-columns {
+    :export {
+        columns-length-#{$key}: $value;
+    }
+}

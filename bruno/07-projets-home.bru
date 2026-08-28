@@ -1,0 +1,19 @@
+meta {
+  name: Projets — Home (favorite)
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/documents/search
+  body: none
+  auth: none
+}
+
+params:query {
+  ref: {{masterRef}}
+  q: [[at(document.type,"project")],[at(my.project.favorite,true)]]
+  orderings: [my.project.order_date desc, my.project.creation_date desc]
+  pageSize: 100
+  lang: *
+}

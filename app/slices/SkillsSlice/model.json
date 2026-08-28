@@ -1,0 +1,59 @@
+{
+  "description": "SkillsSlice",
+  "id": "skills_slice",
+  "name": "SkillsSlice",
+  "type": "SharedSlice",
+  "variations": [
+    {
+      "description": "Default",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/hugo-tomasi-v2/shared-slices/skills_slice/default/33edad9b6657f8214438ee28fa7cb1800bdeb1e5.png?auto=compress%2Cformat",
+      "items": {
+        "title": {
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
+        "content": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "Content",
+            "multi": "paragraph,strong,em,hyperlink,embed",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
+        },
+        "side_title": {
+          "config": {
+            "label": "Side title",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
+        "side_content": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "Side content",
+            "multi": "paragraph,hyperlink,strong,em,embed",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
+        }
+      },
+      "name": "Default",
+      "primary": {
+        "title": {
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          },
+          "type": "Text"
+        }
+      },
+      "version": "initial"
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "description": "PromoteSlice",
+  "id": "promote_slice",
+  "name": "PromoteSlice",
+  "type": "SharedSlice",
+  "variations": [
+    {
+      "description": "Default",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/hugo-tomasi-v2/shared-slices/promote_slice/default/d98c3ba04ae77311454d301821f853e61e1f68b3.png?auto=compress%2Cformat",
+      "items": {
+        "title": {
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
+        "content": {
+          "config": {
+            "label": "Content",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
+        "place": {
+          "config": {
+            "label": "Place",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
+        "year": {
+          "config": {
+            "label": "Year",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
+        "link": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "Link",
+            "placeholder": "",
+            "select": null
+          },
+          "type": "Link"
+        },
+        "link_label": {
+          "config": {
+            "label": "Link label",
+            "placeholder": ""
+          },
+          "type": "Text"
+        }
+      },
+      "name": "Default",
+      "primary": {
+        "title": {
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
+        "content": {
+          "config": {
+            "allowTargetBlank": true,
+            "label": "content",
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
+        }
+      },
+      "version": "initial"
+    }
+  ]
+}

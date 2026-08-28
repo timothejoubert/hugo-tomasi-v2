@@ -1,0 +1,27 @@
+{
+  "description": "MarqueeSlice",
+  "id": "marquee_slice",
+  "name": "MarqueeSlice",
+  "type": "SharedSlice",
+  "variations": [
+    {
+      "description": "Default",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/hugo-tomasi-v2/shared-slices/marquee_slice/default/ac18485b7310b5b6fae2a106dfdfb7f2ad4e5466.png?auto=compress%2Cformat",
+      "items": {
+        "media": {
+          "config": {
+            "label": "Media",
+            "placeholder": "",
+            "select": "media"
+          },
+          "type": "Link"
+        }
+      },
+      "name": "Default",
+      "primary": {},
+      "version": "initial"
+    }
+  ]
+}

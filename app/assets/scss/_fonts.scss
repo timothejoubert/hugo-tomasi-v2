@@ -1,0 +1,24 @@
+@use './variables/fonts.scss' as *;
+@use './mixins/font-face.scss' as *;
+
+@include font-face($fraktion-sans-name, 'pp-fraktion-sans-variable') {
+    font-weight: 200 800;
+}
+
+@include font-face($fraktion-sans-name, 'pp-fraktion-sans-italic-variable') {
+    font-style: italic;
+    font-weight: 200 800;
+}
+
+@include font-face($fraktion-mono-name, 'pp-fraktion-mono-variable') {
+    font-weight: 200 800;
+}
+
+@include font-face($fraktion-mono-name, 'pp-fraktion-mono-italic-variable') {
+    font-style: italic;
+    font-weight: 200 800;
+}
+
+body {
+    font-family: #{$fraktion-sans-family};
+}

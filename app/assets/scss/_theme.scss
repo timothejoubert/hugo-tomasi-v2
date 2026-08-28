@@ -1,0 +1,9 @@
+@use "mixins/theme" as *;
+@use "variables/themes" as *;
+
+:root {
+    background-color: var(--color-background);
+    color: var(--color-content);
+
+    // @include theme($default-theme); // Set in VThmeSwitcher
+}

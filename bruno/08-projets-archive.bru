@@ -1,0 +1,20 @@
+meta {
+  name: Projets — Archive (non-favorite)
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/documents/search
+  body: none
+  auth: none
+}
+
+params:query {
+  ref: {{masterRef}}
+  q: [[at(document.type,"project")],[at(my.project.favorite,false)]]
+  orderings: [my.project.date desc]
+  graphQuery: { project { title date rate tag_group { tag } framework } }
+  pageSize: 100
+  lang: *
+}
