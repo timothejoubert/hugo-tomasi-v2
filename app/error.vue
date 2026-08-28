@@ -46,7 +46,7 @@ function reload() {
 </script>
 
 <template>
-	<VPageWrapper>
+    <VPageWrapper>
         <VErrorContent
             :title="title"
             :subtitle="subtitle"

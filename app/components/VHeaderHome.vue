@@ -84,15 +84,15 @@ const hasVideo = computed(() => !!mediaField.value && (
   flex-direction: column;
   padding-top: var(--v-top-bar-height);
   margin-top: calc(var(--v-top-bar-height) * -1);
-  background-color: color(black);
-  color: color(white);
+  background-color: var(--color-background);
+  color: var(--color-content);
   isolation: isolate;
   padding-inline: var(--page-gutter);
 }
 
 .tagline {
   max-width: 70%;
-  margin-top: rem(18);
+  margin-top: 18px;
 
   @include media('>=md') {
     max-width: 25ch;
@@ -111,7 +111,7 @@ const hasVideo = computed(() => !!mediaField.value && (
 
   &::after {
     position: absolute;
-    background-color: rgb(color(black), 0.9);
+    background-color: color-mix(in srgb, var(--color-background) 90%, transparent);
     content: '';
     inset: 0;
     pointer-events: none;
@@ -137,7 +137,7 @@ const hasVideo = computed(() => !!mediaField.value && (
   margin-top: auto;
 
   @include media('<md') {
-    padding-top: rem(200);
+    padding-top: 200px;
   }
 }
 
@@ -150,7 +150,7 @@ const hasVideo = computed(() => !!mediaField.value && (
     display: flex;
     align-items: center;
     cursor: pointer;
-    gap: rem(10);
+    gap: 10px;
     translate: 0 -50%;
   }
 }

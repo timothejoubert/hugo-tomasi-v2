@@ -65,6 +65,32 @@ Trois fichiers, un seul rôle chacun (détail dans `README.md`) :
 `atoms/molecules/organisms` — ce flattening est intentionnel, ne pas le
 réintroduire sans raison forte.
 
+## Style de code (ESLint / Stylelint / .editorconfig)
+
+- **JS/TS/Vue** (script + template) : indentation en **tabs** — règle ESLint
+  `@stylistic/indent`/`@stylistic/indent-binary-ops` (ce dernier gère les
+  lignes de continuation d'opérateurs binaires `||`/`+`/unions de type ; sans
+  lui il réclame des espaces et entre en conflit avec `no-mixed-spaces-and-tabs`).
+- **CSS/SCSS** (fichiers `.scss` et blocs `<style>`) : **2 espaces** —
+  convention SCSS standard, déjà respectée partout. Stylelint n'a
+  volontairement **aucune règle d'indentation** (supprimée du cœur de
+  stylelint ≥15, jamais remplacée ici) : ce n'est pas un oubli, forcer des
+  tabs en CSS/SCSS irait à contre-courant de l'écosystème pour un gain nul.
+- `.editorconfig` à la racine encode cette convention par extension de
+  fichier pour les éditeurs qui le lisent, en plus des règles ESLint.
+- `eslint.config.mjs`/`stylelint.config.mjs` ignorent `.agents/`, `.claude/`
+  et `backup/` — ce sont des skills tiers vendorisés et des snapshots
+  générés, pas du code du projet. **Ne jamais lancer `--fix` sans ces
+  ignores** : un run antérieur a reformaté ~110 fichiers du skill
+  `.agents/skills/impeccable` avant que l'ignore ne soit ajouté (restauré
+  depuis git ensuite).
+- `pnpm lint:js` nécessite `typescript-eslint` compatible avec la version de
+  `typescript` installée : `pnpm-workspace.yaml` force `typescript: ^5.9.3`
+  via `overrides` (pas via `package.json`) car `typescript-eslint@8.x` ne
+  supporte pas encore TS 7 ([issue #10940](https://github.com/typescript-eslint/typescript-eslint/issues/10940)).
+  `package.json` garde `^7.0.2` comme intention déclarée ; l'override
+  pnpm force la résolution réelle sans avoir à changer cette déclaration.
+
 ## i18n
 
 - `i18n/i18n.ts` définit `I18N_DEFAULT_LOCALE` et `I18N_LOCALES`, consommés
@@ -106,34 +132,6 @@ d'anciens chemins de composants (`atoms/molecules/organisms`, supprimés
 depuis un flattening de `app/components/`). La checklist ci-dessus existe
 pour éviter que ça se reproduise sur le prochain projet.
 
-## Migration Prismic en cours : simplification des champs média (4 → 2)
-
-`MediaSlice` et `home_page` sont passés d'un modèle à 4 champs (`image` +
-`internal_video` + `video_id`/`provider_name` ou `embed_id`/`embed_platform`
-saisis à la main + `embed_video`) à un modèle à 2 champs (`media:
-Link[select=media]` + `embed_video: Embed`). Les fichiers locaux
-(`customtypes/home_page/index.json`, `app/slices/MediaSlice/model.json`) et
-le code (`VPrismicMedia`, `app/utils/prismic/media.ts`) sont déjà à jour
-pour le nouveau modèle. Il reste à appliquer ça côté Prismic.io :
-
-1. `npx prismic login` (authentification navigateur, one-time).
-2. `pnpm media-migration:backup` (`scripts/media-migration/1-backup.js`) —
-   capture les valeurs actuelles de `image`/`internal_video`/`video_id`/
-   `provider_name`/`embed_id`/`embed_platform` sur `home_page` et tous les
-   `project_page` contenant un `MediaSlice`, **avant** que le schéma change.
-3. `npx prismic push` — pousse le nouveau schéma (`media` + `embed_video`)
-   sur Prismic.
-4. Générer un **write token** (dashboard Prismic → Settings → API &
-   Security) et l'ajouter à `.env` sous `PRISMIC_WRITE_TOKEN`.
-5. `pnpm media-migration:run` (`scripts/media-migration/2-migrate.js`) —
-   reconstruit `media`/`embed_video` à partir du snapshot de l'étape 2 via
-   la Migration API (`createMigration`/`createWriteClient`), et **stage** le
-   résultat comme une release Prismic (rien n'est publié automatiquement).
-6. Relire la release dans le dashboard Prismic (onglet Releases), puis la
-   publier manuellement une fois vérifiée.
-7. `pnpm type-gen` pour régénérer `prismicio-types.d.ts` avec le nouveau
-   schéma.
-
 ## Points en suspens (non traités automatiquement)
 
 - `public/favicon*`, `apple-touch-icon.png` et `site.webmanifest` sont
@@ -143,3 +141,8 @@ pour le nouveau modèle. Il reste à appliquer ça côté Prismic.io :
 - `docs/` est vide ; un fichier `project-modal-routing.md` était attendu
   mais n'existe pas — à écrire si la logique de routing des modales de
   projet devient assez complexe pour le justifier.
+- `/a-propos` (fichier de page) et `/bio` (route configurée dans
+  `prismic.config.json` pour `about_page`) ne correspondent pas — visiter
+  `/a-propos` redirige vers `/bio` qui 404. À aligner (renommer le fichier
+  de page ou changer la route Prismic) avant que cette page ne soit
+  vraiment utilisée.
