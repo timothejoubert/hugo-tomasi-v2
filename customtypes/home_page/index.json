@@ -20,35 +20,12 @@
           "placeholder": ""
         }
       },
-      "image": {
-        "type": "Image",
-        "config": {
-          "label": "Image",
-          "constraint": {},
-          "thumbnails": []
-        }
-      },
-      "internal_video": {
+      "media": {
         "type": "Link",
         "config": {
-          "label": "Internal video",
+          "label": "Media",
           "placeholder": "",
           "select": "media"
-        }
-      },
-      "embed_id": {
-        "type": "Text",
-        "config": {
-          "label": "embed_id",
-          "placeholder": ""
-        }
-      },
-      "embed_platform": {
-        "type": "Select",
-        "config": {
-          "label": "Embed platform",
-          "placeholder": "",
-          "options": ["youtube", "vimeo"]
         }
       },
       "embed_video": {
