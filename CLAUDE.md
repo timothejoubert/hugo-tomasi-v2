@@ -108,9 +108,10 @@ pour éviter que ça se reproduise sur le prochain projet.
 
 ## Points en suspens (non traités automatiquement)
 
-- `public/` est actuellement vide alors que des favicons générés
-  (`apple-touch-icon.png`, etc.) sont référencés ailleurs dans l'historique
-  du projet — probablement perdus faute de suivi git. À régénérer si besoin.
+- `public/favicon*`, `apple-touch-icon.png` et `site.webmanifest` sont
+  actuellement des placeholders unis (couleur `#151515`) générés pour
+  éviter les 404 en console — à remplacer par les vrais visuels de la
+  marque.
 - `docs/` est vide ; un fichier `project-modal-routing.md` était attendu
   mais n'existe pas — à écrire si la logique de routing des modales de
   projet devient assez complexe pour le justifier.
