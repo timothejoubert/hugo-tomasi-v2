@@ -35,9 +35,16 @@ const snapshot = JSON.parse(readFileSync(snapshotPath, 'utf-8'))
 const migration = createMigration()
 let patchedCount = 0
 
+// `getByID` returns whatever is still stored on the document, including fields the just-pushed
+// schema no longer declares (e.g. the old `site_name`/`description`) — the Migration API rejects
+// a payload containing any field not part of the current custom type, so those stale keys must
+// be deleted before sending, not just have the new ones added alongside them.
 if (snapshot.setting) {
 	const current = await readClient.getByID(snapshot.setting.id)
 	const updated = migration.updateDocument(current, 'Setting')
+	delete updated.document.data.site_name
+	delete updated.document.data.email
+	delete updated.document.data.socials
 	Object.assign(updated.document.data, {
 		publisher_name: snapshot.setting.siteName,
 		publisher_email: snapshot.setting.email,
@@ -51,6 +58,7 @@ for (const page of snapshot.projectPages) {
 
 	const current = await readClient.getByID(page.id)
 	const updated = migration.updateDocument(current, current.data.title || page.uid || page.id)
+	delete updated.document.data.description
 	updated.document.data.content = page.description
 	patchedCount++
 }

@@ -2,6 +2,23 @@
   "format": "custom",
   "id": "setting",
   "json": {
+    "Website": {
+      "website_description": {
+        "config": {
+          "label": "Website description",
+          "placeholder": ""
+        },
+        "type": "Text"
+      },
+      "website_logo": {
+        "config": {
+          "constraint": {},
+          "label": "Website logo",
+          "thumbnails": []
+        },
+        "type": "Image"
+      }
+    },
     "Publisher": {
       "publisher_name": {
         "config": {
@@ -72,23 +89,6 @@
           "repeat": true
         },
         "type": "Group"
-      }
-    },
-    "Website": {
-      "website_description": {
-        "config": {
-          "label": "Website description",
-          "placeholder": ""
-        },
-        "type": "Text"
-      },
-      "website_logo": {
-        "config": {
-          "constraint": {},
-          "label": "Website logo",
-          "thumbnails": []
-        },
-        "type": "Image"
       }
     }
   },

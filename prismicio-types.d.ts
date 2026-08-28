@@ -64,6 +64,17 @@ interface AboutPageDocumentData {
 	title: prismic.KeyTextField;
 	
 	/**
+	 * Excerpt field in *About page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: about_page.excerpt
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	excerpt: prismic.RichTextField;
+	
+	/**
 	 * content field in *About page*
 	 *
 	 * - **Field Type**: Rich Text
@@ -346,6 +357,17 @@ interface ProjectListingPageDocumentData {
 	title: prismic.KeyTextField;
 	
 	/**
+	 * Excerpt field in *Project listing page*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_listing_page.excerpt
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	excerpt: prismic.RichTextField;
+	
+	/**
 	 * Slice Zone field in *Project listing page*
 	 *
 	 * - **Field Type**: Slice Zone
@@ -439,15 +461,15 @@ interface ProjectPageDocumentData {
 	main_media: prismic.ImageField<never>;
 	
 	/**
-	 * Description field in *Project page*
+	 * Content field in *Project page*
 	 *
 	 * - **Field Type**: Rich Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: project_page.description
+	 * - **API ID Path**: project_page.content
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
 	 */
-	description: prismic.RichTextField;
+	content: prismic.RichTextField;
 	
 	/**
 	 * Creation date field in *Project page*
@@ -526,35 +548,35 @@ interface ProjectPageDocumentData {
 export type ProjectPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<ProjectPageDocumentData>, "project_page", Lang>;
 
 /**
- * Item in *setting → Socials*
+ * Item in *setting → Publisher socials*
  */
-export interface SettingDocumentDataSocialsItem {
+export interface SettingDocumentDataPublisherSocialsItem {
 	/**
-	 * Name field in *setting → Socials*
+	 * Name field in *setting → Publisher socials*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: setting.socials[].name
+	 * - **API ID Path**: setting.publisher_socials[].name
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	name: prismic.KeyTextField;
 	
 	/**
-	 * Type field in *setting → Socials*
+	 * Type field in *setting → Publisher socials*
 	 *
 	 * - **Field Type**: Select
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: setting.socials[].type
+	 * - **API ID Path**: setting.publisher_socials[].type
 	 * - **Documentation**: https://prismic.io/docs/fields/select
 	 */
 	type: prismic.SelectField<"instagram" | "facebook" | "twitter" | "tiktok" | "vimeo" | "behance" | "youtube" | "linkedin">;
 	
 	/**
-	 * Link field in *setting → Socials*
+	 * Link field in *setting → Publisher socials*
 	 *
 	 * - **Field Type**: Link
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: setting.socials[].link
+	 * - **API ID Path**: setting.publisher_socials[].link
 	 * - **Documentation**: https://prismic.io/docs/fields/link
 	 */
 	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
@@ -565,35 +587,79 @@ export interface SettingDocumentDataSocialsItem {
  */
 interface SettingDocumentData {
 	/**
-	 * Site name field in *setting*
+	 * Publisher name field in *setting*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: setting.site_name
-	 * - **Tab**: Main
+	 * - **API ID Path**: setting.publisher_name
+	 * - **Tab**: Publisher
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	site_name: prismic.KeyTextField;
+	publisher_name: prismic.KeyTextField;
 	
 	/**
-	 * Email field in *setting*
+	 * Publisher description field in *setting*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: setting.email
-	 * - **Tab**: Main
+	 * - **API ID Path**: setting.publisher_description
+	 * - **Tab**: Publisher
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
-	email: prismic.KeyTextField;/**
-	 * Socials field in *setting*
+	publisher_description: prismic.KeyTextField;
+	
+	/**
+	 * Publisher url field in *setting*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: setting.publisher_url
+	 * - **Tab**: Publisher
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	publisher_url: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * Publisher email field in *setting*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: setting.publisher_email
+	 * - **Tab**: Publisher
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	publisher_email: prismic.KeyTextField;
+	
+	/**
+	 * Publisher socials field in *setting*
 	 *
 	 * - **Field Type**: Group
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: setting.socials[]
-	 * - **Tab**: Socials
+	 * - **API ID Path**: setting.publisher_socials[]
+	 * - **Tab**: Publisher
 	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
 	 */
-	socials: prismic.GroupField<Simplify<SettingDocumentDataSocialsItem>>;
+	publisher_socials: prismic.GroupField<Simplify<SettingDocumentDataPublisherSocialsItem>>;/**
+	 * Website description field in *setting*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: setting.website_description
+	 * - **Tab**: Website
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	website_description: prismic.KeyTextField;
+	
+	/**
+	 * Website logo field in *setting*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: setting.website_logo
+	 * - **Tab**: Website
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	website_logo: prismic.ImageField<never>;
 }
 
 /**
@@ -1099,7 +1165,7 @@ declare module "@prismicio/client" {
 			ProjectPageDocumentDataSlicesSlice,
 			SettingDocument,
 			SettingDocumentData,
-			SettingDocumentDataSocialsItem,
+			SettingDocumentDataPublisherSocialsItem,
 			AllDocumentTypes,
 			IntroductionSliceSlice,
 			IntroductionSliceSliceDefaultPrimary,
