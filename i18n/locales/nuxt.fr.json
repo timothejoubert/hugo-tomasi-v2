@@ -38,5 +38,6 @@
   "about_page.experiences": "Expériences",
   "theme_switcher.main": "Neutre",
   "theme_switcher.blue": "Bleu",
-  "theme_switcher.green": "Vert"
+  "theme_switcher.green": "Vert",
+  "button.default_label": "En savoir plus"
 }

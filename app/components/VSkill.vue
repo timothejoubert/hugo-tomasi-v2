@@ -27,11 +27,8 @@ const id = `collapsable-${useId()}`
             @mouseenter="isHoveringHead = true"
         >
             <VButton
-                theme="dark"
-                filled
-                size="l"
+                design="filled"
                 :class="$style.button"
-                outlined
                 :play-animation="isHoveringHead"
             >
                 <template #icon="{ iconClass }">

@@ -57,7 +57,7 @@ const promoteList = computed(() => {
                 <VButton
                     :class="$style.cta"
                     :label="promote.link_label || $t('button.default_label')"
-                    icon-name="arrow-up-right"
+                    icon-name="material-symbols:arrow-outward"
                 />
             </VLink>
         </template>

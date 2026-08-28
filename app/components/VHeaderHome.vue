@@ -24,18 +24,18 @@ const hasVideo = computed(() => !!mediaField.value && (
         :class="$style.root"
         class="container--fullwidth"
     >
-        <h2
+        <h1
             v-if="pageData.title"
             class="text-h1"
         >
             {{ pageData.title }}
-        </h2>
+        </h1>
         <VText
             v-if="pageData.subtitle"
             :content="pageData.subtitle"
             :class="$style.tagline"
             class="text-h5"
-            tag="h1"
+            tag="p"
         />
         <div :class="$style['media-wrapper']">
             <VPrismicMedia
@@ -54,19 +54,22 @@ const hasVideo = computed(() => !!mediaField.value && (
             :class="$style.body"
         >
             <div :class="$style['video-cta']">
-                <VSplitWord
-                    class="text-body-xs"
+                <div
                     :class="$style['video-cta__label']"
-                    :play-animation="isCtaHovered"
-                    :content="$t('showreel.cta_label')"
                     @mouseenter="isCtaHovered = true"
                     @mouseleave="isCtaHovered = false"
-                />
+                >
+                    <VSplitText
+                        class="text-body-xs"
+                        render="chars"
+                        :play-animation="isCtaHovered"
+                        :content="$t('showreel.cta_label')"
+                    />
+                </div>
                 <VButton
                     v-if="hasVideo"
-                    filled
-                    theme="dark"
-                    icon-name="fullscreen"
+                    design="filled"
+                    icon-name="material-symbols:fullscreen"
                     :class="$style['button-fullscreen']"
                     @mouseenter="isCtaHovered = true"
                     @mouseleave="isCtaHovered = false"
@@ -156,12 +159,15 @@ const hasVideo = computed(() => !!mediaField.value && (
 }
 
 .video-cta__label {
-  --split-word-duration: 300ms;
+	--split-word-duration: 300ms;
 
-  position: absolute;
-  opacity: 0;
-  transition: opacity 0.3s;
-  translate: calc((100% + 10px) * -1) 0;
+	position: absolute;
+	display: inline-flex;
+	align-items: center;
+
+	// opacity: 0;
+	transition: opacity 0.3s;
+	translate: calc((100% + 10px) * -1) 0;
 
   .video-cta:hover & {
     opacity: 1;

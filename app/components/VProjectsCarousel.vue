@@ -36,8 +36,8 @@ const { mouseMove, isCarouselEnable, progress } = useNativeCarousel(carousel)
             >
                 <VButton
                     :label="$t('see_all_project')"
-                    outlined
-                    icon-name="arrow-right"
+                    design="outlined"
+                    icon-name="material-symbols:arrow-forward"
                     size="s"
                 />
             </NuxtLink>

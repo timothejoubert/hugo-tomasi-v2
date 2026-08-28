@@ -9,9 +9,9 @@ usePrismicMeta(document)
     <VPageWrapper
         :slices="document?.data.slices"
     >
-		<VHeaderHome
-			v-if="document?.data"
-			:page-data="document.data"
-		/>
+        <VHeaderHome
+            v-if="document?.data"
+            :page-data="document.data"
+        />
     </VPageWrapper>
 </template>
