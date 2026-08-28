@@ -14,7 +14,8 @@ checklist en bas de ce fichier.
 ## Stack
 
 - Nuxt 4.5, Vue 3.5
-- `@nuxtjs/prismic` + `@prismicio/client` + Slice Machine (`@slicemachine/adapter-nuxt`)
+- `@nuxtjs/prismic` + `@prismicio/client` (modélisation via le Type Builder /
+  Prismic CLI, pas Slice Machine)
 - `@nuxtjs/i18n`
 - ESLint (`@nuxt/eslint`) + Stylelint
 - pnpm, Node `lts/*` (voir `.nvmrc`)
@@ -76,8 +77,7 @@ réintroduire sans raison forte.
 ## Scripts
 
 Voir le tableau détaillé dans `README.md` (`dev`, `build`, `generate`,
-`preview`, `lint`, `lint-fix`, `type-gen`, `prismic:backup`,
-`slicemachine`).
+`preview`, `lint`, `lint-fix`, `type-gen`, `prismic:backup`).
 
 ## Checklist : dupliquer ce repo pour un nouveau projet client
 

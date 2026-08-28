@@ -54,8 +54,7 @@ pnpm lint-fix   # avec --fix
   (slices), `routes` — **ce champ `routes` est généré, ne pas l'éditer à la
   main** (voir plus bas).
 - `customtypes/` : modèles des types de document Prismic.
-- `app/slices/` : composants de slices Slice Machine.
-- `pnpm slicemachine` : lance l'UI Slice Machine en local.
+- `app/slices/` : composants de slices.
 - `pnpm type-gen` : régénère `prismicio-types.d.ts` depuis les types Prismic,
   puis `scripts/sync-prismic-routes.js` régénère automatiquement le champ
   `routes` de `prismic.config.json` à partir de
