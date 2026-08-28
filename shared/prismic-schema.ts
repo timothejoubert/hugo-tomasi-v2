@@ -84,6 +84,16 @@ export function getRoutePath(name: PrismicRouteName, params?: Record<string, str
 	return path
 }
 
+/**
+ * Builds a Prismic `orderings`/predicate field path (`my.<custom-type-id>.<field-id>`) from a
+ * `prismicDocumentType` constant instead of a hand-typed string, so a renamed custom type id
+ * fails to compile at every ordering call site instead of silently sorting nothing.
+ * @example getPrismicOrderingField(prismicDocumentType.PROJECT, 'creation_date') // 'my.project_page.creation_date'
+ */
+export function getPrismicOrderingField(type: PrismicDocumentType, field: string) {
+	return `my.${type}.${field}`
+}
+
 export function isPrismicDocumentRoute(route: object) {
 	const type = 'type' in route && typeof route.type === 'string' && route.type
 	const hasPath = 'path' in route && typeof route.path === 'string' && route.path

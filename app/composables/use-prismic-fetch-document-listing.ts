@@ -11,8 +11,6 @@ export function usePrismicFetchDocumentListing(
 	const prismicClient = usePrismic().client
 	const fetchOptions = computed(() => {
 		return {
-			// pageSize: value.pageSize || 12, // default 20
-			limit: toValue(options)?.pageSize || 2, // default 20
 			...useLocale()?.fetchLocaleOption.value,
 			...toValue(options),
 		}
@@ -27,7 +25,7 @@ export function usePrismicFetchDocumentListing(
 
 	return useAsyncData(
 		key,
-		() => prismicClient.getAllByType(prismicDocument, toValue(options)),
+		() => prismicClient.getAllByType(prismicDocument, fetchOptions.value),
 		{
 			getCachedData: (key, nuxtApp, ctx) => {
 				if (ctx.cause !== 'initial') return undefined

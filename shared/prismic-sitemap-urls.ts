@@ -1,6 +1,7 @@
 import type { ProjectPageDocument } from '../prismicio-types'
-import { createClient, isFilled } from '@prismicio/client'
-import { getRoutePath, type PrismicRouteName, prismicDocumentType } from './prismic-schema'
+import { isFilled } from '@prismicio/client'
+import { getAllPrismicProjects } from './prismic-projects'
+import { getRoutePath, type PrismicRouteName } from './prismic-schema'
 
 function toSitemapUrl(routeName: PrismicRouteName, doc: ProjectPageDocument) {
 	const thumbnail = doc.data.main_media
@@ -19,13 +20,7 @@ function toSitemapUrl(routeName: PrismicRouteName, doc: ProjectPageDocument) {
  * split across the home and archive listings) need resolving here, along with their thumbnail.
  */
 export async function getPrismicSitemapUrls(repositoryName: string) {
-	const client = createClient(repositoryName)
+	const projects = await getAllPrismicProjects(repositoryName)
 
-	const [projects] = await Promise.all([
-		client.getAllByType(prismicDocumentType.PROJECT),
-	])
-
-	return [
-		...projects.map(doc => toSitemapUrl('project_page', doc)),
-	]
+	return projects.map(doc => toSitemapUrl('project_page', doc))
 }

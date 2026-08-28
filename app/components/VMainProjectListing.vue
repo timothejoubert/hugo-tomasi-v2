@@ -1,20 +1,14 @@
 <script lang="ts" setup>
-import { prismicDocumentType } from '~~/shared/prismic-schema'
+import { getPrismicOrderingField, prismicDocumentType } from '~~/shared/prismic-schema'
 
-const options = computed(() => ({
+const { data: projects } = await usePrismicFetchDocumentListing(prismicDocumentType.PROJECT, {
 	orderings: [
 		{
-			field: 'my.project.order_date',
-			direction: 'desc' as const,
-		},
-		{
-			field: 'my.project.creation_date',
-			direction: 'desc' as const,
+			field: getPrismicOrderingField(prismicDocumentType.PROJECT, 'creation_date'),
+			direction: 'desc',
 		},
 	]
-}))
-
-const { data: projects } = await usePrismicFetchDocumentListing(prismicDocumentType.PROJECT, options)
+})
 
 const { phase } = usePageIntro()
 const pageRevealed = computed(() => phase.value === 'page' || phase.value === 'done')
