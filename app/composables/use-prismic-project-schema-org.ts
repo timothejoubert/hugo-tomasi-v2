@@ -29,11 +29,11 @@ export function usePrismicProjectSchemaOrg(documentOrRef: MaybeRefOrGetter<Proje
 	useSchemaOrg([
 		{
 			'@type': 'CreativeWork',
-			name: meta.title,
-			description: meta.description,
-			image: isFilled.image(data.main_media) ? data.main_media.url : undefined,
-			dateCreated: isFilled.date(data.creation_date) ? data.creation_date : undefined,
-			url: meta.canonicalUrl,
+			'name': meta.title,
+			'description': meta.description,
+			'image': isFilled.image(data.main_media) ? data.main_media.url : undefined,
+			'dateCreated': isFilled.date(data.creation_date) ? data.creation_date : undefined,
+			'url': meta.canonicalUrl,
 		},
 		defineBreadcrumb({
 			itemListElement: [

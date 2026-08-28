@@ -4,3 +4,8 @@ allowBuilds:
   esbuild: true
   unrs-resolver: true
   vue-demi: true
+
+overrides:
+  # typescript-eslint doesn't support TS 7.0 yet (github.com/typescript-eslint/typescript-eslint/issues/10940)
+  # — force the whole graph onto the last 5.x line so `pnpm lint:js` can run at all.
+  typescript: ^5.9.3

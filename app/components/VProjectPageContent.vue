@@ -2,88 +2,94 @@
 import type { ProjectPageDocument } from '~~/prismicio-types'
 
 const props = defineProps<{
-    document?: ProjectPageDocument | null
+	document?: ProjectPageDocument | null
 }>()
-
-const { phase } = usePageIntro()
-const revealed = computed(() => phase.value === 'page' || phase.value === 'done')
 
 const project = computed(() => props.document?.data)
 const prismic = usePrismic()
 
 const medias = computed(() => {
-    if (!project.value) return []
+	if (!project.value) return []
 
-    return project.value.medias?.filter(m => prismic.isFilled.linkToMedia(m.media) && m.media.url)
+	return project.value.medias?.filter(m => prismic.isFilled.linkToMedia(m.media) && m.media.url)
 })
 
 const tags = computed(() => {
-    if (project.value?.tag_group?.length) {
+	if (project.value?.tag_group?.length) {
 		return project.value.tag_group?.filter(item => item.tag).map(item => item.tag)
 	}
 
-    return props.document?.tags || []
+	return props.document?.tags || []
 })
 </script>
 
 <template>
-	<template v-if="document">
-		<div
-			:class="[
-				$style['content-wrapper'],
-			]"
-		>
-			<div :class="$style.content">
-				<div :class="$style.attributes">
-					<ul v-if="tags && tags.length" :class="$style.tags">
-						<LazyVTag
-							v-for="(tag, i) in tags"
-							:key="tag || i"
-							:label="tag"
-							wrapper="li"
-						/>
-					</ul>
-					<VTime
-						:date="project?.date"
-						format="short"
-					/>
-				</div>
-				<LazyVText
-					v-if="project?.short_description"
-					:content="project.short_description"
-					:class="$style['short-description']"
-				/>
-				<LazyVText
-					v-if="project?.content"
-					:content="project.content"
-					:class="$style.description"
-				/>
-			</div>
+    <template v-if="document">
+        <div
+            :class="[
+                $style['content-wrapper'],
+            ]"
+        >
+            <div :class="$style.content">
+                <div :class="$style.attributes">
+                    <ul
+                        v-if="tags && tags.length"
+                        :class="$style.tags"
+                    >
+                        <LazyVTag
+                            v-for="(tag, i) in tags"
+                            :key="tag || i"
+                            :label="tag"
+                            wrapper="li"
+                        />
+                    </ul>
+                    <VTime
+                        :date="project?.date"
+                        format="short"
+                    />
+                </div>
+                <LazyVText
+                    v-if="project?.short_description"
+                    :content="project.short_description"
+                    :class="$style['short-description']"
+                />
+                <LazyVText
+                    v-if="project?.content"
+                    :content="project.content"
+                    :class="$style.description"
+                />
+            </div>
 
-			<VPrismicImg :field="project?.thumbnail" />
+            <VPrismicImg :field="project?.thumbnail" />
 
-			<div v-if="medias && medias.length" :class="$style.medias">
-				<div
-					v-for="(mediaGroup, i) in medias"
-					:key="`media-${i}`"
-					:class="$style.media"
-				>
-					<VPrismicMedia :field="mediaGroup.media" background />
-				</div>
-			</div>
-			<VProjectNeighbors
-				v-if="document"
-				:document="document"
-			/>
-		</div>
-	</template>
-	<VErrorContent
-		v-else
-		:class="$style['not-found']"
-		:full-page="false"
-		:subtitle="$t('error_status', { code: 404 })"
-		:content="$t('error_page.project_not_found_content')"
-	/>
+            <div
+                v-if="medias && medias.length"
+                :class="$style.medias"
+            >
+                <div
+                    v-for="(mediaGroup, i) in medias"
+                    :key="`media-${i}`"
+                    :class="$style.media"
+                >
+                    <VPrismicMedia
+                        :field="mediaGroup.media"
+                        background
+                    />
+                </div>
+            </div>
+            <VProjectNeighbors
+                v-if="document"
+                :document="document"
+            />
+        </div>
+    </template>
+    <VErrorContent
+        v-else
+        :class="$style['not-found']"
+        :full-page="false"
+        :subtitle="$t('error_status', { code: 404 })"
+        :content="$t('error_page.project_not_found_content')"
+    />
 </template>
 
 <style lang="scss" module>
@@ -103,7 +109,7 @@ const tags = computed(() => {
 
 	@include media('>=md') {
 		left: initial;
-    	width: 50%;
+		width: 50%;
 	}
 
 	@media (prefers-reduced-motion: no-preference) {

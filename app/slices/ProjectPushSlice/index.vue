@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Content } from '@prismicio/client'
+import type { Content } from '@prismicio/client'
 
 const props = defineProps(getSliceComponentProps<Content.ProjectPushSliceSlice>())
 
@@ -11,14 +11,18 @@ const { data: project } = await useAsyncData(projectId.value, () => client.getBy
 </script>
 
 <template>
-  <section v-if="project" class="slice-container" :class="$style.root">
-    <VProjectCard
-		:project="project"
-		title-class="text-h4"
-		layout="full"
-		:class="$style.card"
-	/>
-  </section>
+    <section
+        v-if="project"
+        class="slice-container"
+        :class="$style.root"
+    >
+        <VProjectCard
+            :project="project"
+            title-class="text-h4"
+            layout="full"
+            :class="$style.card"
+        />
+    </section>
 </template>
 
 <style lang="scss" module>

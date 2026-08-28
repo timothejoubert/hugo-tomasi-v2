@@ -17,19 +17,19 @@ if (document.value) {
 </script>
 
 <template>
-	<VPageWrapper
-		:slices="document?.data.slices"
-	>
-		<NuxtLink
-			:to="getRoutePath('home_page')"
-			:aria-label="$t('back_to_projects.aria_label')"
-		>
-			<VIcon name="material-symbols:cancel" />
-		</NuxtLink>
+    <VPageWrapper
+        :slices="document?.data.slices"
+    >
+        <NuxtLink
+            :to="getRoutePath('home_page')"
+            :aria-label="$t('back_to_projects.aria_label')"
+        >
+            <VIcon name="material-symbols:cancel" />
+        </NuxtLink>
         <h1>{{ document?.data.title }}</h1>
         <LazyVProjectPageContent
-			v-if="document"
-			:document="document"
-		/>
+            v-if="document"
+            :document="document"
+        />
     </VPageWrapper>
 </template>

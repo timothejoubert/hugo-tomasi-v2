@@ -26,36 +26,60 @@ const firstMedia = medias?.[0]
 </script>
 
 <template>
-  <section v-if="medias?.length" :class="[$style.root, hasOneMedia ? 'slice-container-xl' : 'slice-container']">
-    <template v-if="isFullWidth">
-      <div v-if="title" :content="title" :class="$style.title" class="text-body-m">{{ title }}</div>
-      <VText v-if="content" :content="content" :class="$style.content" class="text-body-s" />
+    <section
+        v-if="medias?.length"
+        :class="[$style.root, hasOneMedia ? 'slice-container-xl' : 'slice-container']"
+    >
+        <template v-if="isFullWidth">
+            <div
+                v-if="title"
+                :content="title"
+                :class="$style.title"
+                class="text-body-m"
+            >
+                {{ title }}
+            </div>
+            <VText
+                v-if="content"
+                :content="content"
+                :class="$style.content"
+                class="text-body-s"
+            />
 
-      <VPrismicMedia
-        v-if="firstMedia"
-        :field="resolveMediaField(firstMedia)"
-        :class="[$style.image, $style['image--fullwidth']]"
-      >
-        <VPictureSource media="(max-width: 540px)" sizes="xs:100vw sm:100md md:100vw" width="375" height="300" />
-        <VPictureSource sizes="lg:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw" width="1278" height="447" />
-      </VPrismicMedia>
-    </template>
+            <VPrismicMedia
+                v-if="firstMedia"
+                :field="resolveMediaField(firstMedia)"
+                :class="[$style.image, $style['image--fullwidth']]"
+            >
+                <VPictureSource
+                    media="(max-width: 540px)"
+                    sizes="xs:100vw sm:100md md:100vw"
+                    width="375"
+                    height="300"
+                />
+                <VPictureSource
+                    sizes="lg:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw"
+                    width="1278"
+                    height="447"
+                />
+            </VPrismicMedia>
+        </template>
 
-    <template v-else>
-      <VPrismicMedia
-        v-for="(item, mediaIndex) in medias"
-        :key="mediaIndex"
-        :class="[$style.image, $style['image--default'], $style[`image--${hasOneMedia ? 'solo' : 'multiple'}`]]"
-        :field="resolveMediaField(item)"
-        :sizes="hasOneMedia
-          ? 'xs:100vw sm:100md md:100vw lg:75vw xl:75vw xxl:75vw hd:75vw qhd:75vw'
-          : 'xs:100vw sm:100md md:100vw lg:50vw xl:50vw xxl:50vw hd:50vw qhd:50vw'"
-        width="812"
-        height="475"
-        :background="isBackgroundVideo(item)"
-      />
-    </template>
-  </section>
+        <template v-else>
+            <VPrismicMedia
+                v-for="(item, mediaIndex) in medias"
+                :key="mediaIndex"
+                :class="[$style.image, $style['image--default'], $style[`image--${hasOneMedia ? 'solo' : 'multiple'}`]]"
+                :field="resolveMediaField(item)"
+                :sizes="hasOneMedia
+                    ? 'xs:100vw sm:100md md:100vw lg:75vw xl:75vw xxl:75vw hd:75vw qhd:75vw'
+                    : 'xs:100vw sm:100md md:100vw lg:50vw xl:50vw xxl:50vw hd:50vw qhd:50vw'"
+                width="812"
+                height="475"
+                :background="isBackgroundVideo(item)"
+            />
+        </template>
+    </section>
 </template>
 
 <style lang="scss" module>

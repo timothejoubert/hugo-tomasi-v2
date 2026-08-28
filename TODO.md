@@ -1,5 +1,7 @@
 ### TODO
 - Config: uniformiser le styles et regle eslint + stylelint sur l'ensemble des fichiers (+ avoir une regle de tabulation et retour à la ligne commune pour l'ensemble des fichiers)
+
+- API: ce site est la nouvelle version de celui ci https://hugotomasi.com/, il faudrait dans un premier temps récupérer son contenu et de préparer un dossier sur mon ordi en local avec les fichiers correspondant (sur mon bureau). Une fois validé, il faudra faire un migration pour importer ces données dans le repo prismic.
 - Refactor: Voir le fonctionnement actuelle des données schema.org + ajouter et standardiser les données pour avoir toutes les données nécessaires pour un portfolio et/ou personne créant des projets (web, design, artistes, artisants...)
 - Note : `getPrismicSitemapUrls` (shared/prismic-sitemap-urls.ts) n'est actuellement branché nulle part (pas de `server/routes/__sitemap__/urls.ts`, pas de `sitemap.urls` dans nuxt.config.ts) — code mort en l'état. Le brancher au module `@nuxtjs/sitemap` est une tâche de feature à part, pas traitée ici.
 

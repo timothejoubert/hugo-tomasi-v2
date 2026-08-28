@@ -10,9 +10,9 @@ import type {
 } from '@prismicio/client'
 
 export type PrismicLinkFilled
-    = | FilledLinkToWebField
-        | FilledContentRelationshipField<string, string, unknown>
-        | FilledLinkToMediaField
+	= | FilledLinkToWebField
+		| FilledContentRelationshipField<string, string, unknown>
+		| FilledLinkToMediaField
 
 export function isLinkToFieldFilled(link: LinkField | ImageFieldImage | undefined): link is LinkField {
 	const linkType = (link as LinkField)?.link_type

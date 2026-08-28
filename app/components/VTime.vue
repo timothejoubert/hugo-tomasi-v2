@@ -24,6 +24,6 @@ const output = computed(() => {
         v-if="date"
         :datetime="dateObj.toISOString()"
     >
-		{{ output }}
-	</time>
+        {{ output }}
+    </time>
 </template>

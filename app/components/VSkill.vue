@@ -3,10 +3,10 @@ import type { RichTextField } from '@prismicio/types'
 // import VTransitionExpand from '~/components/atoms/VTransitionExpand/VTransitionExpand.vue'
 
 export interface VSkillProps {
-  title: string | null
-  content: string | RichTextField
-  sideTitle: string | null
-  sideContent: string | RichTextField
+	title: string | null
+	content: string | RichTextField
+	sideTitle: string | null
+	sideContent: string | RichTextField
 }
 
 defineProps<VSkillProps>()
@@ -17,30 +17,61 @@ const id = `collapsable-${useId()}`
 </script>
 
 <template>
-  <div :class="[$style.root, isOpened && $style['root--open']]">
-    <div
-      :class="$style.head"
-      :aria-controls="id"
-      :aria-expanded="isOpened"
-      @click="isOpened = !isOpened"
-      @mouseleave="isHoveringHead = false"
-      @mouseenter="isHoveringHead = true"
-    >
-      <VButton theme="dark" filled size="l" :class="$style.button" outlined :play-animation="isHoveringHead">
-        <template #icon="{ iconClass }">
-          <div :class="[$style.icon, iconClass]"></div>
-        </template>
-      </VButton>
-      <div v-if="title" :class="$style.title" class="text-h3">{{ title }}</div>
+    <div :class="[$style.root, isOpened && $style['root--open']]">
+        <div
+            :class="$style.head"
+            :aria-controls="id"
+            :aria-expanded="isOpened"
+            @click="isOpened = !isOpened"
+            @mouseleave="isHoveringHead = false"
+            @mouseenter="isHoveringHead = true"
+        >
+            <VButton
+                theme="dark"
+                filled
+                size="l"
+                :class="$style.button"
+                outlined
+                :play-animation="isHoveringHead"
+            >
+                <template #icon="{ iconClass }">
+                    <div :class="[$style.icon, iconClass]" />
+                </template>
+            </VButton>
+            <div
+                v-if="title"
+                :class="$style.title"
+                class="text-h3"
+            >
+                {{ title }}
+            </div>
+        </div>
+        <div
+            :id="id"
+            :class="$style.body"
+        >
+            <div :class="$style.body__inner">
+                <VText
+                    :content="content"
+                    :class="$style.content"
+                    class="text-body-s"
+                />
+                <div
+                    v-if="sideTitle"
+                    :class="$style['side-title']"
+                    class="text-over-title-s"
+                >
+                    {{ sideTitle }}
+                </div>
+                <VText
+                    v-if="sideContent"
+                    :class="$style['side-content']"
+                    class="text-body-s"
+                    :content="sideContent"
+                />
+            </div>
+        </div>
     </div>
-    <div :id="id" :class="$style.body">
-      <div :class="$style.body__inner">
-        <VText :content="content" :class="$style.content" class="text-body-s" />
-        <div v-if="sideTitle" :class="$style['side-title']" class="text-over-title-s">{{ sideTitle }}</div>
-        <VText v-if="sideContent" :class="$style['side-content']" class="text-body-s" :content="sideContent" />
-      </div>
-    </div>
-  </div>
 </template>
 
 <style lang="scss" module>

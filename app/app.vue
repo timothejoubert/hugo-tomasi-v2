@@ -2,16 +2,16 @@
 </script>
 
 <template>
-	<NuxtRouteAnnouncer />
-	<NuxtLoadingIndicator color="#DBE6EC" />
+    <NuxtRouteAnnouncer />
+    <NuxtLoadingIndicator color="#DBE6EC" />
 
-	<VSkipLink />
+    <VSkipLink />
 
-	<VMainNav />
+    <VMainNav />
 
-	<NuxtPage />
+    <NuxtPage />
 
-	<DevOnly>
-		<VGridVisualizer />
-	</DevOnly>
+    <DevOnly>
+        <VGridVisualizer />
+    </DevOnly>
 </template>

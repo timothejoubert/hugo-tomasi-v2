@@ -5,19 +5,17 @@ import { components } from '~/slices'
 defineProps<{
 	slices?: SliceZone[]
 }>()
-
-const route = useRoute()
-const hasSubRoute = computed(() => !!route.params.uid)
 </script>
+
 <template>
     <main
-		:id="SKIP_LINKS.main.elementId"
-	>
-		<slot />
-		<SliceZone
-			v-if="slices"
-			:slices="slices"
-			:components="components"
-		/>
-	</main>
+        :id="SKIP_LINKS.main.elementId"
+    >
+        <slot />
+        <SliceZone
+            v-if="slices"
+            :slices="slices"
+            :components="components"
+        />
+    </main>
 </template>

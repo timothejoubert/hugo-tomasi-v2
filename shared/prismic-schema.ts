@@ -19,13 +19,13 @@ import type { PrismicDocumentType } from '~/types/api'
  * renamed/removed custom type fails to compile here instead of silently going stale.
  */
 export const prismicDocumentType = {
-  HOME: 'home_page',
-  ABOUT: 'about_page',
-  PROJECT_LISTING: 'project_listing_page',
-  PROJECT: 'project_page',
-  // Non page document
-  MENU: 'menu',
-  SETTING: 'setting',
+	HOME: 'home_page',
+	ABOUT: 'about_page',
+	PROJECT_LISTING: 'project_listing_page',
+	PROJECT: 'project_page',
+	// Non page document
+	MENU: 'menu',
+	SETTING: 'setting',
 } as const satisfies Record<string, PrismicDocumentType>
 
 export const prismicDocumentRoutes = [

@@ -49,5 +49,9 @@ export default {
 		],
 	},
 	defaultSeverity: 'warning',
-	ignoreFiles: ['./dist/**/*.css'],
+	ignoreFiles: [
+		'./dist/**/*.css',
+		'.agents/**', // vendored third-party skill scripts, not project code
+		'.claude/**', // vendored third-party skill scripts, not project code
+	],
 }

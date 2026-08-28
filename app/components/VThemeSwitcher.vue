@@ -8,7 +8,7 @@ const themeInputs = Object.keys(getThemes()).map((theme) => {
 		id: 'theme-' + theme,
 		value: theme,
 		label,
-		data: getTheme(theme)
+		data: getTheme(theme),
 	}
 })
 
@@ -30,7 +30,7 @@ const metaScript = computed(() => [{ name: 'theme-color', content: currentThemeD
 const styleTag = computed(() => {
 	if (!currentThemeData.value) return []
 
-	const style =  Object.entries(currentThemeData.value).reduce((acc, [key, value]) => {
+	const style = Object.entries(currentThemeData.value).reduce((acc, [key, value]) => {
 		acc += '--' + key + ': ' + value + '; '
 
 		return acc
@@ -42,41 +42,45 @@ useHead({
 	meta: metaScript,
 	style: styleTag,
 })
-
 </script>
 
 <template>
     <fieldset :class="$style.fieldset">
-        <legend class="visually-hidden">{{ $t('theme_switcher.legend') }}</legend>
+        <legend class="visually-hidden">
+            {{ $t('theme_switcher.legend') }}
+        </legend>
         <div
             v-for="themeInput in themeInputs"
             :key="themeInput.id"
-			:class="$style.item"
+            :class="$style.item"
         >
-			<label :for="themeInput.id" :class="$style.label">
-				<span :class="$style.label__text">
-					{{ themeInput.label }}
-				</span>
-				<div :class="$style['color-items']">
-					<template
-						v-for="(colorValue, colorName) in themeInput.data"
-						:key="colorName"
-					>
-						<span
-							:style="{ backgroundColor: colorValue }"
-							:class="$style['color-item']"
-						></span>
-					</template>
-				</div>
-			</label>
+            <label
+                :for="themeInput.id"
+                :class="$style.label"
+            >
+                <span :class="$style.label__text">
+                    {{ themeInput.label }}
+                </span>
+                <div :class="$style['color-items']">
+                    <template
+                        v-for="(colorValue, colorName) in themeInput.data"
+                        :key="colorName"
+                    >
+                        <span
+                            :style="{ backgroundColor: colorValue }"
+                            :class="$style['color-item']"
+                        />
+                    </template>
+                </div>
+            </label>
             <input
                 :id="themeInput.id"
                 type="radio"
                 :name="themeInput.name"
                 :value="themeInput.value"
                 :checked="themeInput.value === currentTheme"
+                class="visually-hidden"
                 @change="onChange"
-				class="visually-hidden"
             >
         </div>
     </fieldset>

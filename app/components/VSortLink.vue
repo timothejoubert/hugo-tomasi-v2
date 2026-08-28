@@ -37,13 +37,14 @@ function onClick() {
     >
         {{ props.label }}
         <VIcon
-			v-if="isActive"
-			:class="$style.icon"
+            v-if="isActive"
+            :class="$style.icon"
             :name="nextDirection === 'asc' ? 'material-symbols:arrow-downward-alt' : 'material-symbols:arrow-upward-alt'"
         />
-		<span v-else
-			:class="$style.circle"
-		></span>
+        <span
+            v-else
+            :class="$style.circle"
+        />
     </button>
 </template>
 

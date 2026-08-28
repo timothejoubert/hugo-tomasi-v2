@@ -3,7 +3,7 @@ import type { VWrapperElement } from '~/components/VWrapper.vue'
 
 defineProps<{
 	label: string | null
-    wrapper?: VWrapperElement
+	wrapper?: VWrapperElement
 }>()
 </script>
 

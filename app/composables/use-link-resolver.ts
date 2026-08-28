@@ -8,14 +8,14 @@ import { type PrismicDocumentRoute, isPrismicDocumentRoute } from '~~/shared/pri
 import { ensureProtocol } from '~/utils/url'
 
 export type PossibleRouteReference
-    = string
-        | undefined
-        | null
-        | LocationAsRelativeRaw
-        | _RouteRecordBase
-        | ReachableDocument
-        | ContentRelationshipField<PrismicReachableDocumentType>
-        | PrismicDocumentRoute
+	= string
+		| undefined
+		| null
+		| LocationAsRelativeRaw
+		| _RouteRecordBase
+		| ReachableDocument
+		| ContentRelationshipField<PrismicReachableDocumentType>
+		| PrismicDocumentRoute
 
 export function useLinkResolver(reference: PossibleRouteReference) {
 	const rawSiteUrl = useRuntimeConfig().public?.site.url

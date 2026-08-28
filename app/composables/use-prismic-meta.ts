@@ -89,10 +89,10 @@ export function usePrismicMeta(documentOrRef?: MaybeRefOrGetter<ReachableDocumen
 		useSchemaOrg([
 			defineWebPage({
 				'@type': options.schemaOrgType,
-				name: title.value,
-				description: description.value,
-				image: image.value,
-				url: canonicalUrl.value,
+				'name': title.value,
+				'description': description.value,
+				'image': image.value,
+				'url': canonicalUrl.value,
 			}),
 		])
 	}

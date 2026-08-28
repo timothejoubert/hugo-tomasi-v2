@@ -32,6 +32,6 @@ export function usePrismicFetchDocumentListing(
 				return nuxtApp.static.data?.[key] ?? nuxtApp.payload.data?.[key]
 			},
 			watch: [fetchOptions],
-		}
+		},
 	)
 }

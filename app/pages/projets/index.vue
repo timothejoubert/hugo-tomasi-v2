@@ -7,8 +7,8 @@ usePrismicMeta(document, { schemaOrgType: 'CollectionPage' })
 
 <template>
     <VPageWrapper
-		:slices="document?.data.slices"
-	>
+        :slices="document?.data.slices"
+    >
         <h1>{{ document?.data.title }}</h1>
         <VMainProjectListing />
     </VPageWrapper>

@@ -15,7 +15,7 @@ export function useProjectNeighbors(document: ProjectPageDocument) {
 
 		return {
 			title: project.data.title,
-			path: getRoutePath('project_page', { uid: project.uid })
+			path: getRoutePath('project_page', { uid: project.uid }),
 		}
 	}
 

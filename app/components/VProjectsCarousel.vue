@@ -4,9 +4,9 @@ import type { ProjectPageDocument } from '~~/prismicio-types'
 import { getRoutePath } from '~~/shared/prismic-schema'
 
 defineProps({
-  tag: String,
-  title: String,
-  projects: Array as PropType<ProjectPageDocument[]>,
+	tag: String,
+	title: String,
+	projects: Array as PropType<ProjectPageDocument[]>,
 })
 
 const carousel = ref<HTMLElement | null>(null)
@@ -14,27 +14,52 @@ const { mouseMove, isCarouselEnable, progress } = useNativeCarousel(carousel)
 </script>
 
 <template>
-  <component :is="tag || 'div'" :class="$style.root" class="slice-container--fullwidth">
-    <div class="container--fullwidth" :class="$style.head">
-      <div v-if="title" class="text-h4" :class="$style.title">{{ title }}</div>
-      <NuxtLink :to="getRoutePath('project_listing_page')" :class="$style.link">
-        <VButton :label="$t('see_all_project')" outlined icon-name="arrow-right" size="s" />
-      </NuxtLink>
-      <div v-show="isCarouselEnable" :class="$style.scroll" :style="{ '--progress': progress }"></div>
-    </div>
-    <div
-      ref="carousel"
-      :class="[$style.carousel, mouseMove && $style['carousel--is-dragging']]"
-      class="container--fullwidth"
+    <component
+        :is="tag || 'div'"
+        :class="$style.root"
+        class="slice-container--fullwidth"
     >
-      <VProjectCard
-	  	v-for="project in projects"
-	  	:key="project.uid"
-		:project="project"
-		:class="$style.card"
-	/>
-    </div>
-  </component>
+        <div
+            class="container--fullwidth"
+            :class="$style.head"
+        >
+            <div
+                v-if="title"
+                class="text-h4"
+                :class="$style.title"
+            >
+                {{ title }}
+            </div>
+            <NuxtLink
+                :to="getRoutePath('project_listing_page')"
+                :class="$style.link"
+            >
+                <VButton
+                    :label="$t('see_all_project')"
+                    outlined
+                    icon-name="arrow-right"
+                    size="s"
+                />
+            </NuxtLink>
+            <div
+                v-show="isCarouselEnable"
+                :class="$style.scroll"
+                :style="{ '--progress': progress }"
+            />
+        </div>
+        <div
+            ref="carousel"
+            :class="[$style.carousel, mouseMove && $style['carousel--is-dragging']]"
+            class="container--fullwidth"
+        >
+            <VProjectCard
+                v-for="project in projects"
+                :key="project.uid"
+                :project="project"
+                :class="$style.card"
+            />
+        </div>
+    </component>
 </template>
 
 <style lang="scss" module>

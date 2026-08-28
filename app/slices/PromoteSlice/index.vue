@@ -1,38 +1,67 @@
 <script setup lang="ts">
-import { type Content } from '@prismicio/client'
+import type { Content } from '@prismicio/client'
 
 const props = defineProps(getSliceComponentProps<Content.PromoteSliceSlice>())
 
 const title = computed(() => props.slice.primary.title)
 
 const promoteList = computed(() => {
-  return props.slice.items
+	return props.slice.items
 })
 </script>
 
 <template>
-  <section :class="$style.root" class="slice-container-xl">
-    <div v-if="title" class="text-over-title-m" :class="$style.title">{{ title }}</div>
+    <section
+        :class="$style.root"
+        class="slice-container-xl"
+    >
+        <div
+            v-if="title"
+            class="text-over-title-m"
+            :class="$style.title"
+        >
+            {{ title }}
+        </div>
 
-    <template v-if="promoteList?.length">
-      <VLink
-        v-for="(promote, i) in promoteList"
-        :key="`${i}-${promote.title}`"
-        :class="$style.wrapper"
-        :reference="promote.link"
-      >
-        <div v-if="promote.title" :class="$style['promote-title']">{{ promote.title }}</div>
-        <div v-if="promote.content" :class="$style.content">{{ promote.content }}</div>
-        <div v-if="promote.place" :class="$style.place">{{ promote.place }}</div>
-        <div v-if="promote.year" :class="$style.year">{{ promote.year }}</div>
-        <VButton
-          :class="$style.cta"
-          :label="promote.link_label || $t('button.default_label')"
-          icon-name="arrow-up-right"
-        />
-      </VLink>
-    </template>
-  </section>
+        <template v-if="promoteList?.length">
+            <VLink
+                v-for="(promote, i) in promoteList"
+                :key="`${i}-${promote.title}`"
+                :class="$style.wrapper"
+                :reference="promote.link"
+            >
+                <div
+                    v-if="promote.title"
+                    :class="$style['promote-title']"
+                >
+                    {{ promote.title }}
+                </div>
+                <div
+                    v-if="promote.content"
+                    :class="$style.content"
+                >
+                    {{ promote.content }}
+                </div>
+                <div
+                    v-if="promote.place"
+                    :class="$style.place"
+                >
+                    {{ promote.place }}
+                </div>
+                <div
+                    v-if="promote.year"
+                    :class="$style.year"
+                >
+                    {{ promote.year }}
+                </div>
+                <VButton
+                    :class="$style.cta"
+                    :label="promote.link_label || $t('button.default_label')"
+                    icon-name="arrow-up-right"
+                />
+            </VLink>
+        </template>
+    </section>
 </template>
 
 <style lang="scss" module>

@@ -31,11 +31,11 @@ export function usePrismicFetchDocument<Type extends PrismicDocumentType = Prism
 				return await prismicClient.getByID(documentId.value, prismicFetchOptions)
 			}
 			if (uid && prismicDocument && isDynamicDocument(prismicDocument)) {
-				// @ts-expect-error
+				// @ts-expect-error — generic `Type` can't narrow to the literal union getByUID expects
 				return await prismicClient.getByUID(prismicDocument, uid, prismicFetchOptions)
 			}
 			if (prismicDocument) {
-				// @ts-expect-error
+				// @ts-expect-error — generic `Type` can't narrow to the literal union getSingle expects
 				return await prismicClient.getSingle(prismicDocument, prismicFetchOptions)
 			}
 			return undefined

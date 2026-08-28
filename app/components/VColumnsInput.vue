@@ -18,26 +18,28 @@ function onGridColumnsInput(e: Event) {
 	if (value) columns.value = value
 }
 </script>
+
 <template>
-	<div :class="$style.root">
-		<label for="grid_value">{{ $t('show_setting.grid_value_label') }}</label>
-		<input
-			id="grid_value"
-			type="number"
-			:min="min"
-			:max="max"
-			:value="columns"
-			aria-describedby="grid_value_hint"
-			@change="onGridColumnsInput"
-		/>
-		<span
-			id="grid_value_hint"
-			class="visually-hidden"
-		>
-			{{ $t('show_setting.grid_value_hint', { min, max }) }}
-		</span>
-	</div>
+    <div :class="$style.root">
+        <label for="grid_value">{{ $t('show_setting.grid_value_label') }}</label>
+        <input
+            id="grid_value"
+            type="number"
+            :min="min"
+            :max="max"
+            :value="columns"
+            aria-describedby="grid_value_hint"
+            @change="onGridColumnsInput"
+        >
+        <span
+            id="grid_value_hint"
+            class="visually-hidden"
+        >
+            {{ $t('show_setting.grid_value_hint', { min, max }) }}
+        </span>
+    </div>
 </template>
+
 <style lang="scss" module>
 .root {
 	display: flex;

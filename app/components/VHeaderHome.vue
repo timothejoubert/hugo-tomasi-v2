@@ -3,7 +3,7 @@ import { isFilled } from '@prismicio/client'
 import type { HomePageDocumentData } from '~~/prismicio-types'
 
 interface VHeaderHomeProps {
-  pageData: HomePageDocumentData
+	pageData: HomePageDocumentData
 }
 
 const props = defineProps<VHeaderHomeProps>()
@@ -12,53 +12,68 @@ const isCtaHovered = ref(false)
 const mediaField = computed(() => isFilled.embed(props.pageData?.embed_video) ? props.pageData.embed_video : props.pageData?.media)
 
 const hasVideo = computed(() => !!mediaField.value && (
-  isFilled.embed(props.pageData?.embed_video) || isFilled.linkToMedia(props.pageData?.media)
+	isFilled.embed(props.pageData?.embed_video) || isFilled.linkToMedia(props.pageData?.media)
 ))
 
 // TODO: Add media viewer
 </script>
 
 <template>
-  <header v-if="pageData" :class="$style.root" class="container--fullwidth">
-    <h2 v-if="pageData.title" class="text-h1">{{ pageData.title }}</h2>
-    <VText v-if="pageData.subtitle" :content="pageData.subtitle" :class="$style.tagline" class="text-h5" tag="h1" />
-    <div :class="$style['media-wrapper']">
-      <VPrismicMedia
-        v-if="hasVideo"
-        :field="mediaField"
-        :class="$style.video"
-        playsinline
-        background
-        fit="cover"
-      />
-    </div>
-    <VHeaderBottom
-      :title="pageData.sub_section_title"
-      :content="pageData.sub_section_content"
-      :alt-content="pageData.sub_section_aside"
-      :class="$style.body"
+    <header
+        v-if="pageData"
+        :class="$style.root"
+        class="container--fullwidth"
     >
-      <div :class="$style['video-cta']">
-        <VSplitWord
-          class="text-body-xs"
-          :class="$style['video-cta__label']"
-          :play-animation="isCtaHovered"
-          :content="$t('showreel.cta_label')"
-          @mouseenter="isCtaHovered = true"
-          @mouseleave="isCtaHovered = false"
+        <h2
+            v-if="pageData.title"
+            class="text-h1"
+        >
+            {{ pageData.title }}
+        </h2>
+        <VText
+            v-if="pageData.subtitle"
+            :content="pageData.subtitle"
+            :class="$style.tagline"
+            class="text-h5"
+            tag="h1"
         />
-        <VButton
-          v-if="hasVideo"
-          filled
-          theme="dark"
-          icon-name="fullscreen"
-          :class="$style['button-fullscreen']"
-          @mouseenter="isCtaHovered = true"
-          @mouseleave="isCtaHovered = false"
-        />
-      </div>
-    </VHeaderBottom>
-  </header>
+        <div :class="$style['media-wrapper']">
+            <VPrismicMedia
+                v-if="hasVideo"
+                :field="mediaField"
+                :class="$style.video"
+                playsinline
+                background
+                fit="cover"
+            />
+        </div>
+        <VHeaderBottom
+            :title="pageData.sub_section_title"
+            :content="pageData.sub_section_content"
+            :alt-content="pageData.sub_section_aside"
+            :class="$style.body"
+        >
+            <div :class="$style['video-cta']">
+                <VSplitWord
+                    class="text-body-xs"
+                    :class="$style['video-cta__label']"
+                    :play-animation="isCtaHovered"
+                    :content="$t('showreel.cta_label')"
+                    @mouseenter="isCtaHovered = true"
+                    @mouseleave="isCtaHovered = false"
+                />
+                <VButton
+                    v-if="hasVideo"
+                    filled
+                    theme="dark"
+                    icon-name="fullscreen"
+                    :class="$style['button-fullscreen']"
+                    @mouseenter="isCtaHovered = true"
+                    @mouseleave="isCtaHovered = false"
+                />
+            </div>
+        </VHeaderBottom>
+    </header>
 </template>
 
 <style lang="scss" module>

@@ -7,7 +7,7 @@ const { data: projects } = await usePrismicFetchDocumentListing(prismicDocumentT
 			field: getPrismicOrderingField(prismicDocumentType.PROJECT, 'creation_date'),
 			direction: 'desc',
 		},
-	]
+	],
 })
 
 const { phase } = usePageIntro()

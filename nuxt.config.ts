@@ -1,4 +1,4 @@
-import { repositoryName } from "./prismic.config.json";
+import { repositoryName } from './prismic.config.json'
 import svgLoader from 'vite-svg-loader'
 import { PREVIEW_PATH } from './app/constants/prismic-preview'
 import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './i18n/i18n'
@@ -20,7 +20,7 @@ export default defineNuxtConfig({
 		'@nuxtjs/sitemap',
 		'@nuxtjs/robots',
 		'nuxt-schema-org',
-		'@vueuse/nuxt'
+		'@vueuse/nuxt',
 	],
 	plugins: [],
 	devtools: { enabled: true },
@@ -40,6 +40,12 @@ export default defineNuxtConfig({
 	},
 
 	css: ['~~/app/assets/scss/main.scss'],
+
+	// https://nuxtseo.com/site-config — shared by @nuxtjs/sitemap and @nuxtjs/robots
+	site: {
+		url: process.env.NUXT_PUBLIC_SITE_URL,
+		name: process.env.NUXT_PUBLIC_SITE_NAME,
+	},
 	runtimeConfig: {
 		public: {
 			version,
@@ -56,24 +62,14 @@ export default defineNuxtConfig({
 		},
 	},
 
-	// https://nuxtseo.com/site-config — shared by @nuxtjs/sitemap and @nuxtjs/robots
-	site: {
-		url: process.env.NUXT_PUBLIC_SITE_URL,
-		name: process.env.NUXT_PUBLIC_SITE_NAME,
-	},
-
-	// https://nuxtseo.com/sitemap/getting-started/introduction
-	sitemap: {
-		exclude: [`${PREVIEW_PATH}/**`],
-	},
-
-	// https://nuxtseo.com/robots/getting-started/introduction
-	robots: {
-		disallow: [PREVIEW_PATH],
-	},
-
 	// Redirect prismicDocumentRoutes' `alias` paths (e.g. /projets, /projects) to their canonical route.
 	routeRules: getPrismicAliasRedirects(),
+
+	experimental: {
+		asyncContext: true,
+	},
+
+	compatibilityDate: '2025-07-15',
 	nitro: {
 		// Pinned explicitly so `pnpm generate` outputs the same directory (dist) locally and on Netlify,
 		// instead of relying on Nitro's env-based auto-detection (which only kicks in on Netlify's build servers).
@@ -84,20 +80,6 @@ export default defineNuxtConfig({
 			routes: [...Object.keys(getPrismicAliasRedirects()), '/llms.txt'],
 		},
 	},
-
-	hooks: {
-		'nitro:config': async (nitroConfig) => {
-			nitroConfig.routeRules = { ...nitroConfig.routeRules }
-			nitroConfig.prerender ||= {}
-			nitroConfig.prerender.routes ||= []
-		},
-	},
-
-	experimental: {
-		asyncContext: true,
-	},
-
-	compatibilityDate: '2025-07-15',
 	vite: {
 		build: {
 			// If the generated svg-sprite file is under 4kb, the build process converts it to an inlined base64 file,
@@ -143,6 +125,14 @@ export default defineNuxtConfig({
 				propList: ['*'],
 				exclude: /(node_modules|scss\/export)/i,
 			},
+		},
+	},
+
+	hooks: {
+		'nitro:config': async (nitroConfig) => {
+			nitroConfig.routeRules = { ...nitroConfig.routeRules }
+			nitroConfig.prerender ||= {}
+			nitroConfig.prerender.routes ||= []
 		},
 	},
 
@@ -211,5 +201,15 @@ export default defineNuxtConfig({
 		clientConfig: {
 			routes: prismicDocumentRoutes,
 		},
+	},
+
+	// https://nuxtseo.com/robots/getting-started/introduction
+	robots: {
+		disallow: [PREVIEW_PATH],
+	},
+
+	// https://nuxtseo.com/sitemap/getting-started/introduction
+	sitemap: {
+		exclude: [`${PREVIEW_PATH}/**`],
 	},
 })

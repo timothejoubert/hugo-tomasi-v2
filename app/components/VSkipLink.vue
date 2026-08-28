@@ -1,22 +1,24 @@
 <script lang="ts" setup>
 import { SKIP_LINKS } from '~/constants/skip-links'
 </script>
+
 <template>
-	<nav
-		:class="$style.root"
-		aria-label="Liens d'évitement"
-		role="navigation"
-	>
-		<a
-			v-for="(link, key) in SKIP_LINKS"
-			:key="key"
-			:href="`#${link.elementId}`"
-			:class="$style.link"
-		>
-			{{ $t(link.label) }}
-		</a>
-	</nav>
+    <nav
+        :class="$style.root"
+        aria-label="Liens d'évitement"
+        role="navigation"
+    >
+        <a
+            v-for="(link, key) in SKIP_LINKS"
+            :key="key"
+            :href="`#${link.elementId}`"
+            :class="$style.link"
+        >
+            {{ $t(link.label) }}
+        </a>
+    </nav>
 </template>
+
 <style lang="scss" module>
 .root {
 	position: absolute;
