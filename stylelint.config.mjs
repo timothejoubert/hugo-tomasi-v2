@@ -53,5 +53,6 @@ export default {
 		'./dist/**/*.css',
 		'.agents/**', // vendored third-party skill scripts, not project code
 		'.claude/**', // vendored third-party skill scripts, not project code
+		'old-site-hugotomasi/**', // mirror of the previous WordPress site, kept for migration reference only
 	],
 }
