@@ -1,9 +1,6 @@
 {
   "format": "page",
   "id": "project_page",
-  "label": "Project page",
-  "repeatable": true,
-  "status": true,
   "json": {
     "Main": {
       "uid": {
@@ -13,56 +10,54 @@
         "type": "UID"
       },
       "title": {
-        "type": "Text",
         "config": {
           "label": "Title",
           "placeholder": ""
-        }
+        },
+        "type": "Text"
       },
       "excerpt": {
-        "type": "StructuredText",
         "config": {
-          "label": "Excerpt",
-          "placeholder": "",
           "allowTargetBlank": true,
-          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
-        }
+          "label": "Excerpt",
+          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl",
+          "placeholder": ""
+        },
+        "type": "StructuredText"
       },
       "main_media": {
-        "type": "Image",
         "config": {
-          "label": "Main",
           "constraint": {},
+          "label": "Main",
           "thumbnails": []
-        }
+        },
+        "type": "Image"
       },
       "description": {
-        "type": "StructuredText",
         "config": {
-          "label": "Description",
-          "placeholder": "",
           "allowTargetBlank": true,
-          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
-        }
+          "label": "Description",
+          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl",
+          "placeholder": ""
+        },
+        "type": "StructuredText"
       },
       "creation_date": {
-        "type": "Date",
         "config": {
           "label": "Creation date",
           "placeholder": ""
-        }
+        },
+        "type": "Date"
       },
       "external_link": {
-        "type": "Link",
         "config": {
           "label": "External link",
           "placeholder": "",
           "select": null
-        }
+        },
+        "type": "Link"
       },
       "slices": {
-        "type": "Slices",
-        "fieldset": "Slice Zone",
         "config": {
           "choices": {
             "promote_slice": {
@@ -75,7 +70,9 @@
               "type": "SharedSlice"
             }
           }
-        }
+        },
+        "fieldset": "Slice Zone",
+        "type": "Slices"
       }
     },
     "SEO & Metadata": {
@@ -105,5 +102,8 @@
         "type": "Text"
       }
     }
-  }
+  },
+  "label": "Project page",
+  "repeatable": true,
+  "status": true
 }

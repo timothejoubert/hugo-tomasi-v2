@@ -139,99 +139,6 @@ interface AboutPageDocumentData {
  */
 export type AboutPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<AboutPageDocumentData>, "about_page", Lang>;
 
-type ErrorPageDocumentDataSlicesSlice = ProjectsFeedSliceSlice | IntroductionSliceSlice
-
-/**
- * Content for Error page documents
- */
-interface ErrorPageDocumentData {
-	/**
-	 * Title field in *Error page*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: error_page.title
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	title: prismic.KeyTextField;
-	
-	/**
-	 * Content field in *Error page*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: error_page.content
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	content: prismic.RichTextField;
-	
-	/**
-	 * Main media field in *Error page*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: error_page.main_media
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/image
-	 */
-	main_media: prismic.ImageField<never>;
-	
-	/**
-	 * Slice Zone field in *Error page*
-	 *
-	 * - **Field Type**: Slice Zone
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: error_page.slices[]
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/slices
-	 */
-	slices: prismic.SliceZone<ErrorPageDocumentDataSlicesSlice>;/**
-	 * Meta Description field in *Error page*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: A brief summary of the page
-	 * - **API ID Path**: error_page.meta_description
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	meta_description: prismic.KeyTextField;
-	
-	/**
-	 * Meta Image field in *Error page*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: error_page.meta_image
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/fields/image
-	 */
-	meta_image: prismic.ImageField<never>;
-	
-	/**
-	 * Meta Title field in *Error page*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: A title of the page used for social media and search engines
-	 * - **API ID Path**: error_page.meta_title
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	meta_title: prismic.KeyTextField;
-}
-
-/**
- * Error page document from Prismic
- *
- * - **API ID**: `error_page`
- * - **Repeatable**: `false`
- * - **Documentation**: https://prismic.io/docs/content-modeling
- *
- * @typeParam Lang - Language API ID of the document.
- */
-export type ErrorPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<ErrorPageDocumentData>, "error_page", Lang>;
-
 type HomePageDocumentDataSlicesSlice = SkillsSliceSlice | ProjectsFeedSliceSlice | MarqueeSliceSlice | IntroductionSliceSlice | ProjectPushSliceSlice
 
 /**
@@ -700,111 +607,7 @@ interface SettingDocumentData {
  */
 export type SettingDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<SettingDocumentData>, "setting", Lang>;
 
-type WebPageDocumentDataSlicesSlice = never
-
-/**
- * Content for Web page documents
- */
-interface WebPageDocumentData {
-	/**
-	 * Title field in *Web page*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: web_page.title
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	title: prismic.KeyTextField;
-	
-	/**
-	 * Sub title field in *Web page*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: web_page.sub_title
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	sub_title: prismic.RichTextField;
-	
-	/**
-	 * Main media field in *Web page*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: web_page.main_media
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/image
-	 */
-	main_media: prismic.ImageField<never>;
-	
-	/**
-	 * Content field in *Web page*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: web_page.content
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	content: prismic.RichTextField;
-	
-	/**
-	 * Slice Zone field in *Web page*
-	 *
-	 * - **Field Type**: Slice Zone
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: web_page.slices[]
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/slices
-	 */
-	slices: prismic.SliceZone<WebPageDocumentDataSlicesSlice>;/**
-	 * Meta Description field in *Web page*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: A brief summary of the page
-	 * - **API ID Path**: web_page.meta_description
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	meta_description: prismic.KeyTextField;
-	
-	/**
-	 * Meta Image field in *Web page*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: web_page.meta_image
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/fields/image
-	 */
-	meta_image: prismic.ImageField<never>;
-	
-	/**
-	 * Meta Title field in *Web page*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: A title of the page used for social media and search engines
-	 * - **API ID Path**: web_page.meta_title
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	meta_title: prismic.KeyTextField;
-}
-
-/**
- * Web page document from Prismic
- *
- * - **API ID**: `web_page`
- * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
- *
- * @typeParam Lang - Language API ID of the document.
- */
-export type WebPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<WebPageDocumentData>, "web_page", Lang>;
-
-export type AllDocumentTypes = AboutPageDocument | ErrorPageDocument | HomePageDocument | MenuDocument | ProjectListingPageDocument | ProjectPageDocument | SettingDocument | WebPageDocument;
+export type AllDocumentTypes = AboutPageDocument | HomePageDocument | MenuDocument | ProjectListingPageDocument | ProjectPageDocument | SettingDocument;
 
 /**
  * Primary content in *IntroductionSlice → Default → Primary*
@@ -1282,9 +1085,6 @@ declare module "@prismicio/client" {
 			AboutPageDocument,
 			AboutPageDocumentData,
 			AboutPageDocumentDataSlicesSlice,
-			ErrorPageDocument,
-			ErrorPageDocumentData,
-			ErrorPageDocumentDataSlicesSlice,
 			HomePageDocument,
 			HomePageDocumentData,
 			HomePageDocumentDataSlicesSlice,
@@ -1300,9 +1100,6 @@ declare module "@prismicio/client" {
 			SettingDocument,
 			SettingDocumentData,
 			SettingDocumentDataSocialsItem,
-			WebPageDocument,
-			WebPageDocumentData,
-			WebPageDocumentDataSlicesSlice,
 			AllDocumentTypes,
 			IntroductionSliceSlice,
 			IntroductionSliceSliceDefaultPrimary,

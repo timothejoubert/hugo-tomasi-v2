@@ -1,68 +1,63 @@
 {
-  "id": "home_page",
-  "label": "Home page",
   "format": "page",
-  "repeatable": false,
-  "status": true,
+  "id": "home_page",
   "json": {
     "Main": {
       "title": {
-        "type": "Text",
         "config": {
           "label": "Title",
           "placeholder": ""
-        }
+        },
+        "type": "Text"
       },
       "subtitle": {
-        "type": "Text",
         "config": {
           "label": "SubTitle",
           "placeholder": ""
-        }
+        },
+        "type": "Text"
       },
       "media": {
-        "type": "Link",
         "config": {
           "label": "Media",
           "placeholder": "",
           "select": "media"
-        }
+        },
+        "type": "Link"
       },
       "embed_video": {
-        "type": "Embed",
         "config": {
           "label": "Embed video",
           "placeholder": ""
-        }
+        },
+        "type": "Embed"
       },
       "sub_section_title": {
-        "type": "Text",
         "config": {
           "label": "Sub section title",
           "placeholder": ""
-        }
+        },
+        "type": "Text"
       },
       "sub_section_content": {
-        "type": "StructuredText",
         "config": {
-          "label": "Sub section content",
-          "placeholder": "",
           "allowTargetBlank": true,
-          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
-        }
+          "label": "Sub section content",
+          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl",
+          "placeholder": ""
+        },
+        "type": "StructuredText"
       },
       "sub_section_aside": {
-        "type": "StructuredText",
         "config": {
-          "label": "Sub section aside",
-          "placeholder": "",
           "allowTargetBlank": true,
-          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
-        }
+          "label": "Sub section aside",
+          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl",
+          "placeholder": ""
+        },
+        "type": "StructuredText"
       },
       "slices": {
-        "type": "Slices",
-        "fieldset": "Slice Zone",
         "config": {
           "choices": {
             "skills_slice": {
@@ -81,7 +76,9 @@
               "type": "SharedSlice"
             }
           }
-        }
+        },
+        "fieldset": "Slice Zone",
+        "type": "Slices"
       }
     },
     "SEO & Metadata": {
@@ -111,5 +108,8 @@
         "type": "Image"
       }
     }
-  }
+  },
+  "label": "Home page",
+  "repeatable": false,
+  "status": true
 }

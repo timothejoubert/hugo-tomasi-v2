@@ -1,36 +1,36 @@
 {
-  "id": "menu",
-  "label": "Menu",
   "format": "custom",
-  "repeatable": false,
-  "status": true,
+  "id": "menu",
   "json": {
     "Main": {
       "links": {
-        "type": "Group",
         "config": {
-          "label": "Links",
-          "repeat": true,
           "fields": {
             "label": {
-              "type": "Text",
               "config": {
                 "label": "Label",
                 "placeholder": ""
-              }
+              },
+              "type": "Text"
             },
             "link": {
-              "type": "Link",
               "config": {
+                "allowTargetBlank": true,
                 "label": "Link",
                 "placeholder": "",
-                "allowTargetBlank": true,
                 "select": null
-              }
+              },
+              "type": "Link"
             }
-          }
-        }
+          },
+          "label": "Links",
+          "repeat": true
+        },
+        "type": "Group"
       }
     }
-  }
+  },
+  "label": "Menu",
+  "repeatable": false,
+  "status": true
 }

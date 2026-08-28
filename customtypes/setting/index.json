@@ -1,59 +1,68 @@
 {
   "format": "custom",
   "id": "setting",
-  "label": "setting",
-  "repeatable": false,
-  "status": true,
   "json": {
     "Main": {
       "site_name": {
-        "type": "Text",
         "config": {
           "label": "Site name",
           "placeholder": ""
-        }
+        },
+        "type": "Text"
       },
       "email": {
-        "type": "Text",
         "config": {
           "label": "Email",
           "placeholder": ""
-        }
+        },
+        "type": "Text"
       }
     },
     "Socials": {
       "socials": {
-        "type": "Group",
         "config": {
-          "label": "Socials",
-          "repeat": true,
           "fields": {
             "name": {
-              "type": "Text",
               "config": {
                 "label": "Name",
                 "placeholder": ""
-              }
+              },
+              "type": "Text"
             },
             "type": {
-              "type": "Select",
               "config": {
                 "label": "Type",
-                "placeholder": "",
-                "options": ["instagram", "facebook", "twitter", "tiktok", "vimeo", "behance", "youtube", "linkedin"]
-              }
+                "options": [
+                  "instagram",
+                  "facebook",
+                  "twitter",
+                  "tiktok",
+                  "vimeo",
+                  "behance",
+                  "youtube",
+                  "linkedin"
+                ],
+                "placeholder": ""
+              },
+              "type": "Select"
             },
             "link": {
-              "type": "Link",
               "config": {
                 "label": "Link",
                 "placeholder": "",
                 "select": null
-              }
+              },
+              "type": "Link"
             }
-          }
-        }
+          },
+          "label": "Socials",
+          "repeat": true
+        },
+        "type": "Group"
       }
     }
-  }
+  },
+  "label": "setting",
+  "repeatable": false,
+  "status": true
 }
