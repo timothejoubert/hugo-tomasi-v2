@@ -13,7 +13,7 @@ const promoteList = computed(() => {
 <template>
     <section
         :class="$style.root"
-        class="slice-container-xl"
+        class="slice-container--xl"
     >
         <div
             v-if="title"

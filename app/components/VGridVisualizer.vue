@@ -38,7 +38,8 @@ onBeforeUnmount(() => {
     position: fixed;
     z-index: 1000;
     top: 0;
-    left: var(--gutter);
+    right: var(--grid-margin, var(--gutter));
+    left: var(--grid-margin, var(--gutter));
     min-height: 100vh;
     padding-left: initial;
     grid-template-rows: 1fr;

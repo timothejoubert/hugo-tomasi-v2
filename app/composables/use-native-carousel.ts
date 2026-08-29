@@ -94,6 +94,7 @@ export function useNativeCarousel(sliderElement: Ref<TemplateElement>) {
 		event.preventDefault()
 
 		isDown.value = false
+		if (mouseMove.value) snapToNearest()
 		mouseMove.value = false
 	}
 
@@ -108,6 +109,35 @@ export function useNativeCarousel(sliderElement: Ref<TemplateElement>) {
 		positionX.value = scrollLeft.value - walk
 	}
 
+	// CSS `scroll-snap-type` handles native wheel/touch scrolling on its own — this measures the
+	// same "one slide" distance for the two cases CSS snap can't drive by itself: button-triggered
+	// scrolling (`scrollByStep`) and the mouse-drag emulation above, which sets `scrollLeft`
+	// directly rather than through a native scroll gesture (`snapToNearest`, called on mouse up).
+	function getSlideStep(): number {
+		if (!slider.value) return 0
+
+		const firstSlide = slider.value.children[0] as HTMLElement | undefined
+		if (!firstSlide) return slider.value.clientWidth
+
+		return firstSlide.getBoundingClientRect().width + Number.parseFloat(getComputedStyle(firstSlide).marginRight || '0')
+	}
+
+	function scrollByStep(direction: 1 | -1) {
+		if (!slider.value) return
+
+		slider.value.scrollBy({ left: direction * getSlideStep(), behavior: 'smooth' })
+	}
+
+	function snapToNearest() {
+		if (!slider.value) return
+
+		const step = getSlideStep()
+		if (!step) return
+
+		const nearestIndex = Math.round(slider.value.scrollLeft / step)
+		slider.value.scrollTo({ left: nearestIndex * step, behavior: 'smooth' })
+	}
+
 	return {
 		isCarouselEnable,
 		isDown,
@@ -117,5 +147,6 @@ export function useNativeCarousel(sliderElement: Ref<TemplateElement>) {
 		progress,
 		positionX,
 		mouseMove,
+		scrollByStep,
 	}
 }

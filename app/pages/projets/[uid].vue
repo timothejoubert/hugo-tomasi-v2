@@ -14,6 +14,9 @@ if (document.value) {
 		breadcrumb: [{ name: t('archive_page.heading'), item: getRoutePath(prismicDocumentType.PROJECT_LISTING) }],
 	})
 }
+
+const { data: otherProjects } = usePrismicFetchDocumentListing(prismicDocumentType.PROJECT)
+const filteredOtherProjects = computed(() => otherProjects.value?.filter(p => p.uid !== document.value?.uid))
 </script>
 
 <template>
@@ -26,10 +29,21 @@ if (document.value) {
         >
             <VIcon name="material-symbols:cancel" />
         </NuxtLink>
-        <h1>{{ document?.data.title }}</h1>
         <LazyVProjectPageContent
             v-if="document"
             :document="document"
         />
+        <template #after>
+            <VProjectsCarousel
+                v-if="filteredOtherProjects?.length"
+                tag="section"
+                :title="$t('project_page.other_projects_title')"
+                :projects="filteredOtherProjects"
+            />
+            <VProjectNeighbors
+                v-if="document"
+                :document="document"
+            />
+        </template>
     </VPageWrapper>
 </template>

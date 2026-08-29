@@ -3,6 +3,12 @@
 // `theme-variants()` mixins in mixins/_theme.scss keep working unchanged.
 $themes: (
     default: (
+        color-background: #FFF,
+        color-content: #000,
+        color-surface: #1b1b1b,
+        color-accent: #a7ef33,
+    ),
+	dark: (
         color-background: #181717,
         color-content: #FFF,
         color-surface: #F7F7F7,

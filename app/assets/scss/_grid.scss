@@ -12,34 +12,33 @@
 }
 
 .grid-extended {
-    @include grid-extended;
+    @include grid(true);
 }
 
-// Content container centered up to --grid-max-width, with --page-gutter as horizontal padding.
+// Content container centered up to --grid-max-width, with --grid-margin as horizontal padding.
 .slice-container {
-    width: 100%;
-    max-width: var(--grid-max-width);
-    margin-inline: auto;
-    padding-inline: var(--page-gutter);
-}
+	@include grid-container(true);
 
-// Wider variant for content that needs more breathing room (carousels, marquees).
-.slice-container-xl {
-    width: 100%;
-    max-width: calc(var(--grid-max-width) + 290px);
-    margin-inline: auto;
-    padding-inline: var(--page-gutter);
-}
+	margin-block: 72px;
 
-// Edge-to-edge — no max-width, just the page gutter as padding.
-.slice-container--fullwidth,
-.container--fullwidth {
-    width: 100%;
-    padding-inline: var(--page-gutter);
+	&--xl {
+		@include grid-container(true);
+
+		margin-block: 162px;
+	}
 }
 
 :root {
-    --page-gutter: #{$page-gutter};
+	// Margins
+    @each $breakpoint, $value in $grid-margins {
+        @if $breakpoint == 0 {
+            --grid-margin: #{$value};
+        } @else {
+            @media (min-width: #{map.get($breakpoints, $breakpoint)}) {
+                --grid-margin: #{$value};
+            }
+        }
+    }
 
     @each $breakpoint, $value in $grid-widths {
         @if $breakpoint == 0 {

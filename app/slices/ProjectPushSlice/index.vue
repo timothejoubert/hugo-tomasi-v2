@@ -19,25 +19,21 @@ const { data: project } = await useAsyncData(projectId.value, () => client.getBy
         <VProjectCard
             :project="project"
             title-class="text-h4"
-            layout="full"
+            layout="featured"
             :class="$style.card"
         />
     </section>
 </template>
 
 <style lang="scss" module>
+// Figma shows this slice on a light/inverted section (dark theme elsewhere on the page) —
+// flip the two theme tokens locally rather than adding a whole second global theme entry.
 .root {
-  --v-card-date-display: none;
+  background-color: var(--color-background);
+  color: var(--color-content);
 }
 
 .card {
   width: 100%;
-}
-
-.media {
-  width: 100%;
-  max-height: 90vh;
-  border-radius: 22px;
-  object-fit: cover;
 }
 </style>

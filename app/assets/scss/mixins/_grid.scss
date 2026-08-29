@@ -1,22 +1,25 @@
-@mixin grid-container {
-    width: var(--grid-container-width, var(--grid-width));
-    max-width: var(--grid-max-width);
-    margin-inline: auto;
+@mixin grid-container($fullwidth: false) {
+	@if $fullwidth {
+		width: 100%;
+		padding-inline: var(--grid-container-padding-inline, var(--grid-margin));
+	} @else {
+		width: var(--grid-container-width, var(--grid-width));
+	}
+
+	max-width: var(--grid-max-width);
+	margin-inline: auto;
 }
 
-@mixin grid {
+@mixin inner-grid {
     display: grid;
     column-gap: var(--gutter);
     grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
-
-    @include grid-container;
 }
 
-@mixin grid-extended {
-    display: grid;
-    width: 100%;
-    max-width: calc(var(--grid-max-width) - var(--gutter) * 2);
+@mixin grid($fullscreen: false) {
+	display: grid;
     column-gap: var(--gutter);
     grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
-    padding-inline: var(--gutter);
+
+	@include grid-container($fullscreen);
 }

@@ -3,10 +3,17 @@ import type { ProjectPageDocument } from '~~/prismicio-types'
 import type { VWrapperElement } from '~/components/VWrapper.vue'
 import { getRoutePath } from '~~/shared/prismic-schema'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
 	project: ProjectPageDocument
 	wrapper?: VWrapperElement
-}>()
+	/** 'grid' (default): square overlay card used in feed/carousel grids. 'featured': single
+	 * large project push — rounded image with a corner CTA button, divider, then title/tags
+	 * below the image (see ProjectPushSlice). */
+	layout?: 'grid' | 'featured'
+	titleClass?: string
+}>(), {
+	layout: 'grid',
+})
 
 const data = computed(() => props.project.data)
 const tags = computed(() => {
@@ -23,6 +30,66 @@ const img = computed(() => data.value?.thumbnail || data.value?.main_media)
 
 <template>
     <VWrapper
+        v-if="layout === 'featured'"
+        :wrapper="wrapper || 'div'"
+        :class="[$style.root, $style['root--featured']]"
+    >
+        <div :class="$style['image-wrapper']">
+            <VPrismicImg
+                v-if="img"
+                :field="img"
+                :width="1200"
+                :height="800"
+                sizes="xs:92vw sm:92vw md:80vw lg:70vw xl:70vw hq:70vw qhd:70vw"
+                :modifiers="{ fit: 'crop' }"
+                :class="$style.img"
+            />
+            <VPrismicLink
+                :to="getRoutePath('project_page', { uid: project.uid })"
+                :class="$style.cta"
+            >
+                <VButton
+                    tag="span"
+                    design="filled"
+                    size="s"
+                    icon-name="material-symbols:arrow-outward"
+                />
+            </VPrismicLink>
+        </div>
+        <div :class="$style.info">
+            <h2
+                v-if="data.title"
+                :class="[$style.title, titleClass]"
+            >
+                <VPrismicLink
+                    :to="getRoutePath('project_page', { uid: project.uid })"
+                    :class="$style.link"
+                >
+                    {{ data.title }}
+                </VPrismicLink>
+            </h2>
+            <div
+                v-if="orderedTags && orderedTags.length"
+                :class="$style['tags--featured']"
+            >
+                <template
+                    v-for="(tag, i) in orderedTags"
+                    :key="tag"
+                >
+                    <VTag
+                        theme="light"
+                        :label="tag"
+                    />
+                    <span
+                        v-if="i < orderedTags.length - 1"
+                        :class="$style.separator"
+                    >|</span>
+                </template>
+            </div>
+        </div>
+    </VWrapper>
+    <VWrapper
+        v-else
         :wrapper="wrapper || 'div'"
         :class="$style.root"
     >
@@ -142,17 +209,21 @@ $card-padding: 16px;
     }
 }
 
+.image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 30px;
+    aspect-ratio: 1200 / 800;
+    background-color: var(--color-surface);
+}
+
 .img {
     position: absolute;
-    z-index: -1;
-    filter: grayscale(1);
     inset: 0;
+	transition-duration: 0.3s;
+	transition-property: filter, scale;
+	transition-timing-function: ease(out-quart);
 
-    @media (prefers-reduced-motion: no-preference) {
-        transition-duration: 0.3s;
-        transition-property: filter, scale;
-        transition-timing-function: ease(out-quart);
-    }
 
     @media (hover: hover) {
         .root:hover & {
@@ -160,5 +231,50 @@ $card-padding: 16px;
             scale: 1.05;
         }
     }
+}
+
+.root--featured {
+    padding: 0;
+    border-radius: 0;
+    aspect-ratio: unset;
+
+    &::before {
+        content: none;
+    }
+}
+
+.cta {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 11px;
+    border-top: 1px solid color-mix(in srgb, var(--color-content) 10%, transparent);
+    margin-top: 11px;
+    gap: 5px;
+}
+
+.root--featured .title {
+    position: static;
+    order: initial;
+    margin: 0;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+.tags--featured {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.separator {
+    color: var(--color-content);
+    opacity: 0.4;
 }
 </style>

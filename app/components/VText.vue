@@ -64,11 +64,11 @@ const flatRichTextContent = computed(() => {
 
 <style lang="scss" module>
 .root {
-    > *:first-child {
+    > *:first-child:not(:only-child) {
         margin-top: initial;
     }
 
-    > *:last-child {
+    > *:last-child:not(:only-child) {
         margin-bottom: initial;
     }
 

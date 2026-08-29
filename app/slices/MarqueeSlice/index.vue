@@ -25,13 +25,22 @@ const mediaListRow = computed(() => {
 })
 
 const hasMedia = computed(() => !!mediaListRow.value?.[0])
+const title = computed(() => props.slice.primary.title)
 </script>
 
 <template>
     <section
         v-if="hasMedia"
         :class="$style.root"
+		class="slice-container--xl"
     >
+        <div
+            v-if="title"
+            class="text-h5"
+            :class="$style.title"
+        >
+            {{ title }}
+        </div>
         <LazyVMarquee
             v-for="(row, i) in mediaListRow"
             :id="`row-${i}-${row[0].id}`"
@@ -55,9 +64,19 @@ const hasMedia = computed(() => !!mediaListRow.value?.[0])
 </template>
 
 <style lang="scss" module>
+// Figma shows this slice on a light/inverted section (dark theme elsewhere on the page) —
+// flip the two theme tokens locally rather than adding a whole second global theme entry.
 .root {
-  margin-block: 320px;
-  overflow-x: hidden;
+	--grid-container-padding-inline: 0;
+
+	background-color: var(--color-background);
+	color: var(--color-content);
+	overflow-x: hidden;
+}
+
+.title {
+  margin-bottom: 70px;
+  padding-inline: var(--grid-margin);
 }
 
 .marquee {
@@ -67,10 +86,9 @@ const hasMedia = computed(() => !!mediaListRow.value?.[0])
 }
 
 .media {
-  width: 300px;
+  width: 260px;
   max-width: initial;
   flex-shrink: 0;
-  border-radius: 6px;
-  margin-right: 50px;
+  border-radius: 30px;
 }
 </style>

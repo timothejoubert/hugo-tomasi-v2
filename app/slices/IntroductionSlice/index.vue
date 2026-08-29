@@ -66,7 +66,7 @@ onBeforeUnmount(disposeIntersectionObserver)
         v-if="content"
         ref="root"
         :class="[$style.root, isVisible && $style['root--visible']]"
-        class="slice-container-xl"
+        class="slice-container--xl"
     >
         <div
             :class="$style.wrapper"
@@ -98,17 +98,18 @@ onBeforeUnmount(disposeIntersectionObserver)
 </template>
 
 <style lang="scss" module>
+// Figma shows this slice on a light/inverted section (dark theme elsewhere on the page) —
+// flip the two theme tokens locally rather than adding a whole second global theme entry.
 .root {
-  // @include margin-block;
+  background-color: var(--color-background);
+  color: var(--color-content);
 }
 
 .wrapper {
   line-height: 1.1;
-  margin-inline: auto;
 
   @include media('>=lg') {
-    width: max(200px, 27ch);
-    text-align: center;
+    max-width: 75ch;
   }
 }
 
@@ -129,10 +130,10 @@ onBeforeUnmount(disposeIntersectionObserver)
       display: inline-flex;
       overflow: hidden;
       width: 42px;
-      height: 42px;
+      height: 51px;
       align-items: center;
       justify-content: center;
-      border-radius: 6px;
+      border-radius: 10px;
       background-color: lightgrey;
       margin-inline: 16px;
       transition: width 0.5s ease(out-quad);

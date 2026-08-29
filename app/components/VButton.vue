@@ -52,7 +52,7 @@ withDefaults(defineProps<VButtonProps>(), {
 
 <style lang="scss" module>
 .root {
-	display: inline-flex;
+	display: var(--v-button-display, inline-flex);
 	min-width: var(--v-button-min-width, auto);
 	align-items: center;
 	justify-content: center;

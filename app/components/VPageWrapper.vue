@@ -17,5 +17,6 @@ defineProps<{
             :slices="slices"
             :components="components"
         />
+        <slot name="after" />
     </main>
 </template>

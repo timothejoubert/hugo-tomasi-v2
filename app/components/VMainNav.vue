@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { asLinkAttrs, isFilled } from '@prismicio/client'
-import { prismicDocumentType } from '~~/shared/prismic-schema'
+import { getRoutePath, prismicDocumentType } from '~~/shared/prismic-schema'
+import { getFormattedLocale } from '~/composables/use-prismic-locale'
 
 const { data } = await usePrismicFetchDocument(prismicDocumentType.MENU)
+const runtimeConfig = useRuntimeConfig()
 
 const links = computed(() => data.value?.data.links || [])
 
@@ -16,6 +18,23 @@ const _links = computed(() => {
 		}
 	})
 })
+
+// Only offered once more than one locale is configured (see i18n/i18n.ts — today only `fr`)
+// AND the document actually currently displayed has a published version in that locale —
+// otherwise it would link to a page that doesn't exist yet.
+const { locales, locale } = useI18n()
+const switchLocalePath = useSwitchLocalePath()
+const currentPage = useCurrentPage()
+
+const alternateLocales = computed(() => {
+	if ((locales.value?.length || 0) < 2) return []
+
+	const alternateLangs = currentPage.value.document?.alternate_languages || []
+	return locales.value.filter((availableLocale) => {
+		return availableLocale.code !== locale.value
+			&& alternateLangs.some(alt => getFormattedLocale(alt.lang) === getFormattedLocale(availableLocale.code))
+	})
+})
 </script>
 
 <template>
@@ -24,82 +43,124 @@ const _links = computed(() => {
         :class="$style.root"
         role="navigation"
     >
-        <ul
-            v-if="_links?.length"
-            :class="$style.list"
+        <VPrismicLink
+            :to="getRoutePath('home_page')"
+            :class="$style.logo"
         >
-            <li
-                v-for="link in _links"
-                :key="link?.href"
-                :class="$style.item"
+            {{ runtimeConfig.public.site.name }}
+        </VPrismicLink>
+        <div :class="$style.end">
+            <ul
+                v-if="_links?.length"
+                :class="$style.list"
             >
-                <slot
-                    :url="link.href"
-                    :label="link.label"
+                <li
+                    v-for="link in _links"
+                    :key="link?.href"
+                    :class="$style.item"
                 >
-                    <VPrismicLink
-                        :to="link.href"
-                        :class="$style.link"
-                        :target="link.target"
-                        :rel="link.rel"
+                    <slot
+                        :url="link.href"
+                        :label="link.label"
                     >
-                        {{ link.label }}
-                    </VPrismicLink>
-                </slot>
-            </li>
-        </ul>
+                        <VPrismicLink
+                            :to="link.href"
+                            :class="$style.link"
+                            :target="link.target"
+                            :rel="link.rel"
+                        >
+                            {{ link.label }}
+                        </VPrismicLink>
+                    </slot>
+                </li>
+            </ul>
+            <div
+                v-if="alternateLocales.length"
+                :class="$style['lang-switch']"
+            >
+                <span :class="$style['lang-switch__current']">
+                    {{ getFormattedLocale(locale) }}
+                    <VIcon name="material-symbols:keyboard-arrow-down" />
+                </span>
+                <ul :class="$style['lang-switch__list']">
+                    <li
+                        v-for="altLocale in alternateLocales"
+                        :key="altLocale.code"
+                    >
+                        <NuxtLink :to="switchLocalePath(altLocale.code)">
+                            {{ getFormattedLocale(altLocale.code) }}
+                        </NuxtLink>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </nav>
 </template>
 
 <style lang="scss" module>
+.root {
+	position: sticky;
+	z-index: 101;
+	top: 0;
+    display: flex;
+	min-height: var(--v-main-nav-min-height);
+    align-items: center;
+    justify-content: space-between;
+	filter: invert(1);
+    gap: 24px;
+	mix-blend-mode: difference;
+    padding-inline: var(--grid-margin);
+}
+
+.logo {
+    color: var(--color-content);
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.end {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .list {
     display: flex;
-    width: fit-content;
-    padding: 5px;
-    border-radius: 9px;
-    anchor-name: --hovered-link;
-    background-color: var(--color-surface);
-    isolation: isolate;
-    margin-block: initial;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    gap: 14px;
+}
 
-    @supports (corner-shape: squircle) {
-        border-radius: 32px;
-        corner-shape: squircle;
+.lang-switch {
+    position: relative;
+
+    // color: var(--color-content);
+    text-transform: uppercase;
+
+    &__current {
+        display: flex;
+        align-items: center;
     }
 
-    &:not(:has(li:hover)) li:has(a[aria-current="page"]) {
-        anchor-name: --hovered-link;
-    }
-
-    li:hover {
-        anchor-name: --hovered-link;
-    }
-
-    &::after {
+    &__list {
         position: absolute;
-        z-index: -1;
-        border-radius: 10px;
-        background: var(--color-background);
-        content: "";
-        inset: calc(anchor(bottom) - 6px) calc(anchor(right) + 14px) calc(anchor(bottom) + 3px) calc(anchor(left) + 14px);
-        position-anchor: --hovered-link;
+        top: 100%;
+        left: 0;
+        display: none;
+        padding: 0;
+        margin: 0;
+        list-style: none;
 
-        @media (prefers-reduced-motion: no-preference) {
-            transition: 0.3s ease(in-out-quad);
-        }
-
-        @supports (corner-shape: squircle) {
-            border-radius: 24px;
-            corner-shape: squircle;
+        a {
+            color: inherit;
+            text-decoration: none;
         }
     }
 
-    &:has(a:hover)::after {
-        inset: anchor(top) anchor(right) anchor(bottom) anchor(left);
-
-        @media (prefers-reduced-motion: no-preference) {
-            transition: 0.25s ease(out-quart);
-        }
+    &:hover &__list,
+    &:focus-within &__list {
+        display: block;
     }
 }
 
@@ -109,8 +170,8 @@ const _links = computed(() => {
 
 .link {
     display: block;
-    padding: 7px 16px 8px;
     color: var(--color-content);
     text-decoration: none;
+    text-transform: uppercase;
 }
 </style>

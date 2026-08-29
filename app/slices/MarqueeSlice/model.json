@@ -20,7 +20,15 @@
         }
       },
       "name": "Default",
-      "primary": {},
+      "primary": {
+        "title": {
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          },
+          "type": "Text"
+        }
+      },
       "version": "initial"
     }
   ]

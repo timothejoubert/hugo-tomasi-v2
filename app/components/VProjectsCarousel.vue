@@ -10,17 +10,15 @@ defineProps({
 })
 
 const carousel = ref<HTMLElement | null>(null)
-const { mouseMove, isCarouselEnable, progress } = useNativeCarousel(carousel)
+const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativeCarousel(carousel)
 </script>
 
 <template>
     <component
         :is="tag || 'div'"
         :class="$style.root"
-        class="slice-container--fullwidth"
     >
         <div
-            class="container--fullwidth"
             :class="$style.head"
         >
             <div
@@ -43,19 +41,47 @@ const { mouseMove, isCarouselEnable, progress } = useNativeCarousel(carousel)
             </NuxtLink>
             <div
                 v-show="isCarouselEnable"
-                :class="$style.scroll"
-                :style="{ '--progress': progress }"
-            />
+                :class="$style.nav"
+            >
+                <div :class="$style['nav-buttons']">
+                    <VButton
+                        tag="button"
+                        design="filled"
+                        size="s"
+                        icon-name="material-symbols:arrow-back"
+                        :class="$style['nav-button']"
+                        :disabled="progress <= 0"
+                        @click="scrollByStep(-1)"
+                    />
+                    <VButton
+                        tag="button"
+                        design="outlined"
+                        size="s"
+                        icon-name="material-symbols:arrow-forward"
+                        :class="$style['nav-button']"
+                        :disabled="progress >= 1"
+                        @click="scrollByStep(1)"
+                    />
+                </div>
+                <div
+                    :class="$style.scroll"
+                    :style="{ '--progress': progress }"
+                />
+            </div>
         </div>
         <div
             ref="carousel"
-            :class="[$style.carousel, mouseMove && $style['carousel--is-dragging']]"
-            class="container--fullwidth"
+            :class="[
+				$style.carousel,
+				mouseMove && $style['carousel--is-dragging'],
+				isDown && $style['carousel--no-snap']
+			]"
         >
             <VProjectCard
                 v-for="project in projects"
                 :key="project.uid"
                 :project="project"
+                layout="featured"
                 :class="$style.card"
             />
         </div>
@@ -65,6 +91,8 @@ const { mouseMove, isCarouselEnable, progress } = useNativeCarousel(carousel)
 <style lang="scss" module>
 .root {
   overflow: hidden;
+  background-color: var(--color-background);
+  color: var(--color-content);
 }
 
 .head {
@@ -74,9 +102,7 @@ const { mouseMove, isCarouselEnable, progress } = useNativeCarousel(carousel)
 }
 
 .title {
-  // margin-bottom: 20px;
-  // opacity: 0.6;
-  // text-transform: uppercase;
+  margin-block: 0;
 }
 
 .link {
@@ -85,19 +111,39 @@ const { mouseMove, isCarouselEnable, progress } = useNativeCarousel(carousel)
   justify-self: end;
 }
 
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: auto;
+  gap: 10px;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-button {
+  border-radius: 999px;
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.35;
+  }
+}
+
 .scroll {
   position: relative;
   overflow: hidden;
-  width: 80px;
-  height: 2px;
-  border-radius: 1px;
-  background-color: lightgray;
-  grid-column: 2;
-  justify-self: end;
+  width: 100%;
+  height: 6px;
+  border-radius: 6px;
+  background-color: var(--color-surface);
 
   &::after {
     position: absolute;
-    background-color: rgb(0, 0, 0, 90%);
+    background-color: var(--color-content);
     content: '';
     inset: 0;
     scale: var(--progress, 0) 1;
@@ -112,28 +158,42 @@ const { mouseMove, isCarouselEnable, progress } = useNativeCarousel(carousel)
   cursor: grab;
   -webkit-overflow-scrolling: touch;
   overflow-x: scroll;
+  scroll-padding-inline: var(--grid-margin);
+  scroll-snap-type: x mandatory;
   scrollbar-width: none; /* Firefox 64 */
   touch-action: pan-x;
 
   &::-webkit-scrollbar {
     display: none;
   }
+
+  // The mouse-drag emulation below sets `scrollLeft` directly (not a native scroll gesture) —
+  // with `scroll-snap-type: mandatory` active, browsers snap back to the nearest slide on every
+  // intermediate assignment, which blocks the drag entirely. Snapping is restored on mouse up,
+  // when `snapToNearest()` (use-native-carousel.ts) explicitly re-snaps.
+  &--no-snap {
+    scroll-snap-type: none;
+  }
 }
 
 .card {
-  --v-card-date-display: none;
+	width: flex-grid(10, 12);
+	flex-shrink: 0;
+	margin-right: var(--gutter);
+	scroll-snap-align: start;
+	scroll-snap-stop: always;
 
-  width: 85%;
-  flex-shrink: 0;
-  margin-right: 20px;
+	.carousel--is-dragging & {
+		pointer-events: none;
+	}
 
-  .carousel--is-dragging & {
-    pointer-events: none;
-  }
+	@include media('>=md') {
+		width: flex-grid(5, 12);
+	}
 
-  @include media('>=md') {
-    width: calc(50% - var(--page-gutter) * 0.5 - 5px);
-  }
+	@include media('>=lg') {
+		width: flex-grid(4, 12);
+	}
 }
 
 .media {

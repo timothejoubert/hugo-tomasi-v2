@@ -10,7 +10,7 @@
     },
     {
       "type": "about_page",
-      "path": "/:lang?/bio"
+      "path": "/:lang?/a-propos"
     },
     {
       "type": "project_listing_page",

@@ -16,17 +16,19 @@ const hasVideo = computed(() => !!mediaField.value && (
 ))
 
 // TODO: Add media viewer
+const loading = ref(false)
 </script>
 
 <template>
     <header
         v-if="pageData"
         :class="$style.root"
-        class="container--fullwidth"
+        class="grid-extended"
     >
         <h1
             v-if="pageData.title"
             class="text-h1"
+			:class="$style.title"
         >
             {{ pageData.title }}
         </h1>
@@ -44,137 +46,152 @@ const hasVideo = computed(() => !!mediaField.value && (
                 :class="$style.video"
                 playsinline
                 background
+				loop
                 fit="cover"
             />
         </div>
-        <VHeaderBottom
-            :title="pageData.sub_section_title"
+		<p
+			v-if="pageData.sub_section_title"
+			:class="$style['sub-title']"
+			class="text-over-title-s"
+		>
+			{{ pageData.sub_section_title }}
+			<VLoadingDots v-if="loading" />
+		</p>
+		<VAnimatedButton
+			v-if="hasVideo"
+			:label="$t('showreel.cta_label')"
+			:class="$style['video-button']"
+			icon="material-symbols:fullscreen"
+		/>
+		<hr :class="$style.line" />
+        <VText
+			v-if="pageData?.sub_section_content"
+            :class="$style['content-main']"
+			class="text-body-s"
             :content="pageData.sub_section_content"
-            :alt-content="pageData.sub_section_aside"
-            :class="$style.body"
-        >
-            <div :class="$style['video-cta']">
-                <div
-                    :class="$style['video-cta__label']"
-                    @mouseenter="isCtaHovered = true"
-                    @mouseleave="isCtaHovered = false"
-                >
-                    <VSplitText
-                        class="text-body-xs"
-                        render="chars"
-                        :play-animation="isCtaHovered"
-                        :content="$t('showreel.cta_label')"
-                    />
-                </div>
-                <VButton
-                    v-if="hasVideo"
-                    design="filled"
-                    icon-name="material-symbols:fullscreen"
-                    :class="$style['button-fullscreen']"
-                    @mouseenter="isCtaHovered = true"
-                    @mouseleave="isCtaHovered = false"
-                />
-            </div>
-        </VHeaderBottom>
+        />
+        <VText
+			v-if="pageData?.sub_section_aside"
+            :class="$style['content-alt']"
+            class="text-body-s"
+            :content="pageData.sub_section_aside"
+        />
     </header>
 </template>
 
 <style lang="scss" module>
 .root {
-  position: relative;
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-  padding-top: var(--v-top-bar-height);
-  margin-top: calc(var(--v-top-bar-height) * -1);
-  background-color: var(--color-background);
-  color: var(--color-content);
-  isolation: isolate;
-  padding-inline: var(--page-gutter);
+	@include theme('dark');
+
+	position: relative;
+	padding-bottom: 16px;
+	color: var(--color-content);
+	isolation: isolate;
+
+	&::before {
+		position: absolute;
+		z-index: -5;
+		background-color: var(--color-background);
+		content: '';
+		inset: calc(var(--v-main-nav-min-height) * -1) 0 0;
+		pointer-events: none;
+
+	}
+}
+
+.title {
+	grid-column: 1 / -1;
+	margin-block: 0;
 }
 
 .tagline {
-  max-width: 70%;
-  margin-top: 18px;
+	grid-column: 1 / -1;
+  	margin-block: 22px;
 
-  @include media('>=md') {
-    max-width: 25ch;
-  }
+	@include media('>=md') {
+		max-width: 25ch;
+	}
 }
 
 .media-wrapper {
-  position: absolute;
-  z-index: -1;
-  display: flex;
-  overflow: hidden;
-  align-items: center;
-  justify-content: center;
-  inset: 0;
-  pointer-events: none;
+	--v-player-video-max-width: none !important;
+
+	position: relative;
+	z-index: -2;
+	width: calc(100% + var(--grid-margin) * 2);
+	margin-left: calc(var(--grid-margin) * -1);
+	grid-column: 1 / -1;
+	pointer-events: none;
 
   &::after {
     position: absolute;
-    background-color: color-mix(in srgb, var(--color-background) 90%, transparent);
+    background-color: color-mix(in srgb, var(--color-background) 55%, transparent);
     content: '';
-    inset: 0;
+    inset: 0 0 -2px;
     pointer-events: none;
   }
 }
 
-.video {
-  position: absolute;
-  width: 100%;
-
-  // inset: 0;
-  // object-fit: cover;
-  // height: 100%;
-
-  // :global(video) {
-  //  width: 100vw !important;
-  //  height: 100vh !important;
-  //  object-fit: cover;
-  // }
+.sub-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1PX solid rgb(255, 255, 255, 30%);
+  grid-column: 1 / -1;
 }
 
-.body {
-  margin-top: auto;
+.sub-title {
+	grid-column: 1 / -1;
 
-  @include media('<md') {
-    padding-top: 200px;
-  }
+	@include media('>=md') {
+		grid-column: 1 / span 5;
+	}
 }
 
-.video-cta {
-  display: none;
+.video-button {
+	grid-column: 1 / -1;
 
-  @include media('>=md') {
-    position: absolute;
-    right: 0;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    gap: 10px;
-    translate: 0 -50%;
-  }
+	@include media('>=md') {
+		grid-column: 9 / -1;
+	}
 }
 
-.video-cta__label {
-	--split-word-duration: 300ms;
+.line {
+    width: 100%;
+    height: 1PX;
+	border: none;
+    background-color: rgb(255, 255, 255, 30%);
+    grid-column: 1 / -1;
+    margin-block: 1rem;
+    margin-block: 0;
 
-	position: absolute;
-	display: inline-flex;
-	align-items: center;
-
-	// opacity: 0;
-	transition: opacity 0.3s;
-	translate: calc((100% + 10px) * -1) 0;
-
-  .video-cta:hover & {
-    opacity: 1;
-  }
 }
 
-.button-fullscreen {
-  --v-button-padding-inline: 0;
+.content-main {
+	max-width: 46ch;
+	grid-column: 1 / -1;
+
+	@at-root .content-main:not(strong),
+	& *:not(strong) {
+		opacity: 0.7;
+	}
+
+	@include media('>=md') {
+		grid-column: 1 / span 5;
+	}
+}
+
+.content-alt {
+	max-width: 46ch;
+	grid-column: 1 / -1;
+
+	& *:not(strong) {
+		opacity: 0.7;
+	}
+
+	@include media('>=md') {
+		grid-column: 9 / -1;
+	}
 }
 </style>

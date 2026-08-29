@@ -587,6 +587,26 @@ export interface SettingDocumentDataPublisherSocialsItem {
  */
 interface SettingDocumentData {
 	/**
+	 * Website description field in *setting*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: setting.website_description
+	 * - **Tab**: Website
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	website_description: prismic.KeyTextField;
+	
+	/**
+	 * Website logo field in *setting*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: setting.website_logo
+	 * - **Tab**: Website
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	website_logo: prismic.ImageField<never>;/**
 	 * Publisher name field in *setting*
 	 *
 	 * - **Field Type**: Text
@@ -639,27 +659,7 @@ interface SettingDocumentData {
 	 * - **Tab**: Publisher
 	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
 	 */
-	publisher_socials: prismic.GroupField<Simplify<SettingDocumentDataPublisherSocialsItem>>;/**
-	 * Website description field in *setting*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: setting.website_description
-	 * - **Tab**: Website
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	website_description: prismic.KeyTextField;
-	
-	/**
-	 * Website logo field in *setting*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: setting.website_logo
-	 * - **Tab**: Website
-	 * - **Documentation**: https://prismic.io/docs/fields/image
-	 */
-	website_logo: prismic.ImageField<never>;
+	publisher_socials: prismic.GroupField<Simplify<SettingDocumentDataPublisherSocialsItem>>;
 }
 
 /**
@@ -729,6 +729,21 @@ type IntroductionSliceSliceVariation = IntroductionSliceSliceDefault
 export type IntroductionSliceSlice = prismic.SharedSlice<"introduction_slice", IntroductionSliceSliceVariation>;
 
 /**
+ * Primary content in *MarqueeSlice → Default → Primary*
+ */
+export interface MarqueeSliceSliceDefaultPrimary {
+	/**
+	 * Title field in *MarqueeSlice → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: marquee_slice.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title: prismic.KeyTextField;
+}
+
+/**
  * Primary content in *MarqueeSlice → Items*
  */
 export interface MarqueeSliceSliceDefaultItem {
@@ -750,7 +765,7 @@ export interface MarqueeSliceSliceDefaultItem {
  * - **Description**: Default
  * - **Documentation**: https://prismic.io/docs/slices
  */
-export type MarqueeSliceSliceDefault = prismic.SharedSliceVariation<"default", Record<string, never>, Simplify<MarqueeSliceSliceDefaultItem>>;
+export type MarqueeSliceSliceDefault = prismic.SharedSliceVariation<"default", Simplify<MarqueeSliceSliceDefaultPrimary>, Simplify<MarqueeSliceSliceDefaultItem>>;
 
 /**
  * Slice variation for *MarqueeSlice*
@@ -1173,6 +1188,7 @@ declare module "@prismicio/client" {
 			IntroductionSliceSliceVariation,
 			IntroductionSliceSliceDefault,
 			MarqueeSliceSlice,
+			MarqueeSliceSliceDefaultPrimary,
 			MarqueeSliceSliceDefaultItem,
 			MarqueeSliceSliceVariation,
 			MarqueeSliceSliceDefault,

@@ -89,7 +89,8 @@ export default defineComponent({
 						controls: controls.value ? '1' : '0',
 						autoplay: autoplay.value ? '1' : '',
 						loop: loop.value ? '1' : '0',
-
+						// YouTube only loops a single video if `playlist` also lists its own id.
+						...(loop.value ? { playlist: props.embedId as string } : {}),
 					}
 				}
 				else if (platform === 'vimeo') {
@@ -107,6 +108,8 @@ export default defineComponent({
 						sidedock: '0',
 						title: '0',
 						dnt: '1', // remove cookie
+						// Needed for Vimeo's postMessage API to emit the `play` event we listen for.
+						...(props.background ? { api: '1' } : {}),
 					}
 				}
 
@@ -124,6 +127,41 @@ export default defineComponent({
 			const altSources = (props.altSources || []).filter(file => !!file.src && !!file.mimeType)
 
 			return [{ src: src.value, mimeType: props.mimeType || 'video/mp4' }, ...altSources]
+		})
+
+		// YouTube/Vimeo briefly show their own branded start screen (thumbnail, title, channel
+		// avatar) before playback actually begins — not affected by pointer-events since it's not
+		// hover-triggered. Hide it behind a cover until the embed's postMessage API confirms
+		// playback started, with a timeout fallback in case the message never arrives.
+		const hasStartedPlaying = ref(false)
+		let startedPlayingTimeout: ReturnType<typeof setTimeout> | undefined
+
+		function handleEmbedMessage(event: MessageEvent) {
+			let data: any
+			try {
+				data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data
+			}
+			catch {
+				return
+			}
+
+			const isYoutubePlaying = data?.event === 'onStateChange' && data?.info === 1
+				|| data?.event === 'infoDelivery' && data?.info?.playerState === 1
+			const isVimeoPlaying = data?.event === 'play' || data?.method === 'play'
+
+			if (isYoutubePlaying || isVimeoPlaying) hasStartedPlaying.value = true
+		}
+
+		onMounted(() => {
+			if (!isEmbed.value) return
+
+			window.addEventListener('message', handleEmbedMessage)
+			startedPlayingTimeout = setTimeout(() => { hasStartedPlaying.value = true }, 3000)
+		})
+
+		onBeforeUnmount(() => {
+			window.removeEventListener('message', handleEmbedMessage)
+			clearTimeout(startedPlayingTimeout)
 		})
 
 		// STYLE
@@ -148,21 +186,29 @@ export default defineComponent({
 			return style
 		})
 
-		return { controls, isEmbed, playerStyle, videoAttrs, videoSources, src }
+		return { controls, isEmbed, playerStyle, videoAttrs, videoSources, src, hasStartedPlaying }
 	},
 })
 </script>
 
 <template>
-    <iframe
+    <div
         v-if="isEmbed"
         :style="playerStyle"
-        :class="[$style['iframe'], !controls && $style['iframe-wrapper--no-controls']]"
-        :src="src"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;"
-        allowfullscreen
-    />
+        :class="$style['iframe-wrapper']"
+    >
+        <iframe
+            :class="[$style['iframe'], !controls && $style['iframe-wrapper--no-controls']]"
+            :src="src"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;"
+            allowfullscreen
+        />
+        <div
+            v-if="background"
+            :class="[$style['embed-cover'], hasStartedPlaying && $style['embed-cover--hidden']]"
+        />
+    </div>
     <video
         v-else
         v-bind="videoAttrs"
@@ -181,7 +227,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" module>
-.iframe,
+.iframe-wrapper,
 .video {
     position: var(--v-player-video-position);
     display: block;
@@ -189,6 +235,32 @@ export default defineComponent({
     max-width: var(--v-player-video-max-width, 100%);
     height: var(--v-player-video-height, auto);
     object-fit: var(--v-player-video-object-fit);
+}
+
+.iframe-wrapper {
+    position: relative;
+}
+
+.iframe {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+    object-fit: var(--v-player-video-object-fit);
+}
+
+.embed-cover {
+    position: absolute;
+    background-color: var(--color-background, #000);
+    inset: 0;
+    opacity: 1;
+    pointer-events: none;
+    transition: opacity 0.4s;
+
+    &--hidden {
+        opacity: 0;
+    }
 }
 
 .spinner {

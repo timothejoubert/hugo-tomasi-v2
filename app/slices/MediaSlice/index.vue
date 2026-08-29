@@ -28,7 +28,7 @@ const firstMedia = medias?.[0]
 <template>
     <section
         v-if="medias?.length"
-        :class="[$style.root, hasOneMedia ? 'slice-container-xl' : 'slice-container']"
+        :class="[$style.root, hasOneMedia ? 'slice-container--xl' : 'slice-container']"
     >
         <template v-if="isFullWidth">
             <div
@@ -66,30 +66,43 @@ const firstMedia = medias?.[0]
         </template>
 
         <template v-else>
-            <VPrismicMedia
+            <div
                 v-for="(item, mediaIndex) in medias"
                 :key="mediaIndex"
-                :class="[$style.image, $style['image--default'], $style[`image--${hasOneMedia ? 'solo' : 'multiple'}`]]"
-                :field="resolveMediaField(item)"
-                :sizes="hasOneMedia
-                    ? 'xs:100vw sm:100md md:100vw lg:75vw xl:75vw xxl:75vw hd:75vw qhd:75vw'
-                    : 'xs:100vw sm:100md md:100vw lg:50vw xl:50vw xxl:50vw hd:50vw qhd:50vw'"
-                width="812"
-                height="475"
-                :background="isBackgroundVideo(item)"
-            />
+                :class="[$style['image-wrapper'], $style[`image-wrapper--${hasOneMedia ? 'solo' : 'multiple'}`]]"
+            >
+                <VPrismicMedia
+                    :class="[$style.image, $style['image--default']]"
+                    :field="resolveMediaField(item)"
+                    :sizes="hasOneMedia
+                        ? 'xs:100vw sm:100md md:100vw lg:75vw xl:75vw xxl:75vw hd:75vw qhd:75vw'
+                        : 'xs:100vw sm:100md md:100vw lg:50vw xl:50vw xxl:50vw hd:50vw qhd:50vw'"
+                    width="812"
+                    height="475"
+                    :background="isBackgroundVideo(item)"
+                />
+                <VButton
+                    v-if="hasOneMedia"
+                    tag="span"
+                    design="filled"
+                    size="s"
+                    icon-name="material-symbols:fullscreen"
+                    :class="$style.cta"
+                />
+            </div>
         </template>
     </section>
 </template>
 
 <style lang="scss" module>
 .root {
-  --v-prismic-media-border-radius: 6px;
+  --v-prismic-media-border-radius: 30px;
 
   position: relative;
   display: grid;
-  gap: calc(var(--page-gutter) * 0.5);
+  gap: calc(var(--grid-margin) * 0.5);
   grid-template-columns: 1fr;
+  padding-block: 40px;
 
   @include media('>=md') {
     grid-template-columns: 1fr 1fr;
@@ -110,12 +123,11 @@ const firstMedia = medias?.[0]
   grid-column: 1 / -1;
 }
 
-.image {
-  --v-roadiz-image-width: 100%;
-
-  width: 100%;
+.image-wrapper {
+  position: relative;
 
   &--solo {
+    width: 100%;
     grid-column: 1 / -1;
     justify-self: center;
 
@@ -123,6 +135,18 @@ const firstMedia = medias?.[0]
       max-width: 75%;
     }
   }
+}
+
+.cta {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+
+.image {
+  --v-roadiz-image-width: 100%;
+
+  width: 100%;
 
   &--default {
     --v-prismic-medias-aspect-ratio: 812 / 475;
@@ -130,9 +154,9 @@ const firstMedia = medias?.[0]
 
   &--fullwidth {
     position: relative;
-    left: calc(var(--page-gutter) * -1);
+    left: calc(var(--grid-margin) * -1);
     display: block;
-    width: calc(100% + var(--page-gutter) * 2);
+    width: calc(100% + var(--grid-margin) * 2);
     max-width: initial;
     grid-column: 1 / -1;
 

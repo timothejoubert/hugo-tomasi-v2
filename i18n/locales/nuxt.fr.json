@@ -17,10 +17,6 @@
   "show_setting.button_label": "Paramètres d'affichage",
   "show_setting.grid_value_label": "Nombre de colonnes",
   "show_setting.grid_value_hint": "Valeur comprise entre {min} et {max}",
-  "theme_switcher.legend": "Thème de couleur",
-  "theme_switcher.main": "Neutre",
-  "theme_switcher.blue": "Bleu",
-  "theme_switcher.green": "Vert",
   "back_to_projects.aria_label": "Retour a tous les projets",
   "name": "Nom",
   "date": "Date",
@@ -39,5 +35,10 @@
   "sort_descending": "Trié par {label} par ordre décroissant",
   "about_page.formations": "Formations",
   "about_page.experiences": "Expériences",
-  "button.default_label": "En savoir plus"
+  "button.default_label": "En savoir plus",
+  "footer.credit": "Réalisé par T. Joubert",
+  "footer.socials.aria_label": "Réseaux sociaux",
+  "project_page.other_projects_title": "Tous mes projets",
+  "showreel.cta_label": "Voir le showreel",
+  "see_all_project": "Voir tous les projets"
 }

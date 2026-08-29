@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { isFilled } from '@prismicio/client'
 import type { ProjectPageDocument } from '~~/prismicio-types'
 
 const props = defineProps<{
@@ -6,82 +7,58 @@ const props = defineProps<{
 }>()
 
 const project = computed(() => props.document?.data)
-const prismic = usePrismic()
-
-const medias = computed(() => {
-	if (!project.value) return []
-
-	return project.value.medias?.filter(m => prismic.isFilled.linkToMedia(m.media) && m.media.url)
-})
-
-const tags = computed(() => {
-	if (project.value?.tag_group?.length) {
-		return project.value.tag_group?.filter(item => item.tag).map(item => item.tag)
-	}
-
-	return props.document?.tags || []
-})
+const tags = computed(() => props.document?.tags?.filter(t => t) || [])
+const hasHeroMedia = computed(() => isFilled.image(project.value?.main_media))
 </script>
 
 <template>
     <template v-if="document">
-        <div
-            :class="[
-                $style['content-wrapper'],
-            ]"
+        <header
+            :class="$style.header"
+            class="grid-container"
         >
-            <div :class="$style.content">
-                <div :class="$style.attributes">
-                    <ul
-                        v-if="tags && tags.length"
-                        :class="$style.tags"
-                    >
-                        <LazyVTag
-                            v-for="(tag, i) in tags"
-                            :key="tag || i"
-                            :label="tag"
-                            wrapper="li"
-                        />
-                    </ul>
-                    <VTime
-                        :date="project?.date"
-                        format="short"
-                    />
-                </div>
-                <LazyVText
-                    v-if="project?.short_description"
-                    :content="project.short_description"
-                    :class="$style['short-description']"
-                />
-                <LazyVText
-                    v-if="project?.content"
-                    :content="project.content"
-                    :class="$style.description"
-                />
-            </div>
-
-            <VPrismicImg :field="project?.thumbnail" />
-
-            <div
-                v-if="medias && medias.length"
-                :class="$style.medias"
-            >
-                <div
-                    v-for="(mediaGroup, i) in medias"
-                    :key="`media-${i}`"
-                    :class="$style.media"
+            <div :class="$style.top">
+                <h1
+                    v-if="project?.title"
+                    class="text-h2"
+                    :class="$style.title"
                 >
-                    <VPrismicMedia
-                        :field="mediaGroup.media"
-                        background
-                    />
-                </div>
+                    {{ project.title }}
+                </h1>
+                <VText
+                    v-if="project?.excerpt"
+                    :content="project.excerpt"
+                    class="text-body-s"
+                    :class="$style.excerpt"
+                />
             </div>
-            <VProjectNeighbors
-                v-if="document"
-                :document="document"
+            <ul
+                v-if="tags.length"
+                :class="$style.tags"
+            >
+                <VTag
+                    v-for="tag in tags"
+                    :key="tag"
+                    :label="tag"
+                    wrapper="li"
+                />
+            </ul>
+            <VPrismicImg
+                v-if="hasHeroMedia"
+                :field="project?.main_media"
+                :width="1232"
+                :height="490"
+                sizes="xs:92vw sm:92vw md:92vw lg:85vw xl:85vw hq:85vw qhd:85vw"
+                :modifiers="{ fit: 'crop' }"
+                :class="$style.hero"
             />
-        </div>
+        </header>
+        <VText
+            v-if="project?.content"
+            :content="project.content"
+            class="text-body-s slice-container"
+            :class="$style.content"
+        />
     </template>
     <VErrorContent
         v-else
@@ -93,121 +70,50 @@ const tags = computed(() => {
 </template>
 
 <style lang="scss" module>
-.root {
-    --v-project-page-padding-inline: 16px;
+.header {
+    background-color: var(--color-background);
+    color: var(--color-content);
+    padding-block: 24px 60px;
+}
 
-    z-index: 11;
-    top: var(--app-padding-top);
-    right: var(--app-padding-right);
-	left: var(--app-padding-left);
-    overflow: hidden auto;
-    max-width: var(--app-inner-max-width);
-    max-height: var(--app-inner-max-height);
-	opacity: 0;
-	overscroll-behavior: contain;
-	translate: 0 24px;
-
-	@include media('>=md') {
-		left: initial;
-		width: 50%;
-	}
-
-	@media (prefers-reduced-motion: no-preference) {
-		transition: opacity 0.4s ease(out-quad), translate 0.4s ease(out-quad);
-	}
-
-	&--visible {
-		opacity: 1;
-		translate: 0 0;
-	}
+.top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    gap: 24px;
 }
 
 .title {
-    font-size: 18px;
-    margin-block: initial;
-    padding-block: 8px;
-    padding-inline: var(--v-project-page-padding-inline);
+    text-transform: uppercase;
 }
 
-.content-wrapper {
-	opacity: 0;
-
-	&--from-prev {
-		translate: -40px 0;
-	}
-
-	&--from-next {
-		translate: 40px 0;
-	}
-
-	@media (prefers-reduced-motion: no-preference) {
-		transition: opacity 0.4s ease(out-quad), translate 0.4s ease(out-quad);
-	}
-
-	&--visible {
-		opacity: 1;
-		translate: 0 0;
-	}
-}
-
-.back {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: inherit;
-    font-size: 22px;
-    padding-inline: var(--v-project-page-padding-inline);
-}
-
-.content {
-    padding: var(--v-project-page-padding-inline);
-    background-color: var(--color-background);
-}
-
-.attributes {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 10px;
-    padding-block: 8px;
+.excerpt {
+    max-width: 40ch;
+    opacity: 0.8;
 }
 
 .tags {
     display: flex;
     flex-wrap: wrap;
     padding: 0;
-    margin: 0;
-    gap: inherit;
+    margin: 0 0 24px;
+    gap: 10px;
     list-style: none;
 }
 
-.short-description {
-    margin-top: 16px;
+.hero {
+    width: 100%;
+    border-radius: 30px;
 }
 
-.description {
-    margin-top: 16px;
-}
-
-.media {
-    margin-block: 0;
+.content {
+    max-width: 70ch;
+    margin-block: 60px;
 }
 
 .not-found {
-    padding: var(--v-project-page-padding-inline);
-}
-
-.button {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 9px;
-    background-color: var(--color-surface);
-    color: var(--color-content);
-    cursor: pointer;
-
-    @supports (corner-shape: squircle) {
-        border-radius: 24px;
-        corner-shape: squircle;
-    }
+    padding: var(--grid-margin);
 }
 </style>

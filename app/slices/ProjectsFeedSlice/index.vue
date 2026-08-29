@@ -17,5 +17,6 @@ const { data: listingResponse } = await usePrismicFetchDocumentListing(prismicDo
         :title="title || undefined"
         tag="section"
         :projects="listingResponse"
+		class="slice-container--xl"
     />
 </template>
