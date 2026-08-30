@@ -7,7 +7,7 @@ interface VHeaderHomeProps {
 }
 
 const props = defineProps<VHeaderHomeProps>()
-const isCtaHovered = ref(false)
+// const isCtaHovered = ref(false)
 
 const mediaField = computed(() => isFilled.embed(props.pageData?.embed_video) ? props.pageData.embed_video : props.pageData?.media)
 
