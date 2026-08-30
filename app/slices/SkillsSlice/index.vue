@@ -19,7 +19,7 @@ const skillList = computed(() => {
 <template>
     <section
         :class="$style.root"
-        class="slice-container--xl"
+        class="slice-container--xxl"
     >
         <h2
             v-if="title"

@@ -32,7 +32,7 @@ const title = computed(() => props.slice.primary.title)
     <section
         v-if="hasMedia"
         :class="$style.root"
-        class="slice-container--xl"
+        class="slice-container--xxl"
     >
         <div
             v-if="title"
