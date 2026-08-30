@@ -1,21 +1,25 @@
 <script lang="ts" setup>
 import type { VWrapperElement } from '~/components/VWrapper.vue'
+import type { ThemeProps } from '~/types/theme'
 
-withDefaults(defineProps<{
+const props = defineProps<{
 	label: string | null
 	wrapper?: VWrapperElement
-	/** 'filled' (default): solid pill, used on dark/overlay cards. 'light': plain text, no
-	 * pill background — used on light surfaces (e.g. the featured VProjectCard layout). */
-	theme?: 'filled' | 'light'
-}>(), {
-	theme: 'filled',
-})
+	filled?: boolean
+	theme?: ThemeProps['theme']
+}>()
+
+const { themeClass } = useTheme({ props })
 </script>
 
 <template>
     <VWrapper
         :wrapper="wrapper || 'span'"
-        :class="[$style.root, $style[`root--${theme}`]]"
+        :class="[
+			$style.root,
+			themeClass,
+			filled && $style['root--filled']
+		]"
     >
         {{ label }}
     </VWrapper>
@@ -26,15 +30,15 @@ withDefaults(defineProps<{
     font-size: 12px;
     font-weight: 400;
 
-	&--filled {
-		padding: 3px 8px;
-		border-radius: 50vmax;
-		background-color: var(--color-content);
-		color: var(--color-background);
-	}
+	@include theme-variants;
 
-	&--light {
+	&--filled {
+		min-height: 20px;
+		padding-bottom: 2px;
+		border-radius: 50vmax;
+		background-color: var(--color-background);
 		color: var(--color-content);
+		padding-inline: 8px;
 	}
 }
 </style>

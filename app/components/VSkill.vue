@@ -89,13 +89,15 @@ const id = `collapsable-${useId()}`
 }
 
 .button {
-  --v-button-min-width: #{72px};
+  min-width: 72px;
 }
 
 .icon {
   position: relative;
-  width: 16px;
-  height: 16px;
+  display: flex;
+  width: 1rem;
+  height: 1rem;
+  align-items: center;
 
   &::before,
   &::after {

@@ -20,6 +20,7 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
     >
         <div
             :class="$style.head"
+			class="grid-container"
         >
             <div
                 v-if="title"
@@ -36,7 +37,6 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
                     :label="$t('see_all_project')"
                     design="outlined"
                     icon-name="material-symbols:arrow-forward"
-                    size="s"
                 />
             </NuxtLink>
             <div
@@ -45,18 +45,14 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
             >
                 <div :class="$style['nav-buttons']">
                     <VButton
-                        tag="button"
                         design="filled"
-                        size="s"
                         icon-name="material-symbols:arrow-back"
                         :class="$style['nav-button']"
                         :disabled="progress <= 0"
                         @click="scrollByStep(-1)"
                     />
                     <VButton
-                        tag="button"
-                        design="outlined"
-                        size="s"
+                        design="filled"
                         icon-name="material-symbols:arrow-forward"
                         :class="$style['nav-button']"
                         :disabled="progress >= 1"
@@ -158,6 +154,7 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
   cursor: grab;
   -webkit-overflow-scrolling: touch;
   overflow-x: scroll;
+  padding-inline: var(--grid-margin);
   scroll-padding-inline: var(--grid-margin);
   scroll-snap-type: x mandatory;
   scrollbar-width: none; /* Firefox 64 */

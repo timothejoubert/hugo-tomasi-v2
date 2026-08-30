@@ -15,7 +15,6 @@
     @include grid(true);
 }
 
-// Content container centered up to --grid-max-width, with --grid-margin as horizontal padding.
 .slice-container {
 	@include grid-container(true);
 
@@ -24,7 +23,7 @@
 	&--xl {
 		@include grid-container(true);
 
-		margin-block: 162px;
+		margin-block: 208px;
 	}
 }
 

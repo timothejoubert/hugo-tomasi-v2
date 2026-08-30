@@ -1,37 +1,43 @@
 <script setup lang="ts">
+import type { ThemeProps } from '~/types/theme'
+
 interface VButtonProps {
-	/** Rendering tag — defaults to `span` (not `button`) since every current call site nests
-	 * VButton inside another interactive element (VLink, NuxtLink) that already provides the real
-	 * click/keyboard semantics; pass `tag="button"` when using VButton standalone. */
 	tag?: string
 	label?: string
-	/** Full `prefix:name` icon id, forwarded as-is to VIcon (see VIcon.vue for why it must be
-	 * written literally at the call site rather than built dynamically here). */
 	iconName?: string
 	design?: 'filled' | 'outlined'
-	size?: 's' | 'm'
-	/** External hover/active trigger — lets a wrapping element larger than the button itself
-	 * (e.g. VSkill's whole clickable head) drive the button's hover-style feedback. */
+	size?: 'xs' | 'sm' | 'md'
 	playAnimation?: boolean
+	theme?: ThemeProps['theme']
 }
 
-withDefaults(defineProps<VButtonProps>(), {
-	tag: 'span',
-	size: 'm',
+const props = defineProps<VButtonProps>()
+const { themeClass } = useTheme({ props })
+
+const $style = useCssModule()
+const rootClasses= computed(() => {
+	return [
+		$style.root,
+		themeClass.value,
+		$style[`root--${props.size || 'xs'}`],
+		props.design && $style[`root--${props.design}`],
+		props.playAnimation && $style['root--play-animation'],
+	]
 })
 </script>
 
 <template>
     <component
-        :is="tag"
-        :class="[
-            $style.root,
-            $style[`root--${size}`],
-            design && $style[`root--${design}`],
-            playAnimation && $style['root--play-animation'],
-        ]"
+        :is="tag || 'button'"
+        :class="rootClasses"
     >
-        <slot
+        <span
+            v-if="label"
+            :class="$style.label"
+        >
+            {{ label }}
+        </span>
+		<slot
             name="icon"
             :icon-class="$style.icon"
         >
@@ -41,48 +47,84 @@ withDefaults(defineProps<VButtonProps>(), {
                 :class="$style.icon"
             />
         </slot>
-        <span
-            v-if="label"
-            :class="$style.label"
-        >
-            {{ label }}
-        </span>
     </component>
 </template>
 
 <style lang="scss" module>
 .root {
+	@include theme-variants;
+
 	display: var(--v-button-display, inline-flex);
-	min-width: var(--v-button-min-width, auto);
 	align-items: center;
 	justify-content: center;
-	border: 1px solid transparent;
-	border-radius: 999px;
+	border: none;
+	border-radius: 50vmax;
 	background-color: transparent;
-	color: inherit;
-	cursor: pointer;
-	gap: 8px;
-	padding-block: var(--v-button-padding-block, 10px);
-	padding-inline: var(--v-button-padding-inline, 20px);
+	color: var(--color-content, inherit);
+	gap: var(--v-button-gap, 6px);
+	padding-block: var(--v-button-padding-block, 6px);
+	padding-inline: var(--v-button-padding-inline, 12px);
 	transition:
 		background-color 0.3s ease(out-quad),
 		color 0.3s ease(out-quad),
 		border-color 0.3s ease(out-quad);
 
+    @at-root {
+        // remove the user agent style, but without specificity (i.e. :where()) for overriding it easily
+        :where(a#{&}){
+            text-decoration: initial;
+        }
+
+        // remove the user agent style, but without specificity (i.e. :where()) for overriding it easily
+        :where(button#{&}),
+        :where(a#{&}:link),
+        :where(a#{&}:where(:visited)) {
+            color: inherit;
+        }
+
+        // remove the user agent style, but without specificity (i.e. :where()) for overriding it easily
+        :where(button#{&}){
+            text-align: inherit;
+        }
+    }
+
+	&:not(:where([inert], #{&}--disabled)) {
+        cursor: var(--v-button-cursor, pointer);
+    }
+
 	&--outlined {
-		border-color: currentcolor;
+		border: 1px solid var(--color-content);
+
+		@media (hover: hover) {
+            &:not(:disabled, [inert]):hover {
+                background-color: var(--color-content);
+                color: var(--color-background);
+            }
+        }
 	}
 
 	&--filled,
 	&--play-animation {
 		background-color: var(--color-content);
 		color: var(--color-background);
+
+		@media (hover: hover) {
+            &:not(:disabled, [inert]):hover {
+                background-color: var(--color-surface);
+            }
+        }
 	}
 
-	&--s {
-		gap: 6px;
-		padding-block: 6px;
-		padding-inline: var(--v-button-padding-inline, 14px);
+	&--sm {
+		gap: var(--v-button-gap, 10px);
+		padding-block: var(--v-button-padding-block, 10px);
+		padding-inline: var(--v-button-padding-inline, 20px);
+	}
+
+	&--md {
+		gap: var(--v-button-gap, 10px);
+		padding-block: var(--v-button-padding-block, 10px);
+		padding-inline: var(--v-button-padding-inline, 20px);
 	}
 }
 
