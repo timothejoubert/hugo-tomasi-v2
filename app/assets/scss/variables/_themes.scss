@@ -2,7 +2,7 @@
 // accent themes. Kept as a map (rather than flat variables) so the existing `theme()`/
 // `theme-variants()` mixins in mixins/_theme.scss keep working unchanged.
 $themes: (
-    default: (
+    light: (
         color-background: #FFF,
         color-content: #000,
         color-surface: #1b1b1b,
@@ -15,4 +15,4 @@ $themes: (
         color-accent: #999,
     ),
 );
-$default-theme: default;
+$default-theme: light;

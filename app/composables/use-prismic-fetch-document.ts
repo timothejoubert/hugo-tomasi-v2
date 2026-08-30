@@ -1,12 +1,12 @@
 import { NotFoundError } from '@prismicio/client'
-import type { AsyncDataOptions } from '#app'
+import type { AsyncData, AsyncDataOptions, NuxtError } from '#app'
 import type { ExtractPrismicDocument, PrismicDocumentType } from '~/types/api'
 import { isDynamicDocument } from '~~/shared/prismic-schema'
 
 export function usePrismicFetchDocument<Type extends PrismicDocumentType = PrismicDocumentType>(
 	prismicDocument: Type | undefined,
 	options?: { uid?: string } & AsyncDataOptions<ExtractPrismicDocument<Type> | undefined>,
-) {
+): AsyncData<ExtractPrismicDocument<Type> | undefined, NuxtError<unknown> | undefined> {
 	const { uid: uidOverride, ...asyncDataOptions } = options ?? {}
 
 	const route = useRoute()
@@ -25,17 +25,19 @@ export function usePrismicFetchDocument<Type extends PrismicDocumentType = Prism
 		brokenRoute: '/404',
 	}
 
-	return useAsyncData<ExtractPrismicDocument<Type> | undefined>(dataKey, async () => {
+	// `useAsyncData`'s own PickFrom/KeysOf machinery can't statically collapse to `ExtractPrismicDocument<Type>` while `Type` is still abstract here — true for any concrete `Type`, unprovable to TS inside the generic body
+	return useAsyncData<ExtractPrismicDocument<Type> | undefined>(dataKey, async (): Promise<ExtractPrismicDocument<Type> | undefined> => {
 		try {
 			if (isPreview.value && documentId.value) {
-				return await prismicClient.getByID(documentId.value, prismicFetchOptions)
+				// preview mode can resolve to any document type, not just `Type` — the caller requested `Type`, so trust that contract here
+				return await prismicClient.getByID(documentId.value, prismicFetchOptions) as ExtractPrismicDocument<Type>
 			}
 			if (uid && prismicDocument && isDynamicDocument(prismicDocument)) {
-				// @ts-expect-error — generic `Type` can't narrow to the literal union getByUID expects
+				// @ts-expect-error — @prismicio/client's own ExtractDocumentType<AllDocumentTypes, Type> is structurally identical to our ExtractPrismicDocument<Type>, but TS won't unify the two deferred generic aliases while `Type` is still abstract
 				return await prismicClient.getByUID(prismicDocument, uid, prismicFetchOptions)
 			}
 			if (prismicDocument) {
-				// @ts-expect-error — generic `Type` can't narrow to the literal union getSingle expects
+				// @ts-expect-error — same deferred-generic-alias limitation as getByUID above
 				return await prismicClient.getSingle(prismicDocument, prismicFetchOptions)
 			}
 			return undefined
@@ -51,5 +53,5 @@ export function usePrismicFetchDocument<Type extends PrismicDocumentType = Prism
 		dedupe: 'defer',
 		deep: false,
 		...asyncDataOptions,
-	})
+	}) as AsyncData<ExtractPrismicDocument<Type> | undefined, NuxtError<unknown> | undefined>
 }

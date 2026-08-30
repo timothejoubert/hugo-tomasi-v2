@@ -52,7 +52,7 @@ const img = computed(() => data.value?.thumbnail || data.value?.main_media)
 				:class="$style['tags']"
 			>
 				<VTag
-					v-for="(tag, i) in orderedTags"
+					v-for="tag in orderedTags"
 					:key="tag"
 					:label="tag"
 					filled
@@ -98,7 +98,7 @@ const img = computed(() => data.value?.thumbnail || data.value?.main_media)
 .image-wrapper {
     position: relative;
     overflow: hidden;
-    border-radius: 19px;
+    border-radius: var(--common-border-radius);
     aspect-ratio: 16 / 9;
 	container-type: size;
 

@@ -40,5 +40,7 @@
   "footer.socials.aria_label": "Réseaux sociaux",
   "project_page.other_projects_title": "Tous mes projets",
   "showreel.cta_label": "Voir le showreel",
-  "see_all_project": "Voir tous les projets"
+  "see_all_project": "Voir tous les projets",
+  "collapse.section": "Réduire la section {name}",
+  "extend.section": "Étendre la section {name}"
 }

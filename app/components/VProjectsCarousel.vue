@@ -15,7 +15,7 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
 
 <template>
     <component
-        :is="tag || 'div'"
+        :is="tag || 'section'"
         :class="$style.root"
     >
         <div
@@ -45,14 +45,14 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
             >
                 <div :class="$style['nav-buttons']">
                     <VButton
-                        design="filled"
+                        design="outlined"
                         icon-name="material-symbols:arrow-back"
                         :class="$style['nav-button']"
                         :disabled="progress <= 0"
                         @click="scrollByStep(-1)"
                     />
                     <VButton
-                        design="filled"
+                        design="outlined"
                         icon-name="material-symbols:arrow-forward"
                         :class="$style['nav-button']"
                         :disabled="progress >= 1"
@@ -93,8 +93,8 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
 
 .head {
   display: flex;
-  align-items: center;
-  margin-bottom: 40px;
+  align-items: flex-start;
+  margin-bottom: 22px;
 }
 
 .title {

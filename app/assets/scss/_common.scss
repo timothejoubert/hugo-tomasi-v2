@@ -1,9 +1,10 @@
-html {
-    interpolate-size: allow-keywords;
+* {
+	box-sizing: border-box;
 }
 
 body {
 	--v-main-nav-min-height: 65px;
+	--common-border-radius: 19px;
 
     margin: initial;
     -webkit-font-smoothing: antialiased;

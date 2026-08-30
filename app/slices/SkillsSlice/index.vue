@@ -21,18 +21,17 @@ const skillList = computed(() => {
         :class="$style.root"
         class="slice-container--xl"
     >
-        <div
+        <h2
             v-if="title"
             :class="$style.title"
             class="text-body-s"
         >
             {{ title }}
-        </div>
+        </h2>
         <VSkill
             v-for="(skill, i) in skillList"
             :key="i + ' ' + skill.title"
             v-bind="skill"
-            :class="$style.skill"
         />
     </section>
 </template>
@@ -50,20 +49,5 @@ const skillList = computed(() => {
   margin-bottom: 50px;
   opacity: 0.6;
   text-transform: uppercase;
-}
-
-.skill {
-  padding-top: 30px;
-  border-top: 1px solid color-mix(in srgb, var(--color-content) 15%, transparent);
-  margin-bottom: 42px;
-
-  @include media('>=md') {
-    margin-bottom: 30px;
-  }
-
-  &:last-child {
-    padding-bottom: 30px;
-    border-bottom: 1px solid color-mix(in srgb, var(--color-content) 15%, transparent);
-  }
 }
 </style>

@@ -11,6 +11,10 @@
     @include grid;
 }
 
+.inner-grid {
+    @include inner-grid;
+}
+
 .grid-extended {
     @include grid(true);
 }

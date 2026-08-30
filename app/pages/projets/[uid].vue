@@ -2,7 +2,7 @@
 import { getRoutePath, prismicDocumentType } from '~~/shared/prismic-schema'
 
 const { t } = useI18n()
-const { document } = await useFetchPage(prismicDocumentType.PROJECT, { fatal: false })
+const { document } = await useFetchPage(prismicDocumentType.PROJECT)
 
 const { title, description, canonicalUrl } = usePrismicMeta(document, { schemaOrgType: 'ItemPage' })
 
@@ -23,27 +23,22 @@ const filteredOtherProjects = computed(() => otherProjects.value?.filter(p => p.
     <VPageWrapper
         :slices="document?.data.slices"
     >
-        <NuxtLink
-            :to="getRoutePath('home_page')"
-            :aria-label="$t('back_to_projects.aria_label')"
-        >
-            <VIcon name="material-symbols:cancel" />
-        </NuxtLink>
-        <LazyVProjectPageContent
+        <LazyVProjectHeader
             v-if="document"
             :document="document"
         />
         <template #after>
             <VProjectsCarousel
                 v-if="filteredOtherProjects?.length"
-                tag="section"
                 :title="$t('project_page.other_projects_title')"
                 :projects="filteredOtherProjects"
-            />
-            <VProjectNeighbors
-                v-if="document"
-                :document="document"
+				:class="$style['cross-projects']"
             />
         </template>
     </VPageWrapper>
 </template>
+<style lang="scss" module>
+.cross-projects {
+	margin-block: 200px;
+}
+</style>
