@@ -5,15 +5,16 @@ import { isDynamicDocument } from '~~/shared/prismic-schema'
 
 export function usePrismicFetchDocument<Type extends PrismicDocumentType = PrismicDocumentType>(
 	prismicDocument: Type | undefined,
-	options?: { uid?: string } & AsyncDataOptions<ExtractPrismicDocument<Type> | undefined>,
+	options?: { uid?: string, id?: string } & AsyncDataOptions<ExtractPrismicDocument<Type> | undefined>,
 ): AsyncData<ExtractPrismicDocument<Type> | undefined, NuxtError<unknown> | undefined> {
-	const { uid: uidOverride, ...asyncDataOptions } = options ?? {}
+	const { uid: uidOverride, id: idOverride, ...asyncDataOptions } = options ?? {}
 
 	const route = useRoute()
 	const routeUid = uidOverride || route.params?.uid || ''
 	const uid = Array.isArray(routeUid) ? routeUid.at(-1) : routeUid // get the last uid when route has subPage
 
-	const { documentId, isPreview } = usePrismicPreviewRoute()
+	const { documentId: previewId } = usePrismicPreviewRoute()
+	const documentId = computed(() => idOverride || previewId.value)
 
 	const dataKey = `page-${prismicDocument}-${uid || documentId.value || 'single-document'}`
 
@@ -28,7 +29,7 @@ export function usePrismicFetchDocument<Type extends PrismicDocumentType = Prism
 	// `useAsyncData`'s own PickFrom/KeysOf machinery can't statically collapse to `ExtractPrismicDocument<Type>` while `Type` is still abstract here — true for any concrete `Type`, unprovable to TS inside the generic body
 	return useAsyncData<ExtractPrismicDocument<Type> | undefined>(dataKey, async (): Promise<ExtractPrismicDocument<Type> | undefined> => {
 		try {
-			if (isPreview.value && documentId.value) {
+			if (documentId.value) {
 				// preview mode can resolve to any document type, not just `Type` — the caller requested `Type`, so trust that contract here
 				return await prismicClient.getByID(documentId.value, prismicFetchOptions) as ExtractPrismicDocument<Type>
 			}

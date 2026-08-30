@@ -74,7 +74,7 @@ export function useNativeCarousel(sliderElement: Ref<TemplateElement>) {
 	}
 
 	function updateProgress() {
-		progress.value = Math.abs(slider.value!.scrollLeft / (window.innerWidth - slider.value!.scrollWidth))
+		progress.value = Math.abs(slider.value!.scrollLeft / (slider.value!.clientWidth - slider.value!.scrollWidth))
 	}
 
 	function onMouseDown(event: MouseEvent) {

@@ -36,7 +36,7 @@ const loading = ref(false)
             v-if="pageData.subtitle"
             :content="pageData.subtitle"
             :class="$style.tagline"
-            class="text-h5"
+            class="text-h4"
             tag="p"
         />
         <div :class="$style['media-wrapper']">

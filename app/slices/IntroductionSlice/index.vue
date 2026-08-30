@@ -42,8 +42,8 @@ let observer: undefined | IntersectionObserver
 function initIntersectionObserver() {
 	if (!root.value) return
 
-	observer = new IntersectionObserver(([entry]) => (isVisible.value = entry.isIntersecting), {
-		rootMargin: '-10% 0% -10% 0%',
+	observer = new IntersectionObserver(([entry]) => (isVisible.value = !!entry?.isIntersecting), {
+		rootMargin: '-30% 0% -30% 0%',
 	})
 	observer.observe(root.value)
 }
@@ -66,17 +66,19 @@ onBeforeUnmount(disposeIntersectionObserver)
         v-if="content"
         ref="root"
         :class="[$style.root, isVisible && $style['root--visible']]"
-        class="slice-container--xl"
+        class="slice-container--xxl"
     >
-        <div
+        <p
             :class="$style.wrapper"
-            class="text-h4"
+            class="text-h2"
         >
-            <component
-                :is="item.type === 'text' ? 'span' : 'div'"
+            <span
                 v-for="(item, i) in content"
                 :key="i"
-                :class="[$style.item, item.type === 'text' ? $style['item--text'] : $style['item--media']]"
+                :class="[
+					$style.item,
+					item.type === 'text' ? $style['item--text'] : $style['item--media']
+				]"
             >
                 <template v-if="item.type === 'text'">
                     {{ item.content }}
@@ -91,62 +93,61 @@ onBeforeUnmount(disposeIntersectionObserver)
                     fit="cover"
                     :modifiers="{ crop: 'edges' }"
                     sizes="200px"
+					aria-hidden="true"
                 />
-            </component>
-        </div>
+            </span>
+        </p>
     </section>
 </template>
 
 <style lang="scss" module>
-// Figma shows this slice on a light/inverted section (dark theme elsewhere on the page) —
-// flip the two theme tokens locally rather than adding a whole second global theme entry.
 .root {
   background-color: var(--color-background);
   color: var(--color-content);
 }
 
 .wrapper {
-  line-height: 1.1;
-
-  @include media('>=lg') {
-    max-width: 75ch;
-  }
+	max-width: 28ch;
+    line-height: 1.1;
+    margin-inline: auto;
+    text-align: center;
+	text-wrap: pretty;
 }
 
 .item {
-  &--media {
-    position: absolute;
-    display: none;
-  }
+	&--media {
+		position: absolute;
+		display: none;
+	}
 
-  &--text {
-    margin-right: 9px;
-  }
+	&--text {
+		margin-right: 9px;
+	}
 
-  @include media('>=lg') {
-    &--media {
-      position: relative;
-      top: 2px;
-      display: inline-flex;
-      overflow: hidden;
-      width: 42px;
-      height: 51px;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      background-color: lightgrey;
-      margin-inline: 16px;
-      transition: width 0.5s ease(out-quad);
-    }
+	@include media('>=lg') {
+		&--media {
+			position: relative;
+			top: 2px;
+			display: inline-flex;
+			overflow: hidden;
+			width: 61px;
+			height: 51px;
+			align-items: center;
+			justify-content: center;
+			border-radius: 10px;
+			background-color: lightgrey;
+			margin-inline: 0.5ch;
+			transition: width 0.5s ease(out-quad);
+		}
 
-    .root--visible &--media {
-      width: 96px;
-    }
+		.root--visible &--media {
+			width: 96px;
+		}
 
-    &--text {
-      margin-right: initial;
-    }
-  }
+		&--text {
+			margin-right: initial;
+		}
+	}
 }
 
 .image {

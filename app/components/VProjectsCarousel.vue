@@ -65,7 +65,7 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
                 />
             </div>
         </div>
-        <div
+        <ul
             ref="carousel"
             :class="[
 				$style.carousel,
@@ -77,10 +77,10 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
                 v-for="project in projects"
                 :key="project.uid"
                 :project="project"
-                layout="featured"
                 :class="$style.card"
+				wrapper="li"
             />
-        </div>
+        </ul>
     </component>
 </template>
 
@@ -130,47 +130,48 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
 }
 
 .scroll {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 6px;
-  border-radius: 6px;
-  background-color: var(--color-surface);
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	height: 6px;
+	border-radius: 6px;
+	background-color: color-mix(in srgb, var(--color-content) 10%, var(--color-background));
 
-  &::after {
-    position: absolute;
-    background-color: var(--color-content);
-    content: '';
-    inset: 0;
-    scale: var(--progress, 0) 1;
-    transform-origin: left;
-    transition: scale 0.1s;
-  }
+	&::after {
+		position: absolute;
+		background-color: var(--color-content);
+		content: '';
+		inset: 0;
+		scale: var(--progress, 0) 1;
+		transform-origin: left;
+		transition: scale 0.1s;
+	}
 }
 
 .carousel {
-  display: flex;
-  min-width: 100%;
-  cursor: grab;
-  -webkit-overflow-scrolling: touch;
-  overflow-x: scroll;
-  padding-inline: var(--grid-margin);
-  scroll-padding-inline: var(--grid-margin);
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none; /* Firefox 64 */
-  touch-action: pan-x;
+	display: flex;
+	min-width: 100%;
+	margin: 0;
+	cursor: grab;
+	-webkit-overflow-scrolling: touch;
+	overflow-x: scroll;
+	padding-inline: var(--grid-margin);
+	scroll-padding-inline: var(--grid-margin);
+	scroll-snap-type: x mandatory;
+	scrollbar-width: none; /* Firefox 64 */
+	touch-action: pan-x;
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
+	&::-webkit-scrollbar {
+		display: none;
+	}
 
-  // The mouse-drag emulation below sets `scrollLeft` directly (not a native scroll gesture) —
-  // with `scroll-snap-type: mandatory` active, browsers snap back to the nearest slide on every
-  // intermediate assignment, which blocks the drag entirely. Snapping is restored on mouse up,
-  // when `snapToNearest()` (use-native-carousel.ts) explicitly re-snaps.
-  &--no-snap {
-    scroll-snap-type: none;
-  }
+	// The mouse-drag emulation below sets `scrollLeft` directly (not a native scroll gesture) —
+	// with `scroll-snap-type: mandatory` active, browsers snap back to the nearest slide on every
+	// intermediate assignment, which blocks the drag entirely. Snapping is restored on mouse up,
+	// when `snapToNearest()` (use-native-carousel.ts) explicitly re-snaps.
+	&--no-snap {
+		scroll-snap-type: none;
+	}
 }
 
 .card {

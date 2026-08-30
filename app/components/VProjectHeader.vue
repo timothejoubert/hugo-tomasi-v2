@@ -55,7 +55,7 @@ const hasHeroMedia = computed(() => isFilled.image(project.value?.main_media))
 			/>
 			<VPictureSource
 				media="(width >= 800px)"
-				sizes="lg:85vw xl:85vw hq:85vw qhd:85vw"
+				sizes="lg:92vw xl:92vw hq:92vw qhd:92vw"
 				:width="1600"
 				:height="900"
 			/>

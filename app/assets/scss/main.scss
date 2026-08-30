@@ -1,14 +1,10 @@
-// Utils
 @use "fonts";
 @use "typography";
 @use "theme";
 @use "grid";
-
-// Commons setup
 @use "normalize";
 @use "common";
 @use "font-size";
-
-// Usefull style
+@use "slice";
 @use "loading-animation";
 @use "transitions/fade";

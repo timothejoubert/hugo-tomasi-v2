@@ -3,57 +3,14 @@
 @use '../variables/fonts.scss' as *;
 
 // HEADING
-@mixin text-h1-xxs {
-    font-family: $fraktion-sans-family;
-    font-size: 40px;
-    font-style: normal;
-    font-weight: 700;
-    letter-spacing: -1%;
-    line-height: 100%;
-}
-
-@mixin text-h1-xs {
+@mixin text-h1 {
     font-family: $fraktion-sans-family;
     font-size: 48px;
-    font-style: normal;
     font-weight: 700;
-    letter-spacing: -1%;
     line-height: 100%;
-}
-
-@mixin text-h1-sm {
-    font-family: $fraktion-sans-family;
-    font-size: 64px;
-    font-style: normal;
-    font-weight: 700;
-    letter-spacing: -1%;
-    line-height: 90%;
-}
-
-@mixin text-h1-md {
-    font-family: $fraktion-sans-family;
-    font-size: 76px; // Updated on live review with DA (not sync in figma)
-    font-style: normal;
-    font-weight: 700;
-    letter-spacing: -1%;
-    line-height: 90%;
-}
-
-@mixin text-h1-lg {
-    font-family: $fraktion-sans-family;
-    font-size: 104px;
-    font-style: normal;
-    font-weight: 700;
-    letter-spacing: -1%;
-    line-height: 90%;
-}
-
-@mixin text-h1 {
-    @include text-h1-xs;
 
     @include media('>=md') {
-        font-size: 64px;
-        line-height: 90%;
+    	font-size: 64px;
     }
 
     @include media('>=lg') {
@@ -61,117 +18,51 @@
     }
 
     @include media('>=vl') {
-        font-size: 80px; // Updated on live review with DA (not sync in figma)
+        font-size: 80px;
     }
 
     @include media('>=xl') {
-        font-size: 88px;
+        font-size: 90px;
     }
-}
-
-@mixin text-h2-xs {
-    font-family: $fraktion-sans-family;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 700;
-    letter-spacing: -0.24px;
-    line-height: 120%;
-}
-
-@mixin text-h2-sm {
-    font-family: $fraktion-sans-family;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 700;
-    letter-spacing: -0.32px;
-    line-height: 120%;
-}
-
-@mixin text-h2-md {
-    font-family: $fraktion-sans-family;
-    font-size: 38px;
-    font-style: normal;
-    font-weight: 700;
-    letter-spacing: -0.38px;
-    line-height: 120%;
 }
 
 @mixin text-h2 {
-    @include text-h2-xs;
+    font-family: $fraktion-sans-family;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 120%;
 
     @include media('>=md') {
-        font-size: 32px;
-        letter-spacing: -0.32px;
+        font-size: 42px;
     }
 
     @include media('>=lg') {
-        font-size: 38px;
-        letter-spacing: -0.38px;
+        font-size: 58px;
     }
 }
 
-@mixin text-h3-xs {
-    font-family: $fraktion-sans-family;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 120%;
-}
-
-@mixin text-h3-sm {
-    font-family: $fraktion-sans-family;
-    font-size: 22px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 120%;
-}
-
-@mixin text-h3-md {
+@mixin text-h3 {
     font-family: $fraktion-sans-family;
     font-size: 24px;
     font-style: normal;
     font-weight: 700;
     line-height: 120%;
-}
-
-@mixin text-h3 {
-    @include text-h3-xs;
 
     @include media('>=md') {
-        font-size: 22px;
+        font-size: 28px;
     }
 
     @include media('>=lg') {
-        font-size: 24px;
+        font-size: 36px;
     }
 }
 
-@mixin text-h4-xs {
+@mixin text-h4 {
     font-family: $fraktion-sans-family;
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
     line-height: 120%;
-}
-
-@mixin text-h4-sm {
-    font-family: $fraktion-sans-family;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 120%;
-}
-
-@mixin text-h4-md {
-    font-family: $fraktion-sans-family;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 120%;
-}
-
-@mixin text-h4 {
-    @include text-h4-xs;
 
     @include media('>=md') {
         font-size: 18px;
@@ -182,32 +73,12 @@
     }
 }
 
-@mixin text-h5-xs {
+@mixin text-h5 {
     font-family: $fraktion-sans-family;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 120%;
-}
-
-@mixin text-h5-sm {
-    font-family: $fraktion-sans-family;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 120%;
-}
-
-@mixin text-h5-md {
-    font-family: $fraktion-sans-family;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 120%;
-}
-
-@mixin text-h5 {
-    @include text-h5-xs;
 
     @include media('>=md') {
         font-size: 18px;

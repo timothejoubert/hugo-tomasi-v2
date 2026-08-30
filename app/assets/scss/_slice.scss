@@ -1,0 +1,19 @@
+@use 'mixins/grid' as *;
+
+.slice-container {
+	@include grid-container(true);
+
+	margin-block: 72px;
+
+	&--xl {
+		@include grid-container(true);
+
+		margin-block: 208px;
+	}
+
+	&--xxl {
+		@include grid-container(true);
+
+		margin-block: 308px;
+	}
+}
