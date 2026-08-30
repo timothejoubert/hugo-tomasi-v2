@@ -2,12 +2,12 @@
 import { getPrismicOrderingField, prismicDocumentType } from '~~/shared/prismic-schema'
 
 const { data: projects } = await usePrismicFetchDocumentListing(prismicDocumentType.PROJECT, {
-	orderings: [
-		{
-			field: getPrismicOrderingField(prismicDocumentType.PROJECT, 'creation_date'),
-			direction: 'desc',
-		},
-	],
+    orderings: [
+        {
+            field: getPrismicOrderingField(prismicDocumentType.PROJECT, 'creation_date'),
+            direction: 'desc',
+        },
+    ],
 })
 
 const { phase } = usePageIntro()
@@ -61,7 +61,7 @@ const pageRevealed = computed(() => phase.value === 'page' || phase.value === 'd
     @media (prefers-reduced-motion: no-preference) {
         transition: 0.5s ease(out-quad);
         transition-delay: calc(var(--item-index, 0) * 30ms);
-		transition-property: opacity, translate;
+        transition-property: opacity, translate;
     }
 
     &--visible {

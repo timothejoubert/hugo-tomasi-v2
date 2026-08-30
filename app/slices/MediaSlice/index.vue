@@ -10,13 +10,13 @@ const hasOneMedia = medias?.length === 1
 // hosted YouTube/Vimeo embed) — only one is ever filled per item, so resolve to whichever it is
 // before handing a single field to VPrismicMedia.
 function resolveMediaField(item: (typeof medias)[number]) {
-	return isFilled.embed(item.embed_video) ? item.embed_video : item.media
+    return isFilled.embed(item.embed_video) ? item.embed_video : item.media
 }
 
 // Uploaded videos autoplay/mute/loop with no controls (background-style); embeds keep their
 // normal player controls.
 function isBackgroundVideo(item: (typeof medias)[number]) {
-	return isFilled.linkToMedia(item.media) && item.media.kind !== 'image'
+    return isFilled.linkToMedia(item.media) && item.media.kind !== 'image'
 }
 
 const title = props.slice.primary?.title
@@ -96,73 +96,73 @@ const firstMedia = medias?.[0]
 
 <style lang="scss" module>
 .root {
-  --v-prismic-media-border-radius: 30px;
+    --v-prismic-media-border-radius: 30px;
 
-  position: relative;
-  display: grid;
-  gap: calc(var(--grid-margin) * 0.5);
-  grid-template-columns: 1fr;
-  padding-block: 40px;
+    position: relative;
+    display: grid;
+    gap: calc(var(--grid-margin) * 0.5);
+    grid-template-columns: 1fr;
+    padding-block: 40px;
 
-  @include media('>=md') {
-    grid-template-columns: 1fr 1fr;
-  }
+    @include media('>=md') {
+        grid-template-columns: 1fr 1fr;
+    }
 
-  video {
-    height: 100%;
-    object-fit: cover;
-  }
+    video {
+        height: 100%;
+        object-fit: cover;
+    }
 }
 
 .title {
-  grid-column: 1 / -1;
+    grid-column: 1 / -1;
 }
 
 .content {
-  margin-bottom: 14px;
-  grid-column: 1 / -1;
+    margin-bottom: 14px;
+    grid-column: 1 / -1;
 }
 
 .image-wrapper {
-  position: relative;
+    position: relative;
 
-  &--solo {
-    width: 100%;
-    grid-column: 1 / -1;
-    justify-self: center;
+    &--solo {
+        width: 100%;
+        grid-column: 1 / -1;
+        justify-self: center;
 
-    @include media('>=md') {
-      max-width: 75%;
+        @include media('>=md') {
+            max-width: 75%;
+        }
     }
-  }
 }
 
 .cta {
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
 }
 
 .image {
-  --v-roadiz-image-width: 100%;
+    --v-roadiz-image-width: 100%;
 
-  width: 100%;
+    width: 100%;
 
-  &--default {
-    --v-prismic-medias-aspect-ratio: 812 / 475;
-  }
-
-  &--fullwidth {
-    position: relative;
-    left: calc(var(--grid-margin) * -1);
-    display: block;
-    width: calc(100% + var(--grid-margin) * 2);
-    max-width: initial;
-    grid-column: 1 / -1;
-
-    img {
-      max-width: initial;
+    &--default {
+        --v-prismic-medias-aspect-ratio: 812 / 475;
     }
-  }
+
+    &--fullwidth {
+        position: relative;
+        left: calc(var(--grid-margin) * -1);
+        display: block;
+        width: calc(100% + var(--grid-margin) * 2);
+        max-width: initial;
+        grid-column: 1 / -1;
+
+        img {
+            max-width: initial;
+        }
+    }
 }
 </style>

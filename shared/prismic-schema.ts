@@ -19,40 +19,40 @@ import type { PrismicDocumentType } from '~/types/api'
  * renamed/removed custom type fails to compile here instead of silently going stale.
  */
 export const prismicDocumentType = {
-	HOME: 'home_page',
-	ABOUT: 'about_page',
-	PROJECT_LISTING: 'project_listing_page',
-	PROJECT: 'project_page',
-	// Non page document
-	MENU: 'menu',
-	SETTING: 'setting',
+    HOME: 'home_page',
+    ABOUT: 'about_page',
+    PROJECT_LISTING: 'project_listing_page',
+    PROJECT: 'project_page',
+    // Non page document
+    MENU: 'menu',
+    SETTING: 'setting',
 } as const satisfies Record<string, PrismicDocumentType>
 
 export const prismicDocumentRoutes = [
-	{
-		name: prismicDocumentType.HOME,
-		type: prismicDocumentType.HOME,
-		path: '/:lang?',
-		alias: [],
-	},
-	{
-		name: prismicDocumentType.ABOUT,
-		type: prismicDocumentType.ABOUT,
-		path: '/:lang?/a-propos',
-		alias: ['/:lang?/about', '/:lang?/bio'],
-	},
-	{
-		name: prismicDocumentType.PROJECT_LISTING,
-		type: prismicDocumentType.PROJECT_LISTING,
-		path: '/:lang?/projets',
-		alias: [],
-	},
-	{
-		name: prismicDocumentType.PROJECT,
-		type: prismicDocumentType.PROJECT,
-		path: '/:lang?/projets/:uid',
-		alias: [],
-	},
+    {
+        name: prismicDocumentType.HOME,
+        type: prismicDocumentType.HOME,
+        path: '/:lang?',
+        alias: [],
+    },
+    {
+        name: prismicDocumentType.ABOUT,
+        type: prismicDocumentType.ABOUT,
+        path: '/:lang?/a-propos',
+        alias: ['/:lang?/about', '/:lang?/bio'],
+    },
+    {
+        name: prismicDocumentType.PROJECT_LISTING,
+        type: prismicDocumentType.PROJECT_LISTING,
+        path: '/:lang?/projets',
+        alias: [],
+    },
+    {
+        name: prismicDocumentType.PROJECT,
+        type: prismicDocumentType.PROJECT,
+        path: '/:lang?/projets/:uid',
+        alias: [],
+    },
 ] as const
 
 export type PrismicDocumentRoutes = typeof prismicDocumentRoutes
@@ -61,8 +61,8 @@ export type PrismicRouteName = PrismicDocumentRoute['name']
 
 /** Lookup par nom de route (sans collision, contrairement à un lookup par type — plusieurs routes peuvent partager le même type). */
 export const prismicRouteByName = prismicDocumentRoutes.reduce((acc, route) => {
-	Object.assign(acc, { [route.name]: route })
-	return acc
+    Object.assign(acc, { [route.name]: route })
+    return acc
 }, {} as Record<PrismicRouteName, PrismicDocumentRoute>)
 
 /**
@@ -72,16 +72,16 @@ export const prismicRouteByName = prismicDocumentRoutes.reduce((acc, route) => {
  * @example getRoutePath('projet', { uid: 'foo' }) // '/foo'
  */
 export function getRoutePath(name: PrismicRouteName, params?: Record<string, string>): string {
-	const route = prismicRouteByName[name]
-	let path = (route.path as string).replace('/:lang?', '') || '/'
+    const route = prismicRouteByName[name]
+    let path = (route.path as string).replace('/:lang?', '') || '/'
 
-	if (params) {
-		for (const [key, value] of Object.entries(params)) {
-			path = path.replace(`:${key}`, value)
-		}
-	}
+    if (params) {
+        for (const [key, value] of Object.entries(params)) {
+            path = path.replace(`:${key}`, value)
+        }
+    }
 
-	return path
+    return path
 }
 
 /**
@@ -91,14 +91,14 @@ export function getRoutePath(name: PrismicRouteName, params?: Record<string, str
  * @example getPrismicOrderingField(prismicDocumentType.PROJECT, 'creation_date') // 'my.project_page.creation_date'
  */
 export function getPrismicOrderingField(type: PrismicDocumentType, field: string) {
-	return `my.${type}.${field}`
+    return `my.${type}.${field}`
 }
 
 export function isPrismicDocumentRoute(route: object) {
-	const type = 'type' in route && typeof route.type === 'string' && route.type
-	const hasPath = 'path' in route && typeof route.path === 'string' && route.path
+    const type = 'type' in route && typeof route.type === 'string' && route.type
+    const hasPath = 'path' in route && typeof route.path === 'string' && route.path
 
-	return hasPath && prismicDocumentRoutes.some(r => r.type === type)
+    return hasPath && prismicDocumentRoutes.some(r => r.type === type)
 }
 
 /** Routable page types — derived from prismicDocumentRoutes, not hand-listed. */
@@ -106,7 +106,7 @@ export type PrismicDocumentPageType = PrismicDocumentRoute['type']
 
 /** A document type is "dynamic" (repeatable, fetched by uid) when at least one of its routes carries a `:uid` param — adding a new repeatable type only requires registering its route above. */
 export function isDynamicDocument(type: PrismicDocumentType) {
-	return prismicDocumentRoutes.some(route => route.type === type && route.path.includes(':uid'))
+    return prismicDocumentRoutes.some(route => route.type === type && route.path.includes(':uid'))
 }
 
 /**
@@ -117,17 +117,17 @@ export function isDynamicDocument(type: PrismicDocumentType) {
  * Note: only handles alias paths without dynamic segments (none currently need one).
  */
 export function getPrismicAliasRedirects(): Record<string, { redirect: string }> {
-	const rules: Record<string, { redirect: string }> = {}
+    const rules: Record<string, { redirect: string }> = {}
 
-	for (const route of prismicDocumentRoutes) {
-		if (!('alias' in route) || !route.alias?.length) continue
+    for (const route of prismicDocumentRoutes) {
+        if (!('alias' in route) || !route.alias?.length) continue
 
-		const target = getRoutePath(route.name)
-		for (const alias of route.alias) {
-			const literalAlias = alias.replace('/:lang?', '') || '/'
-			rules[literalAlias] = { redirect: target }
-		}
-	}
+        const target = getRoutePath(route.name)
+        for (const alias of route.alias) {
+            const literalAlias = alias.replace('/:lang?', '') || '/'
+            rules[literalAlias] = { redirect: target }
+        }
+    }
 
-	return rules
+    return rules
 }

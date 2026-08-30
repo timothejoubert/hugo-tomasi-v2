@@ -9,22 +9,22 @@ import { getFilledLinkToWeb } from '~/utils/prismic/filled'
  * composables with a single call site.
  */
 export default defineNuxtPlugin(async () => {
-	const { data } = await usePrismicSettingsDocument()
-	const setting = computed(() => data.value?.data)
+    const { data } = await usePrismicSettingsDocument()
+    const setting = computed(() => data.value?.data)
 
-	useSchemaOrg([
-		definePerson({
-			name: setting.value?.publisher_name || undefined,
-			description: setting.value?.publisher_description || undefined,
-			url: getFilledLinkToWeb(setting.value?.publisher_url)?.url,
-			email: setting.value?.publisher_email || undefined,
-			sameAs: setting.value?.publisher_socials
-				?.map(({ link }) => getFilledLinkToWeb(link)?.url)
-				.filter((url): url is string => !!url),
-		}),
-		defineWebSite({
-			description: setting.value?.website_description || undefined,
-			image: isFilled.image(setting.value?.website_logo) ? setting.value.website_logo.url : undefined,
-		}),
-	])
+    useSchemaOrg([
+        definePerson({
+            name: setting.value?.publisher_name || undefined,
+            description: setting.value?.publisher_description || undefined,
+            url: getFilledLinkToWeb(setting.value?.publisher_url)?.url,
+            email: setting.value?.publisher_email || undefined,
+            sameAs: setting.value?.publisher_socials
+                ?.map(({ link }) => getFilledLinkToWeb(link)?.url)
+                .filter((url): url is string => !!url),
+        }),
+        defineWebSite({
+            description: setting.value?.website_description || undefined,
+            image: isFilled.image(setting.value?.website_logo) ? setting.value.website_logo.url : undefined,
+        }),
+    ])
 })

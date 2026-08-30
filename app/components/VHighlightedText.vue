@@ -2,8 +2,8 @@
 import type { RichTextField } from '@prismicio/client'
 
 defineProps<{
-	field: RichTextField
-	wrapper?: string
+    field: RichTextField
+    wrapper?: string
 }>()
 </script>
 

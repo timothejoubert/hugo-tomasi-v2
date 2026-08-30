@@ -2,18 +2,18 @@
 import type { VWrapperElement } from '~/components/VWrapper.vue'
 
 withDefaults(defineProps<{
-	wrapper?: VWrapperElement
-	fullPage?: boolean
-	title?: string
-	subtitle: string
-	content: string
-	errorMessage?: string
+    wrapper?: VWrapperElement
+    fullPage?: boolean
+    title?: string
+    subtitle: string
+    content: string
+    errorMessage?: string
 }>(), {
-	fullPage: true,
+    fullPage: true,
 })
 
 defineOptions({
-	inheritAttrs: false,
+    inheritAttrs: false,
 })
 </script>
 

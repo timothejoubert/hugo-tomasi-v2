@@ -52,7 +52,7 @@
 
             @each $vars-key, $vars-value in $vars {
                 // @if($at-root-selector != false, '@at-root #{$at-root-selector}', '')
-                 &--size-#{$vars-key}#{$selector} {
+                &--size-#{$vars-key}#{$selector} {
                     @include css-vars-map.get($vars-value, $prefix);
                 }
             }

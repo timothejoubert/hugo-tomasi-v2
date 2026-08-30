@@ -7,17 +7,17 @@
  * you will see nothing — that's expected, it must be used as a slot child of one of those three
  * components to have any effect. */
 export const vPictureSourceProps = {
-	media: { type: String, required: false },
-	sizes: { type: [String, Object] as PropType<string | Record<string, string>>, required: false },
-	width: { type: [String, Number] as PropType<string | number>, required: false },
-	height: { type: [String, Number] as PropType<string | number>, required: false },
-	src: { type: String, required: false },
-	densities: { type: String, required: false },
+    media: { type: String, required: false },
+    sizes: { type: [String, Object] as PropType<string | Record<string, string>>, required: false },
+    width: { type: [String, Number] as PropType<string | number>, required: false },
+    height: { type: [String, Number] as PropType<string | number>, required: false },
+    src: { type: String, required: false },
+    densities: { type: String, required: false },
 }
 
 export default defineComponent({
-	name: 'VPictureSource',
-	props: vPictureSourceProps,
-	render: () => null,
+    name: 'VPictureSource',
+    props: vPictureSourceProps,
+    render: () => null,
 })
 </script>

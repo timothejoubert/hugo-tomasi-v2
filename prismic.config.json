@@ -1,24 +1,24 @@
 {
-  "repositoryName": "hugo-tomasi-v2",
-  "libraries": [
-    "./app/slices"
-  ],
-  "routes": [
-    {
-      "type": "home_page",
-      "path": "/:lang?"
-    },
-    {
-      "type": "about_page",
-      "path": "/:lang?/a-propos"
-    },
-    {
-      "type": "project_listing_page",
-      "path": "/:lang?/projets"
-    },
-    {
-      "type": "project_page",
-      "path": "/:lang?/projets/:uid"
-    }
-  ]
+    "repositoryName": "hugo-tomasi-v2",
+    "libraries": [
+        "./app/slices"
+    ],
+    "routes": [
+        {
+            "type": "home_page",
+            "path": "/:lang?"
+        },
+        {
+            "type": "about_page",
+            "path": "/:lang?/a-propos"
+        },
+        {
+            "type": "project_listing_page",
+            "path": "/:lang?/projets"
+        },
+        {
+            "type": "project_page",
+            "path": "/:lang?/projets/:uid"
+        }
+    ]
 }

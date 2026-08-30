@@ -3,10 +3,10 @@ import type { VWrapperElement } from '~/components/VWrapper.vue'
 import type { ThemeProps } from '~/types/theme'
 
 const props = defineProps<{
-	label: string | null
-	wrapper?: VWrapperElement
-	filled?: boolean
-	theme?: ThemeProps['theme']
+    label: string | null
+    wrapper?: VWrapperElement
+    filled?: boolean
+    theme?: ThemeProps['theme']
 }>()
 
 const { themeClass } = useTheme({ props })
@@ -16,10 +16,10 @@ const { themeClass } = useTheme({ props })
     <VWrapper
         :wrapper="wrapper || 'span'"
         :class="[
-			$style.root,
-			themeClass,
-			filled && $style['root--filled']
-		]"
+            $style.root,
+            themeClass,
+            filled && $style['root--filled'],
+        ]"
     >
         {{ label }}
     </VWrapper>
@@ -30,15 +30,15 @@ const { themeClass } = useTheme({ props })
     font-size: 12px;
     font-weight: 400;
 
-	@include theme-variants;
+    @include theme-variants;
 
-	&--filled {
-		min-height: 20px;
-		padding-bottom: 2px;
-		border-radius: 50vmax;
-		background-color: var(--color-background);
-		color: var(--color-content);
-		padding-inline: 8px;
-	}
+    &--filled {
+        min-height: 20px;
+        padding-bottom: 2px;
+        border-radius: 50vmax;
+        background-color: var(--color-background);
+        color: var(--color-content);
+        padding-inline: 8px;
+    }
 }
 </style>

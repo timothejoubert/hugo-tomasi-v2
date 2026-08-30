@@ -7,25 +7,25 @@ import type { ContentRelationshipField, EmbedField, ImageField, LinkField, LinkT
  * content-relationship-field.ts. */
 
 export function getFilledImage<TThumbnailNames extends string | null = never>(
-	field: ImageField<TThumbnailNames> | null | undefined,
+    field: ImageField<TThumbnailNames> | null | undefined,
 ) {
-	return isFilled.image(field) ? field : undefined
+    return isFilled.image(field) ? field : undefined
 }
 
 export function getFilledLinkToMedia(field: LinkField | LinkToMediaField | null | undefined) {
-	return isFilled.linkToMedia(field as LinkToMediaField) ? field as LinkToMediaField<'filled'> : undefined
+    return isFilled.linkToMedia(field as LinkToMediaField) ? field as LinkToMediaField<'filled'> : undefined
 }
 
 export function getFilledLinkToWeb(field: LinkField | null | undefined) {
-	return isFilled.link(field) && field.link_type === 'Web' ? field : undefined
+    return isFilled.link(field) && field.link_type === 'Web' ? field : undefined
 }
 
 export function getFilledContentRelationship<TField extends ContentRelationshipField>(
-	field: TField | null | undefined,
+    field: TField | null | undefined,
 ) {
-	return isFilled.contentRelationship(field) ? field : undefined
+    return isFilled.contentRelationship(field) ? field : undefined
 }
 
 export function getFilledVideoEmbed(field: EmbedField | null | undefined) {
-	return isFilled.embed(field) && field.type === 'video' ? field as EmbedField<VideoOEmbed, 'filled'> : undefined
+    return isFilled.embed(field) && field.type === 'video' ? field as EmbedField<VideoOEmbed, 'filled'> : undefined
 }

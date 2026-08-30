@@ -102,6 +102,9 @@ importers:
       '@prismicio/client':
         specifier: ^7.22.0
         version: 7.22.0
+      '@stylistic/stylelint-plugin':
+        specifier: ^5.3.0
+        version: 5.3.0(stylelint@17.14.1(typescript@5.9.3))
       nuxtseo-layer-devtools:
         specifier: ^5.3.14
         version: 5.3.14(b438bdf15fd05412d442b25be1189a70)
@@ -2276,6 +2279,11 @@ packages:
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^9.0.0 || ^10.0.0
+
+  '@stylistic/stylelint-plugin@5.3.0':
+    resolution: {integrity: sha512-xbyxPeaO9Vns6A8/0MQV6PzZ5nNZCoGV4q1ERaNd5EBAKlWt+YcpaPapNYNUkZaiQg98+xPbikdA58ehquJG3g==}
+    peerDependencies:
+      stylelint: ^17.6.0
 
   '@swc/helpers@0.5.23':
     resolution: {integrity: sha512-5lSsMOTXURePglDfvuAQUqkGek9Hg2kksOYay2m0+XR++b2NWYL/4sWyuvVBIs8oKnJaxkdi9whaL/sqN13afw==}
@@ -5792,6 +5800,9 @@ packages:
   structured-clone-es@2.0.1:
     resolution: {integrity: sha512-10ZL5r77LhknxlP1FBiCW+VdnuWOEFLdSS2SKtjyEV+L4qP1hUEIMIZW94LC3jKxRmT/Dj7KkD1mqh/IY6lhKQ==}
 
+  style-search@0.1.0:
+    resolution: {integrity: sha512-Dj1Okke1C3uKKwQcetra4jSuk0DqbzbYtXipzFlFMZtowbF1x7BKJwB9AayVMyFARvU8EDrZdcax4At/452cAg==}
+
   stylehacks@8.0.4:
     resolution: {integrity: sha512-irgZeyYBFVkb8k7yTRQ9No/bTniTGqzptGVMG1/Mj3N2YnI8nIozzY1pcok4i01NfrCSqvc0PdQB6O6kr6dJHw==}
     engines: {node: ^22.11.0 || ^24.11.0 || >=26.0}
@@ -8928,6 +8939,17 @@ snapshots:
       espree: 10.4.0
       estraverse: 5.3.0
       picomatch: 4.0.5
+
+  '@stylistic/stylelint-plugin@5.3.0(stylelint@17.14.1(typescript@5.9.3))':
+    dependencies:
+      '@csstools/css-parser-algorithms': 4.0.0(@csstools/css-tokenizer@4.0.0)
+      '@csstools/css-tokenizer': 4.0.0
+      '@csstools/media-query-list-parser': 5.0.0(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)
+      postcss: 8.5.26
+      postcss-selector-parser: 7.1.5
+      postcss-value-parser: 4.2.0
+      style-search: 0.1.0
+      stylelint: 17.14.1(typescript@5.9.3)
 
   '@swc/helpers@0.5.23':
     dependencies:
@@ -12932,6 +12954,8 @@ snapshots:
       anynum: 1.0.1
 
   structured-clone-es@2.0.1: {}
+
+  style-search@0.1.0: {}
 
   stylehacks@8.0.4(postcss@8.5.26):
     dependencies:

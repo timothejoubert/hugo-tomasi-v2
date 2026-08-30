@@ -1,7 +1,7 @@
 export function encodeUrlParams(params: object): string {
-	return Object.entries(params)
-		.map(kv => kv.map(encodeURIComponent).join('='))
-		.join('&')
+    return Object.entries(params)
+        .map(kv => kv.map(encodeURIComponent).join('='))
+        .join('&')
 }
 
 /**
@@ -10,8 +10,8 @@ export function encodeUrlParams(params: object): string {
  * silently breaks absolute URLs required by OG/Twitter meta tags and canonical links.
  */
 export function ensureProtocol(url: string): string {
-	if (/^[a-z][a-z\d+.-]*:\/\//i.test(url)) return url
+    if (/^[a-z][a-z\d+.-]*:\/\//i.test(url)) return url
 
-	const protocol = /^(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/i.test(url) ? 'http' : 'https'
-	return `${protocol}://${url}`
+    const protocol = /^(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/i.test(url) ? 'http' : 'https'
+    return `${protocol}://${url}`
 }

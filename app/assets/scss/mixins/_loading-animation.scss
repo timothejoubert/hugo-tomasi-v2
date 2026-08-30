@@ -16,11 +16,11 @@
 
     background-color: $background-color;
     background-image: linear-gradient(
-            to right,
-            transparent 0%,
-            $gradient-color 10%,
-            $gradient-color 20%,
-            transparent 30%
+        to right,
+        transparent 0%,
+        $gradient-color 10%,
+        $gradient-color 20%,
+        transparent 30%
     );
     background-position: 120% 0;
     background-size: 120% 100%;

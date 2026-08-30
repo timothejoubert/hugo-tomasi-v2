@@ -5,14 +5,14 @@
 
 // generate simple hash from object
 export function generateHashFromObject(obj: Record<string, unknown>): string {
-	const jsonString = JSON.stringify(obj)
-	let hash = 0
+    const jsonString = JSON.stringify(obj)
+    let hash = 0
 
-	for (let i = 0; i < jsonString.length; i++) {
-		const char = jsonString.charCodeAt(i)
-		hash = (hash << 5) - hash + char
-		hash |= 0 // Convert to 32bit integer
-	}
+    for (let i = 0; i < jsonString.length; i++) {
+        const char = jsonString.charCodeAt(i)
+        hash = (hash << 5) - hash + char
+        hash |= 0 // Convert to 32bit integer
+    }
 
-	return hash.toString(16)
+    return hash.toString(16)
 }

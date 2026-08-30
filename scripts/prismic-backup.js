@@ -6,8 +6,8 @@ const config = JSON.parse(readFileSync(join(process.cwd(), 'prismic.config.json'
 const REPOSITORY = config.repositoryName
 
 if (!REPOSITORY) {
-	console.error('No repositoryName found in prismic.config.json')
-	process.exit(1)
+    console.error('No repositoryName found in prismic.config.json')
+    process.exit(1)
 }
 
 const OUTPUT_DIR = join(process.cwd(), 'backup', 'prismic')
@@ -15,7 +15,7 @@ const OUTPUT_DIR = join(process.cwd(), 'backup', 'prismic')
 const accessToken = process.env.PRISMIC_ACCESS_TOKEN
 
 const client = prismic.createClient(REPOSITORY, {
-	...(accessToken ? { accessToken } : {}),
+    ...(accessToken ? { accessToken } : {}),
 })
 
 console.log(`Fetching all documents from "${REPOSITORY}"...`)
@@ -37,14 +37,14 @@ console.log(`Full dump: ${fullDumpPath}`)
 // One file per document type
 const byType = {}
 for (const doc of documents) {
-	if (!byType[doc.type]) byType[doc.type] = []
-	byType[doc.type].push(doc)
+    if (!byType[doc.type]) byType[doc.type] = []
+    byType[doc.type].push(doc)
 }
 
 for (const [type, docs] of Object.entries(byType)) {
-	const typePath = join(outputDir, `${type}.json`)
-	writeFileSync(typePath, JSON.stringify(docs, null, 2), 'utf-8')
-	console.log(`  ${type}: ${docs.length} document(s) → ${typePath}`)
+    const typePath = join(outputDir, `${type}.json`)
+    writeFileSync(typePath, JSON.stringify(docs, null, 2), 'utf-8')
+    console.log(`  ${type}: ${docs.length} document(s) → ${typePath}`)
 }
 
 console.log(`\nBackup complete: ${outputDir}`)

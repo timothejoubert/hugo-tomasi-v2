@@ -6,6 +6,6 @@ import { prismicDocumentType } from './prismic-schema'
  * client/SSR listings, which go through `usePrismicFetchDocumentListing` instead (locale-aware,
  * paginated, reactive — a different runtime with different needs, not this one). */
 export async function getAllPrismicProjects(repositoryName: string) {
-	const client = createClient(repositoryName)
-	return client.getAllByType(prismicDocumentType.PROJECT)
+    const client = createClient(repositoryName)
+    return client.getAllByType(prismicDocumentType.PROJECT)
 }

@@ -2,27 +2,27 @@
 import type { ThemeProps } from '~/types/theme'
 
 interface VButtonProps {
-	tag?: string
-	label?: string
-	iconName?: string
-	design?: 'filled' | 'outlined'
-	size?: 'xs' | 'sm' | 'md'
-	playAnimation?: boolean
-	theme?: ThemeProps['theme']
+    tag?: string
+    label?: string
+    iconName?: string
+    design?: 'filled' | 'outlined'
+    size?: 'xs' | 'sm' | 'md'
+    playAnimation?: boolean
+    theme?: ThemeProps['theme']
 }
 
 const props = defineProps<VButtonProps>()
 const { themeClass } = useTheme({ props })
 
 const $style = useCssModule()
-const rootClasses= computed(() => {
-	return [
-		$style.root,
-		themeClass.value,
-		$style[`root--${props.size || 'xs'}`],
-		props.design && $style[`root--${props.design}`],
-		props.playAnimation && $style['root--play-animation'],
-	]
+const rootClasses = computed(() => {
+    return [
+        $style.root,
+        themeClass.value,
+        $style[`root--${props.size || 'xs'}`],
+        props.design && $style[`root--${props.design}`],
+        props.playAnimation && $style['root--play-animation'],
+    ]
 })
 </script>
 
@@ -37,7 +37,7 @@ const rootClasses= computed(() => {
         >
             {{ label }}
         </span>
-		<slot
+        <slot
             name="icon"
             :icon-class="$style.icon"
         >
@@ -52,22 +52,22 @@ const rootClasses= computed(() => {
 
 <style lang="scss" module>
 .root {
-	@include theme-variants;
+    @include theme-variants;
 
-	display: var(--v-button-display, inline-flex);
-	align-items: center;
-	justify-content: center;
-	border: none;
-	border-radius: 50vmax;
-	background-color: transparent;
-	color: var(--color-content, inherit);
-	gap: var(--v-button-gap, 6px);
-	padding-block: var(--v-button-padding-block, 6px);
-	padding-inline: var(--v-button-padding-inline, 12px);
-	transition:
-		background-color 0.3s ease(out-quad),
-		color 0.3s ease(out-quad),
-		border-color 0.3s ease(out-quad);
+    display: var(--v-button-display, inline-flex);
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50vmax;
+    background-color: transparent;
+    color: var(--color-content, inherit);
+    gap: var(--v-button-gap, 6px);
+    padding-block: var(--v-button-padding-block, 6px);
+    padding-inline: var(--v-button-padding-inline, 12px);
+    transition:
+        background-color 0.3s ease(out-quad),
+        color 0.3s ease(out-quad),
+        border-color 0.3s ease(out-quad);
 
     @at-root {
         // remove the user agent style, but without specificity (i.e. :where()) for overriding it easily
@@ -88,52 +88,52 @@ const rootClasses= computed(() => {
         }
     }
 
-	&:not(:where([inert], #{&}--disabled)) {
+    &:not(:where([inert], #{&}--disabled)) {
         cursor: var(--v-button-cursor, pointer);
     }
 
-	&--outlined {
-		border: 1px solid var(--color-content);
+    &--outlined {
+        border: 1px solid var(--color-content);
 
-		@media (hover: hover) {
+        @media (hover: hover) {
             &:not(:disabled, [inert]):hover {
                 background-color: var(--color-content);
                 color: var(--color-background);
             }
         }
-	}
+    }
 
-	&--filled,
-	&--play-animation {
-		background-color: var(--color-content);
-		color: var(--color-background);
+    &--filled,
+    &--play-animation {
+        background-color: var(--color-content);
+        color: var(--color-background);
 
-		@media (hover: hover) {
+        @media (hover: hover) {
             &:not(:disabled, [inert]):hover {
                 background-color: var(--color-surface);
             }
         }
-	}
+    }
 
-	&--sm {
-		gap: var(--v-button-gap, 10px);
-		padding-block: var(--v-button-padding-block, 10px);
-		padding-inline: var(--v-button-padding-inline, 20px);
-	}
+    &--sm {
+        gap: var(--v-button-gap, 10px);
+        padding-block: var(--v-button-padding-block, 10px);
+        padding-inline: var(--v-button-padding-inline, 20px);
+    }
 
-	&--md {
-		gap: var(--v-button-gap, 10px);
-		padding-block: var(--v-button-padding-block, 10px);
-		padding-inline: var(--v-button-padding-inline, 20px);
-	}
+    &--md {
+        gap: var(--v-button-gap, 10px);
+        padding-block: var(--v-button-padding-block, 10px);
+        padding-inline: var(--v-button-padding-inline, 20px);
+    }
 }
 
 .icon {
-	flex-shrink: 0;
-	margin: var(--v-button-icon-margin, 0);
+    flex-shrink: 0;
+    margin: var(--v-button-icon-margin, 0);
 }
 
 .label {
-	white-space: nowrap;
+    white-space: nowrap;
 }
 </style>

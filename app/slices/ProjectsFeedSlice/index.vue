@@ -6,8 +6,8 @@ const props = defineProps(getSliceComponentProps<Content.ProjectsFeedSliceSlice>
 const title = computed(() => props.slice.primary?.title)
 
 const { data: listingResponse } = await usePrismicFetchDocumentListing(prismicDocumentType.PROJECT, {
-	limit: 10,
-	orderings: [{ field: getPrismicOrderingField(prismicDocumentType.PROJECT, 'creation_date'), direction: 'desc' }],
+    limit: 10,
+    orderings: [{ field: getPrismicOrderingField(prismicDocumentType.PROJECT, 'creation_date'), direction: 'desc' }],
 })
 </script>
 

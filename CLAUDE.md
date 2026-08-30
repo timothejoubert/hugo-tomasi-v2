@@ -67,17 +67,28 @@ réintroduire sans raison forte.
 
 ## Style de code (ESLint / Stylelint / .editorconfig)
 
-- **JS/TS/Vue** (script + template) : indentation en **tabs** — règle ESLint
-  `@stylistic/indent`/`@stylistic/indent-binary-ops` (ce dernier gère les
-  lignes de continuation d'opérateurs binaires `||`/`+`/unions de type ; sans
-  lui il réclame des espaces et entre en conflit avec `no-mixed-spaces-and-tabs`).
-- **CSS/SCSS** (fichiers `.scss` et blocs `<style>`) : **2 espaces** —
-  convention SCSS standard, déjà respectée partout. Stylelint n'a
-  volontairement **aucune règle d'indentation** (supprimée du cœur de
-  stylelint ≥15, jamais remplacée ici) : ce n'est pas un oubli, forcer des
-  tabs en CSS/SCSS irait à contre-courant de l'écosystème pour un gain nul.
-- `.editorconfig` à la racine encode cette convention par extension de
-  fichier pour les éditeurs qui le lisent, en plus des règles ESLint.
+- **JS/TS/Vue** (script + template) et **CSS/SCSS** (fichiers `.scss` et
+  blocs `<style>`) : indentation uniforme en **4 espaces** partout.
+  - JS/TS/Vue : règle ESLint `@stylistic/indent`/`@stylistic/indent-binary-ops`
+    (ce dernier gère les lignes de continuation d'opérateurs binaires
+    `||`/`+`/unions de type).
+  - CSS/SCSS : règle `@stylistic/indentation` du plugin
+    `@stylistic/stylelint-plugin`, ajouté car stylelint core a supprimé ses
+    règles de formatage (dont `indentation`) en v15 sans jamais les
+    remplacer nativement.
+- `.editorconfig` à la racine encode ce même 4-espaces globalement (`[*]`),
+  en plus des règles ESLint/Stylelint qui, elles seules, appliquent
+  réellement l'indentation (autofix on save ou en CLI). `.editorconfig` est
+  passif : il ne fait que guider les nouvelles frappes, jamais reformater un
+  fichier existant — et n'a d'effet dans VSCode que si l'extension
+  **EditorConfig for VS Code** est installée (recommandée via
+  `.vscode/extensions.json`, avec ESLint et Stylelint). C'est pourquoi
+  `.vscode/settings.json` ne duplique plus `editor.insertSpaces`/`tabSize` :
+  ce serait redondant avec `.editorconfig`.
+  - ⚠️ JSON/YAML/Markdown ne sont couverts par aucun de ces deux linters —
+    `.editorconfig` déclare 4 espaces pour eux aussi mais rien ne l'applique
+    ni ne le corrige ; ces fichiers (`package.json`, `tsconfig.json`,
+    `i18n/locales/*.json`, ...) sont restés en 2 espaces.
 - `eslint.config.mjs`/`stylelint.config.mjs` ignorent `.agents/`, `.claude/`
   et `backup/` — ce sont des skills tiers vendorisés et des snapshots
   générés, pas du code du projet. **Ne jamais lancer `--fix` sans ces

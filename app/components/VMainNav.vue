@@ -9,14 +9,14 @@ const runtimeConfig = useRuntimeConfig()
 const links = computed(() => data.value?.data.links || [])
 
 const _links = computed(() => {
-	return links.value.filter((item) => {
-		return isFilled.link(item.link)
-	}).map((item) => {
-		return {
-			...asLinkAttrs?.(item.link) || {},
-			label: item.label,
-		}
-	})
+    return links.value.filter((item) => {
+        return isFilled.link(item.link)
+    }).map((item) => {
+        return {
+            ...asLinkAttrs?.(item.link) || {},
+            label: item.label,
+        }
+    })
 })
 
 // Only offered once more than one locale is configured (see i18n/i18n.ts — today only `fr`)
@@ -27,13 +27,13 @@ const switchLocalePath = useSwitchLocalePath()
 const currentPage = useCurrentPage()
 
 const alternateLocales = computed(() => {
-	if ((locales.value?.length || 0) < 2) return []
+    if ((locales.value?.length || 0) < 2) return []
 
-	const alternateLangs = currentPage.value.document?.alternate_languages || []
-	return locales.value.filter((availableLocale) => {
-		return availableLocale.code !== locale.value
-			&& alternateLangs.some(alt => getFormattedLocale(alt.lang) === getFormattedLocale(availableLocale.code))
-	})
+    const alternateLangs = currentPage.value.document?.alternate_languages || []
+    return locales.value.filter((availableLocale) => {
+        return availableLocale.code !== locale.value
+            && alternateLangs.some(alt => getFormattedLocale(alt.lang) === getFormattedLocale(availableLocale.code))
+    })
 })
 </script>
 
@@ -99,16 +99,16 @@ const alternateLocales = computed(() => {
 
 <style lang="scss" module>
 .root {
-	position: sticky;
-	z-index: 101;
-	top: 0;
+    position: sticky;
+    z-index: 101;
+    top: 0;
     display: flex;
-	min-height: var(--v-main-nav-min-height);
+    min-height: var(--v-main-nav-min-height);
     align-items: center;
     justify-content: space-between;
-	filter: invert(1);
+    filter: invert(1);
     gap: 24px;
-	mix-blend-mode: difference;
+    mix-blend-mode: difference;
     padding-inline: var(--grid-margin);
 }
 

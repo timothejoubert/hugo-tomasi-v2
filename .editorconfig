@@ -1,22 +1,9 @@
 root = true
 
 [*]
+indent_style = space
+indent_size = 4
 end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
 charset = utf-8
-
-# JS/TS/Vue: tabs (enforced by eslint's @stylistic/indent)
-[*.{js,mjs,cjs,ts,vue}]
-indent_style = tab
-
-# CSS/SCSS (incl. <style> blocks in .vue, handled separately by stylelint which has no
-# indentation rule): 2-space, the idiomatic SCSS convention already used consistently here.
-[*.{css,scss}]
-indent_style = space
-indent_size = 2
-
-# Markdown/JSON/YAML: 2-space
-[*.{md,json,yml,yaml}]
-indent_style = space
-indent_size = 2

@@ -2,7 +2,7 @@
 import type { ProjectPageDocument } from '~~/prismicio-types'
 
 const props = defineProps<{
-	document: ProjectPageDocument
+    document: ProjectPageDocument
 }>()
 
 const { prevProject, nextProject } = useProjectNeighbors(props.document)

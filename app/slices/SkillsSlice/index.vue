@@ -5,14 +5,14 @@ const props = defineProps(getSliceComponentProps<Content.SkillsSliceSlice>())
 
 const title = computed(() => props.slice.primary.title)
 const skillList = computed(() => {
-	return props.slice.items.map((item) => {
-		return {
-			title: item.title,
-			content: item.content,
-			sideTitle: item.side_title,
-			sideContent: item.side_content,
-		}
-	})
+    return props.slice.items.map((item) => {
+        return {
+            title: item.title,
+            content: item.content,
+            sideTitle: item.side_title,
+            sideContent: item.side_content,
+        }
+    })
 })
 </script>
 
@@ -40,14 +40,14 @@ const skillList = computed(() => {
 // Figma shows this slice on a light/inverted section (dark theme elsewhere on the page) —
 // flip the two theme tokens locally rather than adding a whole second global theme entry.
 .root {
-  position: relative;
-  background-color: var(--color-background);
-  color: var(--color-content);
+    position: relative;
+    background-color: var(--color-background);
+    color: var(--color-content);
 }
 
 .title {
-  margin-bottom: 50px;
-  opacity: 0.6;
-  text-transform: uppercase;
+    margin-bottom: 50px;
+    opacity: 0.6;
+    text-transform: uppercase;
 }
 </style>

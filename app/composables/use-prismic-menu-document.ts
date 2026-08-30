@@ -1,5 +1,5 @@
 export async function usePrismicMenuDocument() {
-	const prismicClient = usePrismic().client
+    const prismicClient = usePrismic().client
 
-	return useAsyncData('menu-document', () => prismicClient.getSingle('menu'))
+    return useAsyncData('menu-document', () => prismicClient.getSingle('menu'))
 }

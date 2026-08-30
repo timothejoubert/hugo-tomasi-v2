@@ -6,11 +6,11 @@ export type VWrapperElement = ComponentOrTagName | false | undefined
 
 <script lang="ts" setup>
 defineProps<{
-	wrapper: VWrapperElement
+    wrapper: VWrapperElement
 }>()
 
 defineOptions({
-	inheritAttrs: false,
+    inheritAttrs: false,
 })
 </script>
 

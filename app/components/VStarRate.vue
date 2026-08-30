@@ -2,26 +2,26 @@
 // import IconStar from '~/assets/images/icons/star.svg?sprite'
 
 const props = defineProps<{
-	rate: number | string | null
+    rate: number | string | null
 }>()
 
 const RATE_MAX = 20
 const DISPLAYED_MAX = 5
 
 const decimalValue = computed(() => {
-	const rate = typeof props.rate === 'string' ? parseFloat(props.rate) : props.rate
-	return ((rate ?? 0) / RATE_MAX)
+    const rate = typeof props.rate === 'string' ? parseFloat(props.rate) : props.rate
+    return ((rate ?? 0) / RATE_MAX)
 })
 
 const rateValue = computed(() => {
-	return decimalValue.value * DISPLAYED_MAX
+    return decimalValue.value * DISPLAYED_MAX
 })
 const rateValueCeil = computed(() => {
-	return Math.ceil(rateValue.value)
+    return Math.ceil(rateValue.value)
 })
 
 const rest = computed(() => {
-	return rateValueCeil.value - rateValue.value
+    return rateValueCeil.value - rateValue.value
 })
 </script>
 
@@ -56,13 +56,13 @@ const rest = computed(() => {
 }
 
 .star {
-	color: inherit;
+    color: inherit;
 }
 
 .star--rest {
-	position: absolute;
-	right: 0;
-	color: var(--v-start-rest-color);
-	opacity: 0.9;
+    position: absolute;
+    right: 0;
+    color: var(--v-start-rest-color);
+    opacity: 0.9;
 }
 </style>

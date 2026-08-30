@@ -6,16 +6,16 @@ const id = 'setting-modal-' + useId()
 const buttonEl = useTemplateRef<HTMLButtonElement>('buttonEl')
 
 function close() {
-	if (!expanded.value) return
-	expanded.value = false
-	buttonEl.value?.focus()
+    if (!expanded.value) return
+    expanded.value = false
+    buttonEl.value?.focus()
 }
 
 function onKeydown(e: KeyboardEvent) {
-	if (e.key === 'Escape' && expanded.value) {
-		e.stopPropagation()
-		close()
-	}
+    if (e.key === 'Escape' && expanded.value) {
+        e.stopPropagation()
+        close()
+    }
 }
 
 const { activate: onButtonMagnetEvent } = useMagnetHover()
@@ -60,100 +60,100 @@ const { activate: onButtonMagnetEvent } = useMagnetHover()
 
 <style lang="scss" module>
 .root {
-	position: relative;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-	&::before {
-		position: absolute;
-		z-index: -1;
-		content: '';
-		inset: -12px;
-	}
+    &::before {
+        position: absolute;
+        z-index: -1;
+        content: '';
+        inset: -12px;
+    }
 }
 
 .button {
-	position: relative;
-	display: flex;
-	overflow: hidden;
-	height: 100%;
-	align-items: center;
-	justify-content: center;
-	border: none;
-	border-radius: 9px;
-	background-color: var(--color-surface);
-	color: var(--color-content);
-	cursor: pointer;
-	isolation: isolate;
-	padding-inline: 16px;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 9px;
+    background-color: var(--color-surface);
+    color: var(--color-content);
+    cursor: pointer;
+    isolation: isolate;
+    padding-inline: 16px;
 
-	&::after {
-		position: absolute;
-		z-index: -1;
-		background-color: var(--color-background);
-		content: '';
-		inset: 5px;
-		opacity: 0;
-		scale: 0.85;
-		translate: var(--magnet-x, 0) var(--magnet-y, 0);
+    &::after {
+        position: absolute;
+        z-index: -1;
+        background-color: var(--color-background);
+        content: '';
+        inset: 5px;
+        opacity: 0;
+        scale: 0.85;
+        translate: var(--magnet-x, 0) var(--magnet-y, 0);
 
-		@media (prefers-reduced-motion: no-preference) {
-			transition: opacity 0.3s ease(out-quart), scale 0.3s ease(out-quart), translate 0.3s ease(out-quart);
-		}
+        @media (prefers-reduced-motion: no-preference) {
+            transition: opacity 0.3s ease(out-quart), scale 0.3s ease(out-quart), translate 0.3s ease(out-quart);
+        }
 
-		.root:hover & {
-			opacity: 1;
-			scale: 1;
-			translate: 0 0;
-		}
+        .root:hover & {
+            opacity: 1;
+            scale: 1;
+            translate: 0 0;
+        }
 
-		@supports (corner-shape: squircle) {
-			border-radius: 42px;
-			corner-shape: squircle;
-		}
-	}
+        @supports (corner-shape: squircle) {
+            border-radius: 42px;
+            corner-shape: squircle;
+        }
+    }
 
-	&[aria-expanded="true"]::after {
-		opacity: 1;
-		scale: 1;
-		translate: 0 0;
-	}
+    &[aria-expanded="true"]::after {
+        opacity: 1;
+        scale: 1;
+        translate: 0 0;
+    }
 
-	@supports (corner-shape: squircle) {
+    @supports (corner-shape: squircle) {
         border-radius: 24px;
         corner-shape: squircle;
     }
 }
 
 .content {
-	position: absolute;
-	z-index: -1;
-	top: 0;
-	width: fit-content;
-	min-width: var(--setting-modal-min-width, fit-content);
-	max-width: 100%;
-	border-radius: 9px;
-	background-color: var(--color-surface);
-	color: var(--color-content);
-	opacity: 0;
-	pointer-events: none;
-	transition: opacity .22s ease(out-quad), translate .22s ease(out-quad);
-	translate: 0 -80%;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    width: fit-content;
+    min-width: var(--setting-modal-min-width, fit-content);
+    max-width: 100%;
+    border-radius: 9px;
+    background-color: var(--color-surface);
+    color: var(--color-content);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .22s ease(out-quad), translate .22s ease(out-quad);
+    translate: 0 -80%;
 
-	@supports (corner-shape: squircle) {
-		border-radius: 24px;
+    @supports (corner-shape: squircle) {
+        border-radius: 24px;
         corner-shape: squircle;
     }
 
-	&--visible {
-		opacity: 1;
-		pointer-events: initial;
-		translate: 0 calc(-100% - 12px);
-	}
+    &--visible {
+        opacity: 1;
+        pointer-events: initial;
+        translate: 0 calc(-100% - 12px);
+    }
 }
 
 .inner {
-	padding: 6px;
+    padding: 6px;
 }
 </style>

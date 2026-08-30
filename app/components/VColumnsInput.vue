@@ -2,20 +2,20 @@
 const { columns, min, max } = useGridColumns()
 
 if (import.meta.server) {
-	useHead({
-		style: [{ innerHTML: `:root{ --v-home-grid-columns: ${columns.value}; }` }],
-	})
+    useHead({
+        style: [{ innerHTML: `:root{ --v-home-grid-columns: ${columns.value}; }` }],
+    })
 }
 
 function setGridColumnsCssVar() {
-	document.documentElement.style.setProperty('--v-home-grid-columns', String(columns.value))
+    document.documentElement.style.setProperty('--v-home-grid-columns', String(columns.value))
 }
 
 watch(columns, setGridColumnsCssVar)
 
 function onGridColumnsInput(e: Event) {
-	const value = Number((e.target as HTMLInputElement).value)
-	if (value) columns.value = value
+    const value = Number((e.target as HTMLInputElement).value)
+    if (value) columns.value = value
 }
 </script>
 
@@ -42,8 +42,8 @@ function onGridColumnsInput(e: Event) {
 
 <style lang="scss" module>
 .root {
-	display: flex;
-	justify-content: space-between;
-	margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
 }
 </style>

@@ -15,17 +15,17 @@ const config = JSON.parse(readFileSync(join(process.cwd(), 'prismic.config.json'
 const REPOSITORY = config.repositoryName
 
 const client = createClient(REPOSITORY, {
-	...(process.env.PRISMIC_ACCESS_TOKEN ? { accessToken: process.env.PRISMIC_ACCESS_TOKEN } : {}),
+    ...(process.env.PRISMIC_ACCESS_TOKEN ? { accessToken: process.env.PRISMIC_ACCESS_TOKEN } : {}),
 })
 
 function extractLegacyMediaSlot(fields) {
-	return {
-		image: fields.image,
-		internalVideo: fields.internal_video,
-		embedVideo: fields.embed_video,
-		videoId: fields.video_id,
-		providerName: fields.provider_name,
-	}
+    return {
+        image: fields.image,
+        internalVideo: fields.internal_video,
+        embedVideo: fields.embed_video,
+        videoId: fields.video_id,
+        providerName: fields.provider_name,
+    }
 }
 
 const snapshot = { homePage: null, projectPages: [] }
@@ -33,32 +33,32 @@ const snapshot = { homePage: null, projectPages: [] }
 // home_page: fields live directly on `data` (image/internal_video/embed_id/embed_platform/embed_video)
 const homePage = await client.getSingle('home_page').catch(() => null)
 if (homePage) {
-	snapshot.homePage = {
-		id: homePage.id,
-		...extractLegacyMediaSlot(homePage.data),
-		// home_page used embed_id/embed_platform (not video_id/provider_name like MediaSlice)
-		videoId: homePage.data.embed_id,
-		providerName: homePage.data.embed_platform,
-	}
+    snapshot.homePage = {
+        id: homePage.id,
+        ...extractLegacyMediaSlot(homePage.data),
+        // home_page used embed_id/embed_platform (not video_id/provider_name like MediaSlice)
+        videoId: homePage.data.embed_id,
+        providerName: homePage.data.embed_platform,
+    }
 }
 
 // project_page: media_slice instances live inside data.slices, each with repeatable `items`
 const projectPages = await client.getAllByType('project_page')
 for (const doc of projectPages) {
-	const slices = (doc.data.slices || [])
-		.map((slice, sliceIndex) => ({ slice, sliceIndex }))
-		.filter(({ slice }) => slice.slice_type === 'media_slice')
+    const slices = (doc.data.slices || [])
+        .map((slice, sliceIndex) => ({ slice, sliceIndex }))
+        .filter(({ slice }) => slice.slice_type === 'media_slice')
 
-	if (!slices.length) continue
+    if (!slices.length) continue
 
-	snapshot.projectPages.push({
-		id: doc.id,
-		uid: doc.uid,
-		slices: slices.map(({ slice, sliceIndex }) => ({
-			sliceIndex,
-			items: (slice.items || []).map(extractLegacyMediaSlot),
-		})),
-	})
+    snapshot.projectPages.push({
+        id: doc.id,
+        uid: doc.uid,
+        slices: slices.map(({ slice, sliceIndex }) => ({
+            sliceIndex,
+            items: (slice.items || []).map(extractLegacyMediaSlot),
+        })),
+    })
 }
 
 const outputDir = join(process.cwd(), 'backup', 'media-migration')

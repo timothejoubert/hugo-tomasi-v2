@@ -3,7 +3,7 @@ import { SKIP_LINKS } from '~/constants/skip-links'
 import { components } from '~/slices'
 
 defineProps<{
-	slices?: SliceZone[]
+    slices?: SliceZone[]
 }>()
 </script>
 

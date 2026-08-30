@@ -7,12 +7,12 @@ const { document } = await useFetchPage(prismicDocumentType.PROJECT)
 const { title, description, canonicalUrl } = usePrismicMeta(document, { schemaOrgType: 'ItemPage' })
 
 if (document.value) {
-	usePrismicProjectSchemaOrg(document, {
-		title: title.value,
-		description: description.value,
-		canonicalUrl: canonicalUrl.value,
-		breadcrumb: [{ name: t('archive_page.heading'), item: getRoutePath(prismicDocumentType.PROJECT_LISTING) }],
-	})
+    usePrismicProjectSchemaOrg(document, {
+        title: title.value,
+        description: description.value,
+        canonicalUrl: canonicalUrl.value,
+        breadcrumb: [{ name: t('archive_page.heading'), item: getRoutePath(prismicDocumentType.PROJECT_LISTING) }],
+    })
 }
 
 const { data: otherProjects } = usePrismicFetchDocumentListing(prismicDocumentType.PROJECT)
@@ -32,13 +32,14 @@ const filteredOtherProjects = computed(() => otherProjects.value?.filter(p => p.
                 v-if="filteredOtherProjects?.length"
                 :title="$t('project_page.other_projects_title')"
                 :projects="filteredOtherProjects"
-				:class="$style['cross-projects']"
+                :class="$style['cross-projects']"
             />
         </template>
     </VPageWrapper>
 </template>
+
 <style lang="scss" module>
 .cross-projects {
-	margin-block: 200px;
+    margin-block: 200px;
 }
 </style>

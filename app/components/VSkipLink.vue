@@ -21,23 +21,23 @@ import { SKIP_LINKS } from '~/constants/skip-links'
 
 <style lang="scss" module>
 .root {
-	position: absolute;
-	z-index: 9999;
-	top: 0;
-	left: 0;
-	padding: 12px 20px;
+    position: absolute;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    padding: 12px 20px;
     background-color: var(--color-surface);
-	opacity: 0;
-	pointer-events: none;
+    opacity: 0;
+    pointer-events: none;
 
-	&:focus-within {
-		opacity: 1;
-		pointer-events: initial;
-	}
+    &:focus-within {
+        opacity: 1;
+        pointer-events: initial;
+    }
 }
 
 .link {
-	display: block;
+    display: block;
     color: var(--color-content);
 }
 </style>

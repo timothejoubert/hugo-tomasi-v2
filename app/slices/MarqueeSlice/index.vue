@@ -6,22 +6,22 @@ const props = defineProps(getSliceComponentProps<Content.MarqueeSliceSlice>(['sl
 
 const medias = computed(() => props.slice.items || [])
 const mediaListRow = computed(() => {
-	const filteredMedias = medias.value
-		.filter(item => item.media?.url)
-		.map(item => item.media as FilledLinkToMediaField)
+    const filteredMedias = medias.value
+        .filter(item => item.media?.url)
+        .map(item => item.media as FilledLinkToMediaField)
 
-	if (!filteredMedias.length) return []
+    if (!filteredMedias.length) return []
 
-	return filteredMedias.reduce((acc: FilledLinkToMediaField[][], curr: FilledLinkToMediaField, index) => {
-		if (index % 6 === 0) {
-			acc.push([curr])
-		}
-		else {
-			acc[acc.length - 1].push(curr)
-		}
+    return filteredMedias.reduce((acc: FilledLinkToMediaField[][], curr: FilledLinkToMediaField, index) => {
+        if (index % 6 === 0) {
+            acc.push([curr])
+        }
+        else {
+            acc[acc.length - 1].push(curr)
+        }
 
-		return acc
-	}, [])
+        return acc
+    }, [])
 })
 
 const hasMedia = computed(() => !!mediaListRow.value?.[0])
@@ -32,7 +32,7 @@ const title = computed(() => props.slice.primary.title)
     <section
         v-if="hasMedia"
         :class="$style.root"
-		class="slice-container--xl"
+        class="slice-container--xl"
     >
         <div
             v-if="title"
@@ -67,28 +67,28 @@ const title = computed(() => props.slice.primary.title)
 // Figma shows this slice on a light/inverted section (dark theme elsewhere on the page) —
 // flip the two theme tokens locally rather than adding a whole second global theme entry.
 .root {
-	--grid-container-padding-inline: 0;
+    --grid-container-padding-inline: 0;
 
-	background-color: var(--color-background);
-	color: var(--color-content);
-	overflow-x: hidden;
+    background-color: var(--color-background);
+    color: var(--color-content);
+    overflow-x: hidden;
 }
 
 .title {
-  margin-bottom: 70px;
-  padding-inline: var(--grid-margin);
+    margin-bottom: 70px;
+    padding-inline: var(--grid-margin);
 }
 
 .marquee {
-  display: flex;
-  min-width: 100vw;
-  margin-block: 18px;
+    display: flex;
+    min-width: 100vw;
+    margin-block: 18px;
 }
 
 .media {
-  width: 260px;
-  max-width: initial;
-  flex-shrink: 0;
-  border-radius: 30px;
+    width: 260px;
+    max-width: initial;
+    flex-shrink: 0;
+    border-radius: 30px;
 }
 </style>

@@ -4,9 +4,9 @@ import type { ProjectPageDocument } from '~~/prismicio-types'
 import { getRoutePath } from '~~/shared/prismic-schema'
 
 defineProps({
-	tag: String,
-	title: String,
-	projects: Array as PropType<ProjectPageDocument[]>,
+    tag: String,
+    title: String,
+    projects: Array as PropType<ProjectPageDocument[]>,
 })
 
 const carousel = ref<HTMLElement | null>(null)
@@ -20,7 +20,7 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
     >
         <div
             :class="$style.head"
-			class="grid-container"
+            class="grid-container"
         >
             <div
                 v-if="title"
@@ -68,17 +68,17 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
         <ul
             ref="carousel"
             :class="[
-				$style.carousel,
-				mouseMove && $style['carousel--is-dragging'],
-				isDown && $style['carousel--no-snap']
-			]"
+                $style.carousel,
+                mouseMove && $style['carousel--is-dragging'],
+                isDown && $style['carousel--no-snap'],
+            ]"
         >
             <VProjectCard
                 v-for="project in projects"
                 :key="project.uid"
                 :project="project"
                 :class="$style.card"
-				wrapper="li"
+                wrapper="li"
             />
         </ul>
     </component>
@@ -86,116 +86,116 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
 
 <style lang="scss" module>
 .root {
-  overflow: hidden;
-  background-color: var(--color-background);
-  color: var(--color-content);
+    overflow: hidden;
+    background-color: var(--color-background);
+    color: var(--color-content);
 }
 
 .head {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 22px;
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 22px;
 }
 
 .title {
-  margin-block: 0;
+    margin-block: 0;
 }
 
 .link {
-  margin-right: auto;
-  margin-left: 16px;
-  justify-self: end;
+    margin-right: auto;
+    margin-left: 16px;
+    justify-self: end;
 }
 
 .nav {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-left: auto;
-  gap: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto;
+    gap: 10px;
 }
 
 .nav-buttons {
-  display: flex;
-  gap: 8px;
+    display: flex;
+    gap: 8px;
 }
 
 .nav-button {
-  border-radius: 999px;
+    border-radius: 999px;
 
-  &:disabled {
-    cursor: default;
-    opacity: 0.35;
-  }
+    &:disabled {
+        cursor: default;
+        opacity: 0.35;
+    }
 }
 
 .scroll {
-	position: relative;
-	overflow: hidden;
-	width: 100%;
-	height: 6px;
-	border-radius: 6px;
-	background-color: color-mix(in srgb, var(--color-content) 10%, var(--color-background));
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 6px;
+    border-radius: 6px;
+    background-color: color-mix(in srgb, var(--color-content) 10%, var(--color-background));
 
-	&::after {
-		position: absolute;
-		background-color: var(--color-content);
-		content: '';
-		inset: 0;
-		scale: var(--progress, 0) 1;
-		transform-origin: left;
-		transition: scale 0.1s;
-	}
+    &::after {
+        position: absolute;
+        background-color: var(--color-content);
+        content: '';
+        inset: 0;
+        scale: var(--progress, 0) 1;
+        transform-origin: left;
+        transition: scale 0.1s;
+    }
 }
 
 .carousel {
-	display: flex;
-	min-width: 100%;
-	margin: 0;
-	cursor: grab;
-	-webkit-overflow-scrolling: touch;
-	overflow-x: scroll;
-	padding-inline: var(--grid-margin);
-	scroll-padding-inline: var(--grid-margin);
-	scroll-snap-type: x mandatory;
-	scrollbar-width: none; /* Firefox 64 */
-	touch-action: pan-x;
+    display: flex;
+    min-width: 100%;
+    margin: 0;
+    cursor: grab;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: scroll;
+    padding-inline: var(--grid-margin);
+    scroll-padding-inline: var(--grid-margin);
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Firefox 64 */
+    touch-action: pan-x;
 
-	&::-webkit-scrollbar {
-		display: none;
-	}
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
-	// The mouse-drag emulation below sets `scrollLeft` directly (not a native scroll gesture) —
-	// with `scroll-snap-type: mandatory` active, browsers snap back to the nearest slide on every
-	// intermediate assignment, which blocks the drag entirely. Snapping is restored on mouse up,
-	// when `snapToNearest()` (use-native-carousel.ts) explicitly re-snaps.
-	&--no-snap {
-		scroll-snap-type: none;
-	}
+    // The mouse-drag emulation below sets `scrollLeft` directly (not a native scroll gesture) —
+    // with `scroll-snap-type: mandatory` active, browsers snap back to the nearest slide on every
+    // intermediate assignment, which blocks the drag entirely. Snapping is restored on mouse up,
+    // when `snapToNearest()` (use-native-carousel.ts) explicitly re-snaps.
+    &--no-snap {
+        scroll-snap-type: none;
+    }
 }
 
 .card {
-	width: flex-grid(10, 12);
-	flex-shrink: 0;
-	margin-right: var(--gutter);
-	scroll-snap-align: start;
-	scroll-snap-stop: always;
+    width: flex-grid(10, 12);
+    flex-shrink: 0;
+    margin-right: var(--gutter);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
 
-	.carousel--is-dragging & {
-		pointer-events: none;
-	}
+    .carousel--is-dragging & {
+        pointer-events: none;
+    }
 
-	@include media('>=md') {
-		width: flex-grid(5, 12);
-	}
+    @include media('>=md') {
+        width: flex-grid(5, 12);
+    }
 
-	@include media('>=lg') {
-		width: flex-grid(4, 12);
-	}
+    @include media('>=lg') {
+        width: flex-grid(4, 12);
+    }
 }
 
 .media {
-  width: 100%;
-  border-radius: 22px;
+    width: 100%;
+    border-radius: 22px;
 }
 </style>

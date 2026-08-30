@@ -3,15 +3,15 @@ type ResizeDirection = 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw'
 const DIRECTIONS: ResizeDirection[] = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw']
 
 const props = withDefaults(defineProps<{
-	storageKey?: string
-	minWidth?: number
-	minHeight?: number
-	containerSelector?: string
-	ariaLabel?: string
+    storageKey?: string
+    minWidth?: number
+    minHeight?: number
+    containerSelector?: string
+    ariaLabel?: string
 }>(), {
-	storageKey: 'v-window',
-	minWidth: 330,
-	minHeight: 400,
+    storageKey: 'v-window',
+    minWidth: 330,
+    minHeight: 400,
 })
 
 const emit = defineEmits<{ close: [] }>()
@@ -33,83 +33,83 @@ const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), input:not([disabled
 let previouslyFocused: HTMLElement | null = null
 
 function getFocusable() {
-	return rootEl.value ? Array.from(rootEl.value.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)) : []
+    return rootEl.value ? Array.from(rootEl.value.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)) : []
 }
 
 function onKeydown(e: KeyboardEvent) {
-	if (e.key === 'Escape') {
-		e.stopPropagation()
-		emit('close')
-		return
-	}
+    if (e.key === 'Escape') {
+        e.stopPropagation()
+        emit('close')
+        return
+    }
 
-	if (e.key !== 'Tab') return
+    if (e.key !== 'Tab') return
 
-	const focusable = getFocusable()
-	if (!focusable.length) return
+    const focusable = getFocusable()
+    if (!focusable.length) return
 
-	const first = focusable[0]
-	const last = focusable[focusable.length - 1]
+    const first = focusable[0]
+    const last = focusable[focusable.length - 1]
 
-	if (e.shiftKey && document.activeElement === first) {
-		e.preventDefault()
-		last?.focus()
-	}
-	else if (!e.shiftKey && document.activeElement === last) {
-		e.preventDefault()
-		first?.focus()
-	}
+    if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last?.focus()
+    }
+    else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first?.focus()
+    }
 }
 
 onMounted(() => {
-	previouslyFocused = document.activeElement as HTMLElement | null
-	rootEl.value?.focus()
+    previouslyFocused = document.activeElement as HTMLElement | null
+    rootEl.value?.focus()
 })
 
 onBeforeUnmount(() => {
-	previouslyFocused?.focus?.()
+    previouslyFocused?.focus?.()
 })
 
 onMounted(() => {
-	if (!props.containerSelector) return null
-	containerEl.value = document.querySelector(props.containerSelector) as HTMLElement | null
+    if (!props.containerSelector) return null
+    containerEl.value = document.querySelector(props.containerSelector) as HTMLElement | null
 })
 
 // Drag
 const savedPosition = useCookie<{ x: number, y: number } | null>(
-	`${props.storageKey}-position`,
-	{ default: () => null },
+    `${props.storageKey}-position`,
+    { default: () => null },
 )
 const hasDragged = ref(!!savedPosition.value)
 
 const { x, y, isDragging } = useDraggable(rootEl, {
-	handle: headEl,
-	containerElement: containerEl,
-	...(savedPosition.value && { initialValue: savedPosition.value }),
+    handle: headEl,
+    containerElement: containerEl,
+    ...(savedPosition.value && { initialValue: savedPosition.value }),
 })
 
 watch(isDragging, (dragging) => {
-	if (dragging) hasDragged.value = true
+    if (dragging) hasDragged.value = true
 })
 
 watch([x, y], ([newX, newY]) => {
-	if (hasDragged.value && !isMobile.value) savedPosition.value = { x: newX, y: newY }
+    if (hasDragged.value && !isMobile.value) savedPosition.value = { x: newX, y: newY }
 })
 
 // Resize
 const { startResize, isResizing, style: resizeStyle } = useResizable(rootEl, {
-	containerEl,
-	minWidth: props.minWidth,
-	minHeight: props.minHeight,
-	storageKey: `${props.storageKey}-size`,
-	position: { x, y, onActivate: () => { hasDragged.value = true } },
-	disabled: isMobile,
+    containerEl,
+    minWidth: props.minWidth,
+    minHeight: props.minHeight,
+    storageKey: `${props.storageKey}-size`,
+    position: { x, y, onActivate: () => { hasDragged.value = true } },
+    disabled: isMobile,
 })
 
 // Combined style
 const windowStyle = computed(() => ({
-	...(hasDragged.value && !isMobile.value && { left: `${x.value}px`, top: `${y.value}px` }),
-	...resizeStyle.value,
+    ...(hasDragged.value && !isMobile.value && { left: `${x.value}px`, top: `${y.value}px` }),
+    ...resizeStyle.value,
 }))
 </script>
 
@@ -148,7 +148,7 @@ $handle-edge: 4px;
 $handle-corner: 10px;
 
 .root {
-	position: var(--v-window-display, fixed);
+    position: var(--v-window-display, fixed);
     border: 1PX solid var(--color-surface);
     border-radius: 12px;
     background-color: var(--color-background);
@@ -171,7 +171,7 @@ $handle-corner: 10px;
 
 .head {
     position: sticky;
-	z-index: 1;
+    z-index: 1;
     top: 0;
     display: flex;
     align-items: center;

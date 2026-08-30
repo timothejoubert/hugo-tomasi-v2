@@ -6,7 +6,7 @@ import { prismicDocumentRoutes } from '~~/shared/prismic-schema'
 type LocaleSegment = (typeof I18N_LOCALES)[number]
 
 function isLocaleSegment(segment: string | undefined): segment is LocaleSegment {
-	return I18N_LOCALES.includes(segment as LocaleSegment)
+    return I18N_LOCALES.includes(segment as LocaleSegment)
 }
 
 /**
@@ -14,36 +14,36 @@ function isLocaleSegment(segment: string | undefined): segment is LocaleSegment 
  * `:lang?` is an optional locale segment, any other `:param` matches a single arbitrary segment.
  */
 function matchesTemplate(path: string, template: string): boolean {
-	const pathSegments = path.split('/').filter(Boolean)
-	const templateSegments = template.split('/').filter(Boolean)
+    const pathSegments = path.split('/').filter(Boolean)
+    const templateSegments = template.split('/').filter(Boolean)
 
-	let pathIndex = 0
+    let pathIndex = 0
 
-	for (const templateSegment of templateSegments) {
-		if (templateSegment === ':lang?') {
-			if (isLocaleSegment(pathSegments[pathIndex])) pathIndex++
-			continue
-		}
+    for (const templateSegment of templateSegments) {
+        if (templateSegment === ':lang?') {
+            if (isLocaleSegment(pathSegments[pathIndex])) pathIndex++
+            continue
+        }
 
-		const pathSegment = pathSegments[pathIndex]
-		if (pathSegment === undefined) return false
-		if (!templateSegment.startsWith(':') && templateSegment !== pathSegment) return false
+        const pathSegment = pathSegments[pathIndex]
+        if (pathSegment === undefined) return false
+        if (!templateSegment.startsWith(':') && templateSegment !== pathSegment) return false
 
-		pathIndex++
-	}
+        pathIndex++
+    }
 
-	return pathIndex === pathSegments.length
+    return pathIndex === pathSegments.length
 }
 
 /** All path templates (primary path + aliases) a route can be reached by. */
 function getRouteTemplates(route: { path: string, alias?: readonly string[] }): string[] {
-	return [route.path, ...(route.alias || [])]
+    return [route.path, ...(route.alias || [])]
 }
 
 export function getDocumentTypeByUrl(path: string) {
-	const route = prismicDocumentRoutes.find(prismicRoute =>
-		getRouteTemplates(prismicRoute).some(template => matchesTemplate(path, template)),
-	)
+    const route = prismicDocumentRoutes.find(prismicRoute =>
+        getRouteTemplates(prismicRoute).some(template => matchesTemplate(path, template)),
+    )
 
-	return route?.type
+    return route?.type
 }

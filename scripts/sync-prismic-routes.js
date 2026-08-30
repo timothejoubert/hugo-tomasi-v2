@@ -7,4 +7,4 @@ const config = JSON.parse(readFileSync(configPath, 'utf-8'))
 
 config.routes = prismicDocumentRoutes.map(({ type, path }) => ({ type, path }))
 
-writeFileSync(configPath, `${JSON.stringify(config, null, 2)}\n`)
+writeFileSync(configPath, `${JSON.stringify(config, null, 4)}\n`)

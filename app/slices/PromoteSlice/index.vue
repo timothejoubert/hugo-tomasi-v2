@@ -6,7 +6,7 @@ const props = defineProps(getSliceComponentProps<Content.PromoteSliceSlice>())
 const title = computed(() => props.slice.primary.title)
 
 const promoteList = computed(() => {
-	return props.slice.items
+    return props.slice.items
 })
 </script>
 
@@ -69,59 +69,59 @@ const promoteList = computed(() => {
 }
 
 .title {
-  margin-bottom: 32px;
-  text-transform: uppercase;
+    margin-bottom: 32px;
+    text-transform: uppercase;
 }
 
 .wrapper {
-  --v-promote-border: 1px solid color-mix(in srgb, var(--color-content) 20%, transparent);
+    --v-promote-border: 1px solid color-mix(in srgb, var(--color-content) 20%, transparent);
 
-  position: relative;
-  display: flex;
-  min-height: 73px;
-  align-items: center;
-  border-top: var(--v-promote-border);
-  gap: 16px;
-  padding-block: 16px;
+    position: relative;
+    display: flex;
+    min-height: 73px;
+    align-items: center;
+    border-top: var(--v-promote-border);
+    gap: 16px;
+    padding-block: 16px;
 
-  &:last-child {
-    border-bottom: var(--v-promote-border);
-  }
+    &:last-child {
+        border-bottom: var(--v-promote-border);
+    }
 }
 
 .promote-title {
-  min-width: 130px;
-  font-weight: 700;
-  transition: transform 0.3s ease(out-quad);
+    min-width: 130px;
+    font-weight: 700;
+    transition: transform 0.3s ease(out-quad);
 
-  @media (hover: hover) {
-    .wrapper:hover & {
-      transform: translateX(10px);
+    @media (hover: hover) {
+        .wrapper:hover & {
+            transform: translateX(10px);
+        }
     }
-  }
 }
 
 .content {
-  overflow: hidden;
-  flex-grow: 1;
-  font-weight: 300;
-  opacity: 0.8;
-  text-overflow: ellipsis;
+    overflow: hidden;
+    flex-grow: 1;
+    font-weight: 300;
+    opacity: 0.8;
+    text-overflow: ellipsis;
 }
 
 .year,
 .place {
-  text-wrap: nowrap;
+    text-wrap: nowrap;
 
-  &:not(:last-child)::after {
-    position: relative;
-    margin-left: 16px;
-    content: '|';
-  }
+    &:not(:last-child)::after {
+        position: relative;
+        margin-left: 16px;
+        content: '|';
+    }
 }
 
 .cta {
-  --v-button-padding-inline: 0;
-  --v-button-icon-margin: #{0px 0px 0px 4px};
+    --v-button-padding-inline: 0;
+    --v-button-icon-margin: #{0px 0px 0px 4px};
 }
 </style>

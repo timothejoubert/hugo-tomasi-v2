@@ -1,23 +1,23 @@
 {
-  "version": 1,
-  "skills": {
-    "find-skills": {
-      "source": "vercel-labs/skills",
-      "sourceType": "github",
-      "skillPath": "skills/find-skills/SKILL.md",
-      "computedHash": "b146008599c31057cef1c145774cea5d5afb30e8f43fa802e47a4b461419aaaf"
-    },
-    "impeccable": {
-      "source": "pbakaus/impeccable",
-      "sourceType": "github",
-      "skillPath": ".agents/skills/impeccable/SKILL.md",
-      "computedHash": "fc8f148bd0c506888699452acf340bbeb1481f6b28567d702b7efabe9bd61452"
-    },
-    "task-observer": {
-      "source": "rebelytics/one-skill-to-rule-them-all",
-      "sourceType": "github",
-      "skillPath": "SKILL.md",
-      "computedHash": "033ee8342419a9bff7dfb7f48ba535f2a56c860dff6b0d82c144ed66bceaafd5"
+    "version": 1,
+    "skills": {
+        "find-skills": {
+            "source": "vercel-labs/skills",
+            "sourceType": "github",
+            "skillPath": "skills/find-skills/SKILL.md",
+            "computedHash": "b146008599c31057cef1c145774cea5d5afb30e8f43fa802e47a4b461419aaaf"
+        },
+        "impeccable": {
+            "source": "pbakaus/impeccable",
+            "sourceType": "github",
+            "skillPath": ".agents/skills/impeccable/SKILL.md",
+            "computedHash": "fc8f148bd0c506888699452acf340bbeb1481f6b28567d702b7efabe9bd61452"
+        },
+        "task-observer": {
+            "source": "rebelytics/one-skill-to-rule-them-all",
+            "sourceType": "github",
+            "skillPath": "SKILL.md",
+            "computedHash": "033ee8342419a9bff7dfb7f48ba535f2a56c860dff6b0d82c144ed66bceaafd5"
+        }
     }
-  }
 }

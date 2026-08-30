@@ -13,26 +13,26 @@ const config = JSON.parse(readFileSync(join(process.cwd(), 'prismic.config.json'
 const REPOSITORY = config.repositoryName
 
 const client = createClient(REPOSITORY, {
-	...(process.env.PRISMIC_ACCESS_TOKEN ? { accessToken: process.env.PRISMIC_ACCESS_TOKEN } : {}),
+    ...(process.env.PRISMIC_ACCESS_TOKEN ? { accessToken: process.env.PRISMIC_ACCESS_TOKEN } : {}),
 })
 
 const snapshot = { setting: null, projectPages: [] }
 
 const setting = await client.getSingle('setting').catch(() => null)
 if (setting) {
-	snapshot.setting = {
-		id: setting.id,
-		siteName: setting.data.site_name,
-		email: setting.data.email,
-		socials: setting.data.socials,
-	}
+    snapshot.setting = {
+        id: setting.id,
+        siteName: setting.data.site_name,
+        email: setting.data.email,
+        socials: setting.data.socials,
+    }
 }
 
 const projectPages = await client.getAllByType('project_page')
 snapshot.projectPages = projectPages.map(doc => ({
-	id: doc.id,
-	uid: doc.uid,
-	description: doc.data.description,
+    id: doc.id,
+    uid: doc.uid,
+    description: doc.data.description,
 }))
 
 const outputDir = join(process.cwd(), 'backup', 'schema-migration')

@@ -17,16 +17,16 @@ const config = JSON.parse(readFileSync(join(process.cwd(), 'prismic.config.json'
 const REPOSITORY = config.repositoryName
 
 if (!process.env.PRISMIC_WRITE_TOKEN) {
-	console.error('Missing PRISMIC_WRITE_TOKEN in .env — generate a write token from the Prismic dashboard (Settings → API & Security) first.')
-	process.exit(1)
+    console.error('Missing PRISMIC_WRITE_TOKEN in .env — generate a write token from the Prismic dashboard (Settings → API & Security) first.')
+    process.exit(1)
 }
 
 const readClient = createClient(REPOSITORY, {
-	...(process.env.PRISMIC_ACCESS_TOKEN ? { accessToken: process.env.PRISMIC_ACCESS_TOKEN } : {}),
+    ...(process.env.PRISMIC_ACCESS_TOKEN ? { accessToken: process.env.PRISMIC_ACCESS_TOKEN } : {}),
 })
 const writeClient = createWriteClient(REPOSITORY, {
-	writeToken: process.env.PRISMIC_WRITE_TOKEN,
-	...(process.env.PRISMIC_ACCESS_TOKEN ? { accessToken: process.env.PRISMIC_ACCESS_TOKEN } : {}),
+    writeToken: process.env.PRISMIC_WRITE_TOKEN,
+    ...(process.env.PRISMIC_ACCESS_TOKEN ? { accessToken: process.env.PRISMIC_ACCESS_TOKEN } : {}),
 })
 
 const snapshotPath = join(process.cwd(), 'backup', 'schema-migration', 'legacy-fields.json')
@@ -40,37 +40,37 @@ let patchedCount = 0
 // a payload containing any field not part of the current custom type, so those stale keys must
 // be deleted before sending, not just have the new ones added alongside them.
 if (snapshot.setting) {
-	const current = await readClient.getByID(snapshot.setting.id)
-	const updated = migration.updateDocument(current, 'Setting')
-	delete updated.document.data.site_name
-	delete updated.document.data.email
-	delete updated.document.data.socials
-	Object.assign(updated.document.data, {
-		publisher_name: snapshot.setting.siteName,
-		publisher_email: snapshot.setting.email,
-		publisher_socials: snapshot.setting.socials,
-	})
-	patchedCount++
+    const current = await readClient.getByID(snapshot.setting.id)
+    const updated = migration.updateDocument(current, 'Setting')
+    delete updated.document.data.site_name
+    delete updated.document.data.email
+    delete updated.document.data.socials
+    Object.assign(updated.document.data, {
+        publisher_name: snapshot.setting.siteName,
+        publisher_email: snapshot.setting.email,
+        publisher_socials: snapshot.setting.socials,
+    })
+    patchedCount++
 }
 
 for (const page of snapshot.projectPages) {
-	if (!page.description?.length) continue
+    if (!page.description?.length) continue
 
-	const current = await readClient.getByID(page.id)
-	const updated = migration.updateDocument(current, current.data.title || page.uid || page.id)
-	delete updated.document.data.description
-	updated.document.data.content = page.description
-	patchedCount++
+    const current = await readClient.getByID(page.id)
+    const updated = migration.updateDocument(current, current.data.title || page.uid || page.id)
+    delete updated.document.data.description
+    updated.document.data.content = page.description
+    patchedCount++
 }
 
 console.log(`Prepared migration for ${patchedCount} document(s). Sending to Prismic (staged as a release, not published)...`)
 
 await writeClient.migrate(migration, {
-	reporter: (event) => {
-		if (event.type.endsWith(':creating') || event.type.endsWith(':updating')) {
-			console.log(`  ${event.type}: ${event.data.current}/${event.data.total}`)
-		}
-	},
+    reporter: (event) => {
+        if (event.type.endsWith(':creating') || event.type.endsWith(':updating')) {
+            console.log(`  ${event.type}: ${event.data.current}/${event.data.total}`)
+        }
+    },
 })
 
 console.log('\nDone — review the staged changes in the Prismic dashboard under Releases, then publish manually when ready.')

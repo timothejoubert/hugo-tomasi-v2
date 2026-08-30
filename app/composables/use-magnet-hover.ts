@@ -6,17 +6,17 @@
  * out towards the exit point on leave.
  */
 export function useMagnetHover() {
-	function activate(e: PointerEvent) {
-		const el = e.currentTarget as HTMLElement | null
-		if (!el) return
+    function activate(e: PointerEvent) {
+        const el = e.currentTarget as HTMLElement | null
+        if (!el) return
 
-		const rect = el.getBoundingClientRect()
-		const offsetX = e.clientX - (rect.left + rect.width / 2)
-		const offsetY = e.clientY - (rect.top + rect.height / 2)
+        const rect = el.getBoundingClientRect()
+        const offsetX = e.clientX - (rect.left + rect.width / 2)
+        const offsetY = e.clientY - (rect.top + rect.height / 2)
 
-		el.style.setProperty('--magnet-x', `${offsetX}px`)
-		el.style.setProperty('--magnet-y', `${offsetY}px`)
-	}
+        el.style.setProperty('--magnet-x', `${offsetX}px`)
+        el.style.setProperty('--magnet-y', `${offsetY}px`)
+    }
 
-	return { activate }
+    return { activate }
 }

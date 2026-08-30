@@ -4,18 +4,18 @@ import type { VWrapperElement } from '~/components/VWrapper.vue'
 import { getRoutePath } from '~~/shared/prismic-schema'
 
 const props = defineProps<{
-	project: ProjectPageDocument
-	wrapper?: VWrapperElement
-	titleClass?: string
+    project: ProjectPageDocument
+    wrapper?: VWrapperElement
+    titleClass?: string
 }>()
 
 const data = computed(() => props.project.data)
 const tags = computed(() => {
-	return props.project.tags.filter(t => t) as string[]
+    return props.project.tags.filter(t => t) as string[]
 })
 
 const orderedTags = computed(() => {
-	return [...tags.value]?.sort((a, b) => a.length - b.length)
+    return [...tags.value]?.sort((a, b) => a.length - b.length)
 })
 
 const img = computed(() => data.value?.thumbnail || data.value?.main_media)
@@ -26,17 +26,17 @@ const img = computed(() => data.value?.thumbnail || data.value?.main_media)
         :wrapper="wrapper || 'div'"
         :class="$style.root"
     >
-		<h2
-			v-if="data.title"
-			:class="[$style.title, titleClass]"
-		>
-			<VPrismicLink
-				:to="getRoutePath('project_page', { uid: project.uid })"
-				:class="$style.link"
-			>
-				{{ data.title }}
-			</VPrismicLink>
-		</h2>
+        <h2
+            v-if="data.title"
+            :class="[$style.title, titleClass]"
+        >
+            <VPrismicLink
+                :to="getRoutePath('project_page', { uid: project.uid })"
+                :class="$style.link"
+            >
+                {{ data.title }}
+            </VPrismicLink>
+        </h2>
         <div :class="$style['image-wrapper']">
             <VPrismicImg
                 v-if="img"
@@ -47,24 +47,24 @@ const img = computed(() => data.value?.thumbnail || data.value?.main_media)
                 :modifiers="{ fit: 'crop' }"
                 :class="$style.img"
             />
-			<div
-				v-if="orderedTags && orderedTags.length"
-				:class="$style['tags']"
-			>
-				<VTag
-					v-for="tag in orderedTags"
-					:key="tag"
-					:label="tag"
-					filled
-				/>
-			</div>
-			<VButton
-				:class="$style.cta"
-				tag="span"
-				design="filled"
-				theme="dark"
-				icon-name="material-symbols:arrow-outward"
-			/>
+            <div
+                v-if="orderedTags && orderedTags.length"
+                :class="$style['tags']"
+            >
+                <VTag
+                    v-for="tag in orderedTags"
+                    :key="tag"
+                    :label="tag"
+                    filled
+                />
+            </div>
+            <VButton
+                :class="$style.cta"
+                tag="span"
+                design="filled"
+                theme="dark"
+                icon-name="material-symbols:arrow-outward"
+            />
         </div>
     </VWrapper>
 </template>
@@ -72,13 +72,13 @@ const img = computed(() => data.value?.thumbnail || data.value?.main_media)
 <style lang="scss" module>
 .root {
     position: relative;
-	display: flex;
-	flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .title {
-	order: 2;
-	margin-left: 12px;
+    order: 2;
+    margin-left: 12px;
     margin-block: 12px 0;
 }
 
@@ -88,36 +88,34 @@ const img = computed(() => data.value?.thumbnail || data.value?.main_media)
 
     &::before {
         position: absolute;
-		z-index: 2;
+        z-index: 2;
         content: '';
         inset: 0;
     }
 }
-
 
 .image-wrapper {
     position: relative;
     overflow: hidden;
     border-radius: var(--common-border-radius);
     aspect-ratio: 16 / 9;
-	container-type: size;
+    container-type: size;
 
-	&::after {
-		position: absolute;
-		background: linear-gradient(4deg,rgb(0, 0, 0, 60%) 10%, rgb(0, 0, 0, 0%) 30%);
-		content: '';
-		inset: 0;
-		pointer-events: none;
-	}
+    &::after {
+        position: absolute;
+        background: linear-gradient(4deg,rgb(0, 0, 0, 60%) 10%, rgb(0, 0, 0, 0%) 30%);
+        content: '';
+        inset: 0;
+        pointer-events: none;
+    }
 }
 
 .img {
     position: absolute;
     inset: 0;
-	transition-duration: 0.3s;
-	transition-property: scale;
-	transition-timing-function: ease(out-quart);
-
+    transition-duration: 0.3s;
+    transition-property: scale;
+    transition-timing-function: ease(out-quart);
 
     @media (hover: hover) {
         .root:hover & {
@@ -128,13 +126,13 @@ const img = computed(() => data.value?.thumbnail || data.value?.main_media)
 
 .cta {
     position: absolute;
-	z-index: 1;
+    z-index: 1;
     right: min(3cqw, 20px);
     bottom: min(5cqh, 20px);
-	opacity: 0;
-	transition: opacity 0.3s ease(out-quad);
+    opacity: 0;
+    transition: opacity 0.3s ease(out-quad);
 
-	@media (hover: hover) {
+    @media (hover: hover) {
         .root:hover & {
             opacity: 1;
         }
@@ -142,12 +140,12 @@ const img = computed(() => data.value?.thumbnail || data.value?.main_media)
 }
 
 .tags {
-	position: absolute;
+    position: absolute;
     z-index: 1;
-	bottom: min(5cqh, 20px);
-	left: min(3cqw, 20px);
+    bottom: min(5cqh, 20px);
+    left: min(3cqw, 20px);
     display: flex;
-	flex-wrap: wrap;
+    flex-wrap: wrap;
     align-items: flex-start;
     gap: 6px;
 }
