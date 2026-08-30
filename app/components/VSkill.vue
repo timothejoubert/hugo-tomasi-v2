@@ -40,9 +40,12 @@ const id = `collapsable-${useId()}`
                 :class="$style.title"
                 class="text-h3"
             >
-                <VSplitText
+                <VAnimatedText
                     :content="title"
-                    render="chars"
+                    :revealed="isHoveringHead"
+                    :duration="300"
+                    :stagger="10"
+                    swap
                 />
             </h3>
         </div>

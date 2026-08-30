@@ -26,6 +26,8 @@ const { locales, locale } = useI18n()
 const switchLocalePath = useSwitchLocalePath()
 const currentPage = useCurrentPage()
 
+const hoveredHref = ref<string | null | undefined>(null)
+
 const alternateLocales = computed(() => {
     if ((locales.value?.length || 0) < 2) return []
 
@@ -68,8 +70,16 @@ const alternateLocales = computed(() => {
                             :class="$style.link"
                             :target="link.target"
                             :rel="link.rel"
+                            @mouseenter="hoveredHref = link.href"
+                            @mouseleave="hoveredHref = null"
+                            @focus="hoveredHref = link.href"
+                            @blur="hoveredHref = null"
                         >
-                            {{ link.label }}
+                            <VAnimatedText
+                                :content="link.label"
+                                :revealed="hoveredHref === link.href"
+                                swap
+                            />
                         </VPrismicLink>
                     </slot>
                 </li>
@@ -110,6 +120,17 @@ const alternateLocales = computed(() => {
     gap: 24px;
     mix-blend-mode: difference;
     padding-inline: var(--grid-margin);
+
+    // bluured background not working with mix-blend-mode: difference; or filter: invert(1); effect
+    // &::before {
+    //     position: absolute;
+    //     display: block;
+    //     backdrop-filter: blur(.0625rem);
+    //     content: "";
+    //     inset: 0;
+    //     mask-image: radial-gradient(closest-side, #000 40%, #0000);
+    //     pointer-events: none;
+    // }
 }
 
 .logo {
