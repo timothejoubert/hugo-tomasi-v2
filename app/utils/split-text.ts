@@ -65,7 +65,7 @@ export function splitWords(text: string | null) {
 }
 
 // Letters
-export function splitChars(text: string | null) {
+export function splitChars(text: string | null | undefined) {
     const letters = text?.split('') || []
     return letters.map(char => char)
 }

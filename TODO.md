@@ -1,4 +1,15 @@
 ### TODO
+- feat: ajouter un composant VAnimatedText qui utilise VSplitText (render=chars) lorsqu'il recoit un props active (trouver un nom plus pertinent) chaque lettre apparait (from translate-y: -100 vers translate-y: 0) chaque lettre a un delay de transition en fonction de son index. Mettre en place se composant pour les liens dans VMainNav pour que je puisse tester le fonctionnement.
+- useNativeCarousel: le slide ne s'arrete pas vraiment à la derniere slide, 5px apres la derniere slide ca donne un effet de slide "fantome"
+- integration: daire l'integration de la page projects listing
+    - Ajouter un systeme de filtre par tag de projet, input radio qui filtre visuellement les projets affichés
+- A11y:
+    - VMainNav: Style visible pour les liens actif (aria-current)
+    - VProjectCard: Style visible pour les liens actif (aria-current)
+    - Checker les attributs des élements interactif, exemple: aria-expended
+    - Nom accessible pour les liens
+    - Hierarchie des headings
+
 
 ### Next step
 - API: ce site est la nouvelle version de celui ci https://hugotomasi.com/, il faudrait dans un premier temps récupérer son contenu et de préparer un dossier sur mon ordi en local avec les fichiers correspondant (sur mon bureau). Aussi prévoir un plan de redirection. Une fois validé, il faudra faire un migration pour importer ces données dans le repo prismic.

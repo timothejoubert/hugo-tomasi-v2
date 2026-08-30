@@ -135,7 +135,7 @@ onBeforeUnmount(disposeIntersectionObserver)
             align-items: center;
             justify-content: center;
             border-radius: 10px;
-            background-color: lightgrey;
+            background-color: color-mix(in srgb, var(--color-content) 10%, transparent);
             margin-inline: 0.5ch;
             transition: width 0.5s ease(out-quad);
         }
