@@ -136,8 +136,14 @@ export default defineComponent({
         const hasStartedPlaying = ref(false)
         let startedPlayingTimeout: ReturnType<typeof setTimeout> | undefined
 
+        interface EmbedMessageData {
+            event?: string
+            info?: number | { playerState?: number }
+            method?: string
+        }
+
         function handleEmbedMessage(event: MessageEvent) {
-            let data: any
+            let data: EmbedMessageData | undefined
             try {
                 data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data
             }
@@ -145,8 +151,9 @@ export default defineComponent({
                 return
             }
 
-            const isYoutubePlaying = data?.event === 'onStateChange' && data?.info === 1
-                || data?.event === 'infoDelivery' && data?.info?.playerState === 1
+            const youtubeInfo = typeof data?.info === 'object' ? data.info : undefined
+            const isYoutubePlaying = (data?.event === 'onStateChange' && data?.info === 1)
+                || (data?.event === 'infoDelivery' && youtubeInfo?.playerState === 1)
             const isVimeoPlaying = data?.event === 'play' || data?.method === 'play'
 
             if (isYoutubePlaying || isVimeoPlaying) hasStartedPlaying.value = true
@@ -156,7 +163,9 @@ export default defineComponent({
             if (!isEmbed.value) return
 
             window.addEventListener('message', handleEmbedMessage)
-            startedPlayingTimeout = setTimeout(() => { hasStartedPlaying.value = true }, 3000)
+            startedPlayingTimeout = setTimeout(() => {
+                hasStartedPlaying.value = true
+            }, 3000)
         })
 
         onBeforeUnmount(() => {
