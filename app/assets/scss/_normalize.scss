@@ -11,7 +11,9 @@
 :where([contenteditable]:not([contenteditable="false"])) {
     -webkit-line-break: after-white-space;
     overflow-wrap: break-word;
+    /* stylelint-disable-next-line property-no-deprecated -- no standard replacement, still needed for the Chromium contenteditable fix described above */
     -moz-user-modify: read-write;
+    /* stylelint-disable-next-line property-no-deprecated -- see above */
     -webkit-user-modify: read-write;
     user-select: auto;
 }

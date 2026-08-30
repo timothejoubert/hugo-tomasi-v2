@@ -212,12 +212,67 @@ $handle-corner: 10px;
     }
 }
 
-.resize-handle--n  { top: 0; right: $handle-corner; left: $handle-corner; height: $handle-edge; cursor: n-resize; }
-.resize-handle--s  { right: $handle-corner; bottom: 0; left: $handle-corner; height: $handle-edge; cursor: s-resize; }
-.resize-handle--e  { top: $handle-corner; right: 0; bottom: $handle-corner; width: $handle-edge; cursor: e-resize; }
-.resize-handle--w  { top: $handle-corner; bottom: $handle-corner; left: 0; width: $handle-edge; cursor: w-resize; }
-.resize-handle--ne { top: 0; right: 0; width: $handle-corner; height: $handle-corner; cursor: ne-resize; }
-.resize-handle--nw { top: 0; left: 0; width: $handle-corner; height: $handle-corner; cursor: nw-resize; }
-.resize-handle--se { right: 0; bottom: 0; width: $handle-corner; height: $handle-corner; cursor: se-resize; }
-.resize-handle--sw { bottom: 0; left: 0; width: $handle-corner; height: $handle-corner; cursor: sw-resize; }
+.resize-handle--n {
+    top: 0;
+    right: $handle-corner;
+    left: $handle-corner;
+    height: $handle-edge;
+    cursor: n-resize;
+}
+
+.resize-handle--s {
+    right: $handle-corner;
+    bottom: 0;
+    left: $handle-corner;
+    height: $handle-edge;
+    cursor: s-resize;
+}
+
+.resize-handle--e {
+    top: $handle-corner;
+    right: 0;
+    bottom: $handle-corner;
+    width: $handle-edge;
+    cursor: e-resize;
+}
+
+.resize-handle--w {
+    top: $handle-corner;
+    bottom: $handle-corner;
+    left: 0;
+    width: $handle-edge;
+    cursor: w-resize;
+}
+
+.resize-handle--ne {
+    top: 0;
+    right: 0;
+    width: $handle-corner;
+    height: $handle-corner;
+    cursor: ne-resize;
+}
+
+.resize-handle--nw {
+    top: 0;
+    left: 0;
+    width: $handle-corner;
+    height: $handle-corner;
+    cursor: nw-resize;
+}
+
+.resize-handle--se {
+    right: 0;
+    bottom: 0;
+    width: $handle-corner;
+    height: $handle-corner;
+    cursor: se-resize;
+}
+
+.resize-handle--sw {
+    bottom: 0;
+    left: 0;
+    width: $handle-corner;
+    height: $handle-corner;
+    cursor: sw-resize;
+}
 </style>

@@ -65,6 +65,7 @@ const promoteList = computed(() => {
 </template>
 
 <style lang="scss" module>
+/* stylelint-disable-next-line block-no-empty -- kept as a CSS module hook for $style.root in the template, like other slices */
 .root {
 }
 

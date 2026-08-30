@@ -74,14 +74,12 @@
     }
 
     // Gutters
-    & {
-        @each $breakpoint, $value in $gutters {
-            @if $breakpoint == 0 {
+    @each $breakpoint, $value in $gutters {
+        @if $breakpoint == 0 {
+            --gutter: #{$value};
+        } @else {
+            @media (min-width: #{map.get($breakpoints, $breakpoint)}) {
                 --gutter: #{$value};
-            } @else {
-                @media (min-width: #{map.get($breakpoints, $breakpoint)}) {
-                    --gutter: #{$value};
-                }
             }
         }
     }
