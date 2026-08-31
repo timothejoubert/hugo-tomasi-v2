@@ -2,7 +2,8 @@
 - integration: faire l'integration de la page projects listing
     - grid de 2 VProjectCard par row
     - Ajouter un systeme de filtre par tag de projet, input radio (pour le coté accessible) qui filtre visuellement les projets affichés
--
+- Adapter le design, layout de MediaSlice
+- Faire et implémenter une feature de VMediaViewer (notamment pour la video dans le VHeaderHome et dans les medias dans MediaSlice)
 - useNativeCarousel: le slide ne s'arrete pas vraiment à la derniere slide, 5px apres la derniere slide ca donne un effet de slide "fantome"
 
 - A11y:
