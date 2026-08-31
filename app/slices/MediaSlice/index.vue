@@ -85,7 +85,6 @@ const firstMedia = medias?.[0]
                     v-if="hasOneMedia"
                     tag="span"
                     design="filled"
-                    size="s"
                     icon-name="material-symbols:fullscreen"
                     :class="$style.cta"
                 />
@@ -106,11 +105,6 @@ const firstMedia = medias?.[0]
 
     @include media('>=md') {
         grid-template-columns: 1fr 1fr;
-    }
-
-    video {
-        height: 100%;
-        object-fit: cover;
     }
 }
 

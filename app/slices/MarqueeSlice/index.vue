@@ -34,13 +34,13 @@ const title = computed(() => props.slice.primary.title)
         :class="$style.root"
         class="slice-container--xxl"
     >
-        <div
+        <h2
             v-if="title"
-            class="text-h5"
             :class="$style.title"
+            class="text-overtitle grid-container"
         >
             {{ title }}
-        </div>
+        </h2>
         <LazyVMarquee
             v-for="(row, i) in mediaListRow"
             :id="`row-${i}-${row[0].id}`"
@@ -75,8 +75,8 @@ const title = computed(() => props.slice.primary.title)
 }
 
 .title {
-    margin-bottom: 70px;
-    padding-inline: var(--grid-margin);
+    margin-bottom: 42px;
+    opacity: 0.6;
 }
 
 .marquee {

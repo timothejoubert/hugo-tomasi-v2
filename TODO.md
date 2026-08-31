@@ -14,6 +14,8 @@
 
 
 ### Next step
+- Ajouter un systeme de statistique/tracking pour savoir le nombre de visiteur par jours avec des informations de base. Un service gratuit et idéalement sans cookie.
+
 - API: ce site est la nouvelle version de celui ci https://hugotomasi.com/, il faudrait dans un premier temps récupérer son contenu et de préparer un dossier sur mon ordi en local avec les fichiers correspondant (sur mon bureau). Aussi prévoir un plan de redirection. Une fois validé, il faudra faire un migration pour importer ces données dans le repo prismic.
 
 - Note : `getPrismicSitemapUrls` (shared/prismic-sitemap-urls.ts) n'est actuellement branché nulle part (pas de `server/routes/__sitemap__/urls.ts`, pas de `sitemap.urls` dans nuxt.config.ts) — code mort en l'état. Le brancher au module `@nuxtjs/sitemap` est une tâche de feature à part, pas traitée ici.

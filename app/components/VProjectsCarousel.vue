@@ -36,7 +36,7 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
                 <VButton
                     :label="$t('see_all_project')"
                     design="filled"
-                    size="md"
+                    size="sm"
                     icon-name="material-symbols:arrow-forward"
                 />
             </NuxtLink>

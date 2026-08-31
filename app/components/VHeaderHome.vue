@@ -128,10 +128,10 @@ const loading = ref(false)
     }
 
     &::after {
-        --overlay-transition-color: color-mix(in srgb, var(--color-background) 10%, transparent);
+        --overlay-transition-color: color-mix(in srgb, var(--color-background) 20%, transparent);
 
         position: absolute;
-        background: linear-gradient(var(--color-background) 0%, var(--overlay-transition-color), var(--color-background) 100%);
+        background: linear-gradient(var(--color-background) 4%, var(--overlay-transition-color), var(--color-background) 96%);
         content: '';
         inset: 0;
         pointer-events: none;
