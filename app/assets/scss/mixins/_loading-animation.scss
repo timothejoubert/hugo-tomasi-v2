@@ -2,8 +2,8 @@
 
 @mixin loading-animation($scope: 'local') {
     $animation: loading-animation 1.4s infinite ease(in-out-circ);
-    $background-color: var(--loading-animation-background-color, #ccc);
-    $gradient-color: #d5d5d5;
+    $background-color: var(--loading-animation-background-color);
+    $gradient-color: var(--loading-animation-gradient-color, #d5d5d5);
 
     @if  $scope == 'global' {
         animation: $animation;

@@ -82,10 +82,10 @@ const img = computed(() => data.value?.thumbnail || data.value?.main_media)
     @include text-h2;
 
     order: 2;
-    margin-left: 12px;
+    margin-left: 10px;
     font-size: max(3.8cqw, 20px);
     letter-spacing: -1%;
-    margin-block: 12px 0;
+    margin-block: 4px;
 }
 
 .link {

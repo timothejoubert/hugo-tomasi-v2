@@ -133,6 +133,7 @@ const rootClasses = computed(() => {
 .icon {
     flex-shrink: 0;
     margin: var(--v-button-icon-margin, 0);
+    font-size: var(--v-button-icon-font-size, inherit);
 }
 
 .label {

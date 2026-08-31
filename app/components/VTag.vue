@@ -27,18 +27,18 @@ const { themeClass } = useTheme({ props })
 
 <style lang="scss" module>
 .root {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 400;
 
     @include theme-variants;
 
     &--filled {
         min-height: 20px;
-        padding-bottom: 2px;
         border-radius: 50vmax;
         background-color: var(--color-background);
         color: var(--color-content);
-        padding-inline: 8px;
+        padding-block: 2px;
+        padding-inline: 10px;
     }
 }
 </style>

@@ -53,6 +53,6 @@ const isCtaHovered = ref(false)
     --v-button-padding-block: 6px;
 
     aspect-ratio: 1;
-    font-size: 16px;
+    font-size: 19px;
 }
 </style>
