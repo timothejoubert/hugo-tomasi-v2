@@ -21,7 +21,7 @@ export default defineComponent({
     setup(props, { slots }) {
         const imgProps = computed(() => pick(props, Object.keys(vImgProps)))
         // A video/embed field passed here is a caller mistake — render nothing rather than a
-        // broken <img>, same policy VPrismicVideoPlayer applies to an image field.
+        // broken <img>.
         const media = computed(() => {
             const data = getPrismicMediaData(props.field)
             return data?.type === 'image' ? data : undefined

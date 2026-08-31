@@ -52,20 +52,18 @@ export default defineComponent({
             }
         })
 
-        const playsinline = computed(() => videoAttrsValue.value.playsinline)
-        const muted = computed(() => videoAttrsValue.value.muted)
-        const loop = computed(() => videoAttrsValue.value.loop)
-        const autoplay = computed(() => videoAttrsValue.value.autoplay)
         const controls = computed(() => videoAttrsValue.value.controls)
 
         const videoAttrs = computed(() => {
+            const { playsinline, muted, loop, autoplay } = videoAttrsValue.value
+
             return {
                 width: props.width,
                 height: props.height,
-                playsinline: playsinline.value ? '' : undefined,
-                muted: muted.value ? '' : undefined,
-                loop: loop.value ? '' : undefined,
-                autoplay: autoplay.value ? '' : undefined,
+                playsinline: playsinline ? '' : undefined,
+                muted: muted ? '' : undefined,
+                loop: loop ? '' : undefined,
+                autoplay: autoplay ? '' : undefined,
                 controls: controls.value ? '' : undefined,
             }
         })
@@ -76,6 +74,7 @@ export default defineComponent({
                 let params: Record<string, string> = {}
 
                 const platform = props.embedPlatform.toLowerCase()
+                const { muted, loop, autoplay } = videoAttrsValue.value
 
                 if (platform === 'youtube') {
                     params = {
@@ -85,12 +84,12 @@ export default defineComponent({
                         showinfo: '0',
                         rel: '0',
                         enablejsapi: '1',
-                        muted: muted.value ? '1' : '0',
+                        muted: muted ? '1' : '0',
                         controls: controls.value ? '1' : '0',
-                        autoplay: autoplay.value ? '1' : '',
-                        loop: loop.value ? '1' : '0',
+                        autoplay: autoplay ? '1' : '',
+                        loop: loop ? '1' : '0',
                         // YouTube only loops a single video if `playlist` also lists its own id.
-                        ...(loop.value ? { playlist: props.embedId as string } : {}),
+                        ...(loop ? { playlist: props.embedId as string } : {}),
                     }
                 }
                 else if (platform === 'vimeo') {
@@ -101,10 +100,10 @@ export default defineComponent({
                         transparent: '0',
                         gesture: 'media',
                         autopause: '0',
-                        muted: muted.value ? '1' : '0',
-                        autoplay: autoplay.value ? '1' : '0',
+                        muted: muted ? '1' : '0',
+                        autoplay: autoplay ? '1' : '0',
                         controls: controls.value ? '1' : '0',
-                        loop: loop.value ? '1' : '0',
+                        loop: loop ? '1' : '0',
                         sidedock: '0',
                         title: '0',
                         dnt: '1', // remove cookie
@@ -201,20 +200,7 @@ export default defineComponent({
             return typeof validRatio === 'number' ? validRatio : 16 / 9
         })
 
-        const playerSize = ref<number[]>([])
-        const playerStyle = computed(() => {
-            const style: Record<string, string | number> = {}
-
-            if (playerSize.value.length) {
-                style.width = playerSize.value[0] + 'px'
-                style.height = playerSize.value[1] + 'px'
-            }
-            else {
-                style.aspectRatio = ratio.value
-            }
-
-            return style
-        })
+        const playerStyle = computed(() => ({ aspectRatio: ratio.value }))
 
         const fitStyle = computed(() => {
             if (!props.fit) return {}
@@ -225,7 +211,7 @@ export default defineComponent({
             }
         })
 
-        return { controls, isEmbed, playerStyle, fitStyle, videoAttrs, videoSources, src, hasStartedPlaying, embedIframe, handleEmbedLoad }
+        return { isEmbed, playerStyle, fitStyle, videoAttrs, videoSources, src, hasStartedPlaying, embedIframe, handleEmbedLoad }
     },
 })
 </script>
@@ -238,7 +224,7 @@ export default defineComponent({
     >
         <iframe
             ref="embedIframe"
-            :class="[$style['iframe'], !controls && $style['iframe-wrapper--no-controls'], fit === 'cover' && $style['iframe--cover']]"
+            :class="[$style['iframe'], fit === 'cover' && $style['iframe--cover']]"
             :src="src"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;"
@@ -257,7 +243,6 @@ export default defineComponent({
     >
         <video
             v-bind="videoAttrs"
-            ref="playerComponent"
             :class="[$style.video, fit && $style['video--fill']]"
             @playing="hasStartedPlaying = true"
         >
@@ -278,7 +263,18 @@ export default defineComponent({
 </template>
 
 <style lang="scss" module>
-.iframe-wrapper,
+.iframe-wrapper {
+    position: relative;
+    display: block;
+    width: var(--v-player-video-width, 100%);
+    max-width: var(--v-player-video-max-width, 100%);
+    height: var(--v-player-video-height, auto);
+}
+
+.video-wrapper {
+    position: relative;
+}
+
 .video {
     position: var(--v-player-video-position);
     display: block;
@@ -286,11 +282,6 @@ export default defineComponent({
     max-width: var(--v-player-video-max-width, 100%);
     height: var(--v-player-video-height, auto);
     object-fit: var(--v-player-video-object-fit);
-}
-
-.iframe-wrapper,
-.video-wrapper {
-    position: relative;
 }
 
 .iframe-wrapper--fill,
@@ -343,14 +334,5 @@ export default defineComponent({
     &--hidden {
         opacity: 0;
     }
-}
-
-.spinner {
-    position: absolute;
-    z-index: 10;
-    top: calc(50% - 35px);
-    left: calc(50% - 35px);
-    width: 70px;
-    height: 70px;
 }
 </style>
