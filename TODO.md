@@ -1,4 +1,6 @@
 ### TODO
+- AboutPage: A partir d'un sprite (matrice de x image par x), déplacer l'image en fonction du positionnement de la souris pour rendre un effet d'animation de l'image. Génére ce sprite avec un modele de tet basique pour faire un POC et mets ce composant dans la page a-propos.
+
 - integration: faire l'integration de la page projects listing
     - grid de 2 VProjectCard par row
     - Ajouter un systeme de filtre par tag de projet, input radio (pour le coté accessible) qui filtre visuellement les projets affichés

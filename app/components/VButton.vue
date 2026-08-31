@@ -102,7 +102,6 @@ const rootClasses = computed(() => {
         }
     }
 
-
     &--filled {
         background-color: var(--color-content);
         color: var(--color-background);

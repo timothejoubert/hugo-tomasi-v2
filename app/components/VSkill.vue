@@ -19,10 +19,10 @@ const id = `collapsable-${useId()}`
     <section :class="$style.root">
         <div
             :class="$style.head"
+            button-wrapper="hover"
             @click="isOpened = !isOpened"
             @mouseleave="isHoveringHead = false"
             @mouseenter="isHoveringHead = true"
-            button-wrapper="hover"
         >
             <VButton
                 design="filled"

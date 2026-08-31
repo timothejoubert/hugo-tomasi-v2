@@ -12,7 +12,6 @@ const props = defineProps<{
 const durationMs = computed(() => props.duration ?? 400)
 const staggerMs = computed(() => props.stagger ?? 20)
 
-
 const chars = computed(() => splitChars(props.content))
 
 const appliedRevealed = ref(props.revealed ?? false)

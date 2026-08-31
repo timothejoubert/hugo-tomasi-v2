@@ -10,5 +10,6 @@ usePrismicMeta(document, { schemaOrgType: 'AboutPage' })
         :slices="document?.data.slices"
     >
         <h1>{{ document?.data.title }}</h1>
+        <VSpriteFaceHover />
     </VPageWrapper>
 </template>
