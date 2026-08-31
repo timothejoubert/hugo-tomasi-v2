@@ -129,10 +129,10 @@ export default defineComponent({
             return [{ src: src.value, mimeType: props.mimeType || 'video/mp4' }, ...altSources]
         })
 
-        // YouTube/Vimeo briefly show their own branded start screen (thumbnail, title, channel
-        // avatar) before playback actually begins — not affected by pointer-events since it's not
-        // hover-triggered. Hide it behind a cover until the embed's postMessage API confirms
-        // playback started, with a timeout fallback in case the message never arrives.
+        // Background videos (native file or YouTube/Vimeo embed) briefly show a blank/branded
+        // frame before playback actually begins. Hide it behind a skeleton cover until playback
+        // is confirmed — via the native `playing` event, or the embed's postMessage API — with a
+        // timeout fallback in case that signal never arrives.
         const hasStartedPlaying = ref(false)
         let startedPlayingTimeout: ReturnType<typeof setTimeout> | undefined
 
@@ -159,13 +159,34 @@ export default defineComponent({
             if (isYoutubePlaying || isVimeoPlaying) hasStartedPlaying.value = true
         }
 
-        onMounted(() => {
-            if (!isEmbed.value) return
+        const embedIframe = ref<HTMLIFrameElement>()
 
-            window.addEventListener('message', handleEmbedMessage)
-            startedPlayingTimeout = setTimeout(() => {
-                hasStartedPlaying.value = true
-            }, 3000)
+        // Neither platform broadcasts player events on its own — `api`/`enablejsapi` only turns
+        // the postMessage channel on, each platform still needs an explicit subscribe message
+        // once the iframe document has loaded before it'll actually emit the `play`/`onStateChange`
+        // events `handleEmbedMessage` listens for above.
+        function handleEmbedLoad() {
+            const contentWindow = embedIframe.value?.contentWindow
+            if (!contentWindow) return
+
+            if (props.embedPlatform?.toLowerCase() === 'vimeo') {
+                contentWindow.postMessage(JSON.stringify({ method: 'addEventListener', value: 'play' }), '*')
+            }
+            else if (props.embedPlatform?.toLowerCase() === 'youtube') {
+                contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'addEventListener', args: ['onStateChange'] }), '*')
+            }
+        }
+
+        onMounted(() => {
+            if (isEmbed.value) {
+                window.addEventListener('message', handleEmbedMessage)
+            }
+
+            if (props.background) {
+                startedPlayingTimeout = setTimeout(() => {
+                    hasStartedPlaying.value = true
+                }, 3000)
+            }
         })
 
         onBeforeUnmount(() => {
@@ -195,7 +216,16 @@ export default defineComponent({
             return style
         })
 
-        return { controls, isEmbed, playerStyle, videoAttrs, videoSources, src, hasStartedPlaying }
+        const fitStyle = computed(() => {
+            if (!props.fit) return {}
+
+            return {
+                '--v-player-video-object-fit': props.fit,
+                '--v-player-video-ratio': ratio.value,
+            }
+        })
+
+        return { controls, isEmbed, playerStyle, fitStyle, videoAttrs, videoSources, src, hasStartedPlaying, embedIframe, handleEmbedLoad }
     },
 })
 </script>
@@ -203,36 +233,48 @@ export default defineComponent({
 <template>
     <div
         v-if="isEmbed"
-        :style="playerStyle"
-        :class="$style['iframe-wrapper']"
+        :style="[playerStyle, fitStyle]"
+        :class="[$style['iframe-wrapper'], fit && $style['iframe-wrapper--fill']]"
     >
         <iframe
-            :class="[$style['iframe'], !controls && $style['iframe-wrapper--no-controls']]"
+            ref="embedIframe"
+            :class="[$style['iframe'], !controls && $style['iframe-wrapper--no-controls'], fit === 'cover' && $style['iframe--cover']]"
             :src="src"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;"
             allowfullscreen
+            @load="handleEmbedLoad"
         />
         <div
             v-if="background"
-            :class="[$style['embed-cover'], hasStartedPlaying && $style['embed-cover--hidden']]"
+            :class="[$style['media-cover'], hasStartedPlaying && $style['media-cover--hidden']]"
         />
     </div>
-    <video
+    <div
         v-else
-        v-bind="videoAttrs"
-        ref="playerComponent"
-        :class="$style.video"
+        :style="fitStyle"
+        :class="[$style['video-wrapper'], fit && $style['video-wrapper--fill']]"
     >
-        <template v-if="videoSources.length">
-            <source
-                v-for="source in videoSources"
-                :key="source.src"
-                :src="source.src"
-                :type="source.mimeType as string"
-            >
-        </template>
-    </video>
+        <video
+            v-bind="videoAttrs"
+            ref="playerComponent"
+            :class="[$style.video, fit && $style['video--fill']]"
+            @playing="hasStartedPlaying = true"
+        >
+            <template v-if="videoSources.length">
+                <source
+                    v-for="source in videoSources"
+                    :key="source.src"
+                    :src="source.src"
+                    :type="source.mimeType as string"
+                >
+            </template>
+        </video>
+        <div
+            v-if="background"
+            :class="[$style['media-cover'], hasStartedPlaying && $style['media-cover--hidden']]"
+        />
+    </div>
 </template>
 
 <style lang="scss" module>
@@ -246,8 +288,23 @@ export default defineComponent({
     object-fit: var(--v-player-video-object-fit);
 }
 
-.iframe-wrapper {
+.iframe-wrapper,
+.video-wrapper {
     position: relative;
+}
+
+.iframe-wrapper--fill,
+.video-wrapper--fill,
+.video--fill {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+}
+
+.iframe-wrapper--fill {
+    overflow: hidden;
+    container-type: size;
 }
 
 .iframe {
@@ -259,13 +316,29 @@ export default defineComponent({
     object-fit: var(--v-player-video-object-fit);
 }
 
-.embed-cover {
+// An iframe has no intrinsic size for `object-fit` to crop against — the player rendered
+// inside it letterboxes itself to the iframe's own box. Oversizing the iframe past its
+// container (keeping the video's ratio) and clipping the overflow on the wrapper achieves
+// the same visual result as `object-fit: cover`, since the browser can't do it for us here.
+.iframe--cover {
+    width: 100cqw;
+    min-width: calc(100cqh * var(--v-player-video-ratio, 1.7778));
+    height: 100cqh;
+    min-height: calc(100cqw / var(--v-player-video-ratio, 1.7778));
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+}
+
+.media-cover {
     position: absolute;
-    background-color: var(--color-background, #000);
     inset: 0;
     opacity: 1;
     pointer-events: none;
     transition: opacity 0.4s;
+
+    --loading-animation-gradient-color: color-mix(in srgb, var(--color-content) 20%, transparent);
+
+    @include loading-animation;
 
     &--hidden {
         opacity: 0;

@@ -23,7 +23,6 @@ const loading = ref(false)
     <header
         v-if="pageData"
         :class="$style.root"
-        class="grid-extended"
     >
         <h1
             v-if="pageData.title"
@@ -36,47 +35,50 @@ const loading = ref(false)
             v-if="pageData.subtitle"
             :content="pageData.subtitle"
             :class="$style.tagline"
-            class="text-h4"
+            class="text-h5"
             tag="p"
         />
+        <div
+            :class="$style.footer"
+            class="inner-grid"
+        >
+            <p
+                v-if="pageData.sub_section_title"
+                :class="$style['sub-title']"
+                class="text-overtitle"
+            >
+                {{ pageData.sub_section_title }}
+                <VLoadingDots v-if="loading" />
+            </p>
+            <VAnimatedButton
+                v-if="hasVideo"
+                :label="$t('showreel.cta_label')"
+                :class="$style['video-button']"
+                icon="material-symbols:fullscreen"
+            />
+            <hr :class="$style.line">
+            <VText
+                v-if="pageData?.sub_section_content"
+                :class="$style['content-main']"
+                class="text-body-s"
+                :content="pageData.sub_section_content"
+            />
+            <VText
+                v-if="pageData?.sub_section_aside"
+                :class="$style['content-alt']"
+                class="text-body-s"
+                :content="pageData.sub_section_aside"
+            />
+        </div>
         <div :class="$style['media-wrapper']">
             <VPrismicMedia
                 v-if="hasVideo"
                 :field="mediaField"
-                :class="$style.video"
-                playsinline
+                :class="$style.media"
                 background
-                loop
                 fit="cover"
             />
         </div>
-        <p
-            v-if="pageData.sub_section_title"
-            :class="$style['sub-title']"
-            class="text-over-title-s"
-        >
-            {{ pageData.sub_section_title }}
-            <VLoadingDots v-if="loading" />
-        </p>
-        <VAnimatedButton
-            v-if="hasVideo"
-            :label="$t('showreel.cta_label')"
-            :class="$style['video-button']"
-            icon="material-symbols:fullscreen"
-        />
-        <hr :class="$style.line">
-        <VText
-            v-if="pageData?.sub_section_content"
-            :class="$style['content-main']"
-            class="text-body-s"
-            :content="pageData.sub_section_content"
-        />
-        <VText
-            v-if="pageData?.sub_section_aside"
-            :class="$style['content-alt']"
-            class="text-body-s"
-            :content="pageData.sub_section_aside"
-        />
     </header>
 </template>
 
@@ -85,19 +87,16 @@ const loading = ref(false)
     @include theme('dark');
 
     position: relative;
-    padding-bottom: 16px;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    padding-top: calc(var(--v-main-nav-min-height) + var(--grid-margin));
+    padding-bottom: var(--grid-margin);
+    margin-top: calc(var(--v-main-nav-min-height) * -1);
+    background-color: var(--color-background);
     color: var(--color-content);
     isolation: isolate;
-
-    &::before {
-        position: absolute;
-        z-index: -5;
-        background-color: var(--color-background);
-        content: '';
-        inset: calc(var(--v-main-nav-min-height) * -1) 0 0;
-        pointer-events: none;
-
-    }
+    padding-inline: var(--grid-margin);
 }
 
 .title {
@@ -114,21 +113,27 @@ const loading = ref(false)
     }
 }
 
-.media-wrapper {
-    --v-player-video-max-width: none !important;
+.footer {
+    margin-top: auto;
+}
 
-    position: relative;
+.media-wrapper {
+    position: absolute;
     z-index: -2;
-    width: calc(100% + var(--grid-margin) * 2);
-    margin-left: calc(var(--grid-margin) * -1);
-    grid-column: 1 / -1;
+    inset: 0;
     pointer-events: none;
 
+    > * {
+        height: 100%;
+    }
+
     &::after {
+        --overlay-transition-color: color-mix(in srgb, var(--color-background) 10%, transparent);
+
         position: absolute;
-        background-color: color-mix(in srgb, var(--color-background) 55%, transparent);
+        background: linear-gradient(var(--color-background) 0%, var(--overlay-transition-color), var(--color-background) 100%);
         content: '';
-        inset: 0 0 -2px;
+        inset: 0;
         pointer-events: none;
     }
 }
@@ -154,6 +159,7 @@ const loading = ref(false)
 
     @include media('>=md') {
         grid-column: 9 / -1;
+        justify-self: end;
     }
 }
 
@@ -174,7 +180,7 @@ const loading = ref(false)
 
     @at-root .content-main:not(strong),
     & *:not(strong) {
-        opacity: 0.7;
+        opacity: 0.8;
     }
 
     @include media('>=md') {
@@ -187,7 +193,7 @@ const loading = ref(false)
     grid-column: 1 / -1;
 
     & *:not(strong) {
-        opacity: 0.7;
+        opacity: 0.8;
     }
 
     @include media('>=md') {
