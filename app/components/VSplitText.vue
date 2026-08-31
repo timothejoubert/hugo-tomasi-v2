@@ -36,7 +36,7 @@ export default defineComponent({
 
             if (props.render === 'chars') {
                 renderNodes = splitTextData.characters.map((char, i) => {
-                    return h('span', { class: [attrs.class, 'split-text-char'], style: { '--data-char-index': i } }, char)
+                    return h('span', { class: [attrs.class, 'split-text-char'], style: { '--data-char-index': i } }, char === ' ' ? ' ' : char)
                 })
             }
             else if (props.render === 'words') {

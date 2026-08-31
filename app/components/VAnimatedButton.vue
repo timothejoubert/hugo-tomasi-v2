@@ -10,25 +10,19 @@ const isCtaHovered = ref(false)
 <template>
     <button
         :class="$style.root"
-        @mouseenter="isCtaHovered = true"
-        @mouseleave="isCtaHovered = false"
-        @focus="isCtaHovered = true"
-        @blur="isCtaHovered = false"
     >
-        <div :class="$style['video-cta__label']">
-            <VSplitText
-                class="text-body-xs"
-                render="chars"
-                :play-animation="isCtaHovered"
-                :content="label"
-            />
-        </div>
+        <VAnimatedText
+            :content="label"
+            :revealed="isCtaHovered"
+            :duration="300"
+            :stagger="10"
+        />
         <VButton
             v-if="icon"
             design="filled"
             tag="span"
             :icon-name="icon"
-            :class="$style['icon']"
+            :class="$style.icon"
             @mouseenter="isCtaHovered = true"
             @mouseleave="isCtaHovered = false"
         />
@@ -44,6 +38,7 @@ const isCtaHovered = ref(false)
     background-color: initial;
     color: var(--color-content);
     cursor: pointer;
+    font-size: 16px;
     gap: 16px;
 }
 

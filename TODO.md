@@ -1,10 +1,10 @@
 ### TODO
-- VHeaderHome: lorsque VPrismicMedia display une video avec la props fit=cover, il faut que l'entiereté de la vidéo remplisse son element parent. Il faut que le rendu soit l'equivalent du object-fit: cover pour une image. il faut aussi prendre en compte le ratio de la video pour compenser les bandes horizontales.
-
-
+- integration: faire l'integration de la page projects listing
+    - grid de 2 VProjectCard par row
+    - Ajouter un systeme de filtre par tag de projet, input radio (pour le coté accessible) qui filtre visuellement les projets affichés
+-
 - useNativeCarousel: le slide ne s'arrete pas vraiment à la derniere slide, 5px apres la derniere slide ca donne un effet de slide "fantome"
-- integration: daire l'integration de la page projects listing
-    - Ajouter un systeme de filtre par tag de projet, input radio qui filtre visuellement les projets affichés
+
 - A11y:
     - VMainNav: Style visible pour les liens actif (aria-current)
     - VProjectCard: Style visible pour les liens actif (aria-current)
@@ -21,6 +21,7 @@
 - Note : `getPrismicSitemapUrls` (shared/prismic-sitemap-urls.ts) n'est actuellement branché nulle part (pas de `server/routes/__sitemap__/urls.ts`, pas de `sitemap.urls` dans nuxt.config.ts) — code mort en l'état. Le brancher au module `@nuxtjs/sitemap` est une tâche de feature à part, pas traitée ici.
 
 ### Done
+- VHeaderHome: lorsque VPrismicMedia display une video avec la props fit=cover, il faut que l'entiereté de la vidéo remplisse son element parent. Il faut que le rendu soit l'equivalent du object-fit: cover pour une image. il faut aussi prendre en compte le ratio de la video pour compenser les bandes horizontales.
 - feat: skeleton loading sur la video en background de `VHeaderHome` — `VHeaderHome` ne rend pas la video directement (délègue à `VPrismicMedia` → `VVideoPlayer`), et l'état `hasStartedPlaying` n'était câblé que pour les embeds YouTube/Vimeo (postMessage), pas pour la balise `<video>` native utilisée ici. Ajouté un listener `@playing` sur la balise native, généralisé le timeout de fallback (3s) à tout `background` (embed ou natif), et unifié `.embed-cover`/`.media-cover` pour les deux cas avec le mixin shimmer déjà présent mais jamais utilisé (`app/assets/scss/mixins/_loading-animation.scss`, `@include loading-animation`), thémé via `--loading-animation-background-color: var(--color-background)`.
 - feat: ajouter un composant VAnimatedText qui utilise VSplitText (render=chars) lorsqu'il recoit un props active (trouver un nom plus pertinent) chaque lettre apparait (from translate-y: -100 vers translate-y: 0) chaque lettre a un delay de transition en fonction de son index. Mettre en place se composant pour les liens dans VMainNav pour que je puisse tester le fonctionnement.
 - Integration: `VMarquee` créé (`app/components/VMarquee.vue`) — `MarqueeSlice` référençait déjà `<LazyVMarquee>` (space/speed/reverse props) sans que le composant n'existe. Boucle infinie en CSS pur : le contenu du slot par défaut est dupliqué une fois (deux `.group`), chaque `.group` réserve son propre gap de fin via `padding-right` (au lieu d'un gap entre les deux `.group`), donc `translateX(-50%)` sur le conteneur `.tape` (deux groupes identiques) boucle exactement sans à-coup. Anime en pause si `prefers-reduced-motion: reduce`. Rien à changer dans `MarqueeSlice/index.vue`, `LazyVMarquee` se résout maintenant automatiquement.
