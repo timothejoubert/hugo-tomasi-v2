@@ -22,6 +22,7 @@ const id = `collapsable-${useId()}`
             @click="isOpened = !isOpened"
             @mouseleave="isHoveringHead = false"
             @mouseenter="isHoveringHead = true"
+            button-wrapper="hover"
         >
             <VButton
                 design="filled"
@@ -85,16 +86,21 @@ const id = `collapsable-${useId()}`
 <style lang="scss" module>
 .root {
     position: relative;
+    border-top: 1px solid color-mix(in srgb, var(--color-content) 15%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-content) 15%, transparent);
+
+    & + & {
+        border-top: none;
+    }
 }
 
 .head {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    border-top: 1px solid color-mix(in srgb, var(--color-content) 15%, transparent);
     cursor: pointer;
     gap: 10px var(--gutter);
-    padding-block: 30px;
+    padding-block: 18px;
 
     @include media('>=md') {
         flex-wrap: nowrap;
@@ -103,6 +109,7 @@ const id = `collapsable-${useId()}`
 
 .button {
     min-width: flex-grid(1 ,12);
+    min-height: 3em;
 }
 
 .icon {

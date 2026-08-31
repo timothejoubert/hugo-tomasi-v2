@@ -29,7 +29,7 @@ const siteName = computed(() => runtimeConfig.public.site.name)
     <footer :class="$style.root">
         <div :class="$style.bar">
             <div :class="$style.infos">
-                <span>©{{ siteName }} {{ new Date().getFullYear() }}</span>
+                <span>© {{ siteName }} {{ new Date().getFullYear() }}</span>
                 <span :class="$style.separator">|</span>
                 <span :class="$style.credit">{{ $t('footer.credit') }}</span>
             </div>

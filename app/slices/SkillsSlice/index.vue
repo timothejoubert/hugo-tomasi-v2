@@ -18,13 +18,12 @@ const skillList = computed(() => {
 
 <template>
     <section
-        :class="$style.root"
         class="slice-container--xxl"
     >
         <h2
             v-if="title"
             :class="$style.title"
-            class="text-body-s"
+            class="text-overtitle"
         >
             {{ title }}
         </h2>
@@ -37,17 +36,8 @@ const skillList = computed(() => {
 </template>
 
 <style lang="scss" module>
-// Figma shows this slice on a light/inverted section (dark theme elsewhere on the page) —
-// flip the two theme tokens locally rather than adding a whole second global theme entry.
-.root {
-    position: relative;
-    background-color: var(--color-background);
-    color: var(--color-content);
-}
-
 .title {
-    margin-bottom: 50px;
+    margin-bottom: 42px;
     opacity: 0.6;
-    text-transform: uppercase;
 }
 </style>

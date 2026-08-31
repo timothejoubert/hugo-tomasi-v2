@@ -22,20 +22,21 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
             :class="$style.head"
             class="grid-container"
         >
-            <div
+            <h2
                 v-if="title"
-                class="text-h4"
+                class="text-h3"
                 :class="$style.title"
             >
                 {{ title }}
-            </div>
+            </h2>
             <NuxtLink
                 :to="getRoutePath('project_listing_page')"
                 :class="$style.link"
             >
                 <VButton
                     :label="$t('see_all_project')"
-                    design="outlined"
+                    design="filled"
+                    size="md"
                     icon-name="material-symbols:arrow-forward"
                 />
             </NuxtLink>
@@ -102,9 +103,9 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
 }
 
 .link {
+    align-self: center;
     margin-right: auto;
     margin-left: 16px;
-    justify-self: end;
 }
 
 .nav {
@@ -175,7 +176,7 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
 }
 
 .card {
-    width: flex-grid(10, 12);
+    width: flex-grid(11, 12);
     flex-shrink: 0;
     margin-right: var(--gutter);
     scroll-snap-align: start;
@@ -186,10 +187,10 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
     }
 
     @include media('>=md') {
-        width: flex-grid(5, 12);
+        width: flex-grid(6, 12);
     }
 
-    @include media('>=lg') {
+    @include media('>=vl') {
         width: flex-grid(4, 12);
     }
 }

@@ -1,89 +1,47 @@
-@use 'mixins/typography' as *;
+@use './mixins/typography' as *;
+@use './mixins/font-size-fluid' as *;
+@use './mixins/include-media' as *;
 
 // Heading
 .text-h1 {
     @include text-h1;
+
+    @include font-size-fluid((xs: 48px, xl: 90px));
 }
 
 .text-h2 {
     @include text-h2;
+
+    @include font-size-fluid((xs: 32px, xl: 68px));
 }
 
 .text-h3 {
     @include text-h3;
+
+
+    @include font-size-fluid((xs: 28px, xl: 58px));
 }
 
 .text-h4 {
     @include text-h4;
+
+    @include font-size-fluid((xs: 24px, xl: 36px));
 }
 
 .text-h5 {
     @include text-h5;
+
+    @include font-size-fluid((xs: 18px, xl: 24px));
 }
 
-// Common
-.text-body-xxs {
-    @include text-body-xxs;
-}
+.text-overtitle {
+    @include text-overtitle;
 
-.text-body-xs {
-    @include text-body-xs;
+    @include font-size-fluid((xs: 14px, xl: 18px));
 }
 
 .text-body {
     @include text-body;
-}
 
-.text-introduction {
-    @include text-introduction;
-}
-
-.text-subtitle {
-    @include text-subtitle;
-}
-
-// Event
-.text-event-title {
-    @include text-event-title;
-}
-
-.text-event-subtitle {
-    @include text-event-subtitle;
-}
-
-.text-event-subtitle-2 {
-    @include text-event-subtitle-2;
-}
-
-.text-event-date-item {
-    @include text-event-date-item;
-}
-
-.text-event-introduction {
-    @include text-event-introduction;
-}
-
-.text-event-info {
-    @include text-event-info;
-}
-
-.text-event-info-bold {
-    @include text-event-info(700);
-}
-
-.text-event-date-item {
-    @include text-event-date-item;
-}
-
-.text-event-card-title {
-    @include text-event-card-title;
-}
-
-.text-event-card-subtitle {
-    @include text-event-card-subtitle;
-}
-
-// Tags
-.label-tag {
-    @include label-tag;
+    @include font-size-fluid((xs: 14px, xl: 18px));
 }

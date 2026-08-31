@@ -37,6 +37,9 @@ const alternateLocales = computed(() => {
             && alternateLangs.some(alt => getFormattedLocale(alt.lang) === getFormattedLocale(availableLocale.code))
     })
 })
+
+const homePagePath = computed(() => getRoutePath('home_page'))
+const siteNameKey = computed(() => `site-name-key-${homePagePath.value}`)
 </script>
 
 <template>
@@ -46,10 +49,18 @@ const alternateLocales = computed(() => {
         role="navigation"
     >
         <VPrismicLink
-            :to="getRoutePath('home_page')"
+            :to="homePagePath"
             :class="$style.logo"
+            @mouseenter="hoveredHref = siteNameKey"
+            @mouseleave="hoveredHref = null"
+            @focus="hoveredHref = siteNameKey"
+            @blur="hoveredHref = null"
         >
-            {{ runtimeConfig.public.site.name }}
+            <VAnimatedText
+                :content="runtimeConfig.public.site.name"
+                :revealed="hoveredHref === siteNameKey"
+                swap
+            />
         </VPrismicLink>
         <div :class="$style.end">
             <ul

@@ -74,11 +74,17 @@ const img = computed(() => data.value?.thumbnail || data.value?.main_media)
     position: relative;
     display: flex;
     flex-direction: column;
+    container-name: card;
+    container-type: inline-size;
 }
 
 .title {
+    @include text-h2;
+
     order: 2;
     margin-left: 12px;
+    font-size: max(3.8cqw, 20px);
+    letter-spacing: -1%;
     margin-block: 12px 0;
 }
 

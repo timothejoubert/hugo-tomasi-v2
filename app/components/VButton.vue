@@ -7,7 +7,6 @@ interface VButtonProps {
     iconName?: string
     design?: 'filled' | 'outlined'
     size?: 'xs' | 'sm' | 'md'
-    playAnimation?: boolean
     theme?: ThemeProps['theme']
 }
 
@@ -21,7 +20,6 @@ const rootClasses = computed(() => {
         themeClass.value,
         $style[`root--${props.size || 'xs'}`],
         props.design && $style[`root--${props.design}`],
-        props.playAnimation && $style['root--play-animation'],
     ]
 })
 </script>
@@ -61,6 +59,7 @@ const rootClasses = computed(() => {
     border-radius: 50vmax;
     background-color: transparent;
     color: var(--color-content, inherit);
+    font-size: var(--v-button-font-size, 14px);
     gap: var(--v-button-gap, 6px);
     padding-block: var(--v-button-padding-block, 6px);
     padding-inline: var(--v-button-padding-inline, 12px);
@@ -103,12 +102,13 @@ const rootClasses = computed(() => {
         }
     }
 
-    &--filled,
-    &--play-animation {
+
+    &--filled {
         background-color: var(--color-content);
         color: var(--color-background);
 
         @media (hover: hover) {
+            [button-wrapper="hover"]:hover &,
             &:not(:disabled, [inert]):hover {
                 background-color: var(--color-surface);
             }
@@ -116,14 +116,16 @@ const rootClasses = computed(() => {
     }
 
     &--sm {
+        font-size: var(--v-button-font-size, 14px);
         gap: var(--v-button-gap, 10px);
         padding-block: var(--v-button-padding-block, 10px);
         padding-inline: var(--v-button-padding-inline, 20px);
     }
 
     &--md {
+        font-size: var(--v-button-font-size, 16px);
         gap: var(--v-button-gap, 10px);
-        padding-block: var(--v-button-padding-block, 10px);
+        padding-block: var(--v-button-padding-block, 12px);
         padding-inline: var(--v-button-padding-inline, 20px);
     }
 }
