@@ -62,6 +62,7 @@ const siteName = computed(() => runtimeConfig.public.site.name)
 <style lang="scss" module>
 .root {
     padding: 24px;
+    margin-top: auto;
 }
 
 .bar {

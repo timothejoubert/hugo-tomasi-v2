@@ -7,12 +7,14 @@
 @mixin text-h1 {
     font-family: $fraktion-sans-family;
     font-weight: map.get($font-weight, bold);
+    letter-spacing: -0.1%;
     line-height: 1.1;
 }
 
 @mixin text-h2 {
     font-family: $fraktion-sans-family;
     font-weight: map.get($font-weight, bold);
+    letter-spacing: -0.1%;
     line-height: 1.2;
 }
 

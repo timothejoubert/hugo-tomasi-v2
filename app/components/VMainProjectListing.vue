@@ -12,15 +12,33 @@ const { data: projects } = await usePrismicFetchDocumentListing(prismicDocumentT
 
 const { phase } = usePageIntro()
 const pageRevealed = computed(() => phase.value === 'page' || phase.value === 'done')
+
+const tags = computed(() => {
+    const allTags = projects.value?.flatMap(project => project.tags.filter(t => t) as string[]) ?? []
+    return [...new Set(allTags)]
+})
+
+const selectedTag = ref<string | null>(null)
+
+const filteredProjects = computed(() => {
+    if (!selectedTag.value) return projects.value
+    return projects.value?.filter(project => project.tags.includes(selectedTag.value as string))
+})
 </script>
 
 <template>
+    <VProjectListingFilter
+        v-if="tags.length"
+        v-model="selectedTag"
+        :tags="tags"
+    />
     <ul
-        v-if="projects?.length"
-        :class="$style.root"
+        v-if="filteredProjects?.length"
+        :class="$style.list"
+        class="inner-grid"
     >
         <LazyVProjectCard
-            v-for="(project, index) in projects"
+            v-for="(project, index) in filteredProjects"
             :key="project.uid"
             wrapper="li"
             :project="project"
@@ -31,21 +49,12 @@ const pageRevealed = computed(() => phase.value === 'page' || phase.value === 'd
 </template>
 
 <style lang="scss" module>
-.root {
-    --grid-container-width: 100%;
-
-    display: grid;
+.list {
+    position: relative;
     height: min-content;
-    gap: var(--gutter);
-    grid-template-columns: minmax(0, 1fr);
-    margin-block: initial;
+    margin-block: 32px 42px;
     padding-inline: initial;
-
-    @include grid-container;
-
-    @include media('>=md') {
-        grid-template-columns: repeat(var(--v-home-grid-columns, 4), minmax(0, 1fr));
-    }
+    row-gap: 14px;
 }
 
 .item {
@@ -55,7 +64,7 @@ const pageRevealed = computed(() => phase.value === 'page' || phase.value === 'd
     translate: 0 24px;
 
     @include media('>=md') {
-        grid-column: auto;
+        grid-column: span 6;
     }
 
     @media (prefers-reduced-motion: no-preference) {

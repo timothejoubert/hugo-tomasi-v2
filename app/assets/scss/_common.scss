@@ -32,3 +32,10 @@ p {
     font-size: 16px;
     line-height: 1.35;
 }
+
+#__nuxt {
+    // To set footer at the bottom of the page when content is not enough to fill the viewport
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}

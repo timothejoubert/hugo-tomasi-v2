@@ -6,6 +6,7 @@ const props = defineProps<{
     label: string | null
     wrapper?: VWrapperElement
     filled?: boolean
+    outline?: boolean
     theme?: ThemeProps['theme']
 }>()
 
@@ -19,6 +20,7 @@ const { themeClass } = useTheme({ props })
             $style.root,
             themeClass,
             filled && $style['root--filled'],
+            outline && $style['root--outline'],
         ]"
     >
         {{ label }}
@@ -37,6 +39,14 @@ const { themeClass } = useTheme({ props })
         border-radius: 50vmax;
         background-color: var(--color-background);
         color: var(--color-content);
+        padding-block: 2px;
+        padding-inline: 10px;
+    }
+
+    &--outline {
+        min-height: 20px;
+        border: 1px solid currentcolor;
+        border-radius: 50vmax;
         padding-block: 2px;
         padding-inline: 10px;
     }

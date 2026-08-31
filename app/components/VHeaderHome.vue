@@ -26,7 +26,7 @@ const loading = ref(false)
     >
         <h1
             v-if="pageData.title"
-            class="text-h1"
+            class="text-h1 visually-hidden"
             :class="$style.title"
         >
             {{ pageData.title }}
@@ -35,7 +35,7 @@ const loading = ref(false)
             v-if="pageData.subtitle"
             :content="pageData.subtitle"
             :class="$style.tagline"
-            class="text-h5"
+            class="text-h4"
             tag="p"
         />
         <div
@@ -90,7 +90,7 @@ const loading = ref(false)
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    padding-top: calc(var(--v-main-nav-min-height) + var(--grid-margin));
+    padding-top: var(--v-main-nav-min-height);
     padding-bottom: var(--grid-margin);
     margin-top: calc(var(--v-main-nav-min-height) * -1);
     background-color: var(--color-background);

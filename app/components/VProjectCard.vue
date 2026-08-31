@@ -52,9 +52,11 @@ const img = computed(() => data.value?.thumbnail || data.value?.main_media)
                 :class="$style['tags']"
             >
                 <VTag
-                    v-for="tag in orderedTags"
+                    v-for="(tag, index) in orderedTags"
                     :key="tag"
                     :label="tag"
+                    :class="$style.tag"
+                    :style="{ '--v-tag-index': index }"
                     filled
                 />
             </div>
@@ -157,6 +159,16 @@ const img = computed(() => data.value?.thumbnail || data.value?.main_media)
 }
 
 .tag {
+    position: relative;
     margin: initial;
+    opacity: 0;
+    transition: 0.3s ease(out-quad);
+    transition-delay: calc(var(--v-tag-index, 0) * 30ms);
+    translate: 0 12px;
+
+    .root:hover & {
+        opacity: 1;
+        translate: 0 0;
+    }
 }
 </style>

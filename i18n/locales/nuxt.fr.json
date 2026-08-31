@@ -42,5 +42,7 @@
     "showreel.cta_label": "Voir le showreel",
     "see_all_project": "Voir tous",
     "collapse.section": "Réduire la section {name}",
-    "extend.section": "Étendre la section {name}"
+    "extend.section": "Étendre la section {name}",
+    "project_listing.filter_legend": "Filtrer les projets par étiquette",
+    "project_listing.filter_all_label": "Tous"
 }

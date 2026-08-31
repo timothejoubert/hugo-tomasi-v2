@@ -8,8 +8,20 @@ usePrismicMeta(document, { schemaOrgType: 'CollectionPage' })
 <template>
     <VPageWrapper
         :slices="document?.data.slices"
+        class="grid-container"
     >
-        <h1>{{ document?.data.title }}</h1>
+        <h1
+            class="text-h1"
+            :class="$style.title"
+        >
+            {{ document?.data.title }}
+        </h1>
         <VMainProjectListing />
     </VPageWrapper>
 </template>
+
+<style lang="scss" module>
+.title {
+    margin-bottom: 18px;
+}
+</style>
