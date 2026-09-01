@@ -3,8 +3,6 @@ import { isFilled, type Content } from '@prismicio/client'
 
 const props = defineProps(getSliceComponentProps<Content.MediaSliceSlice>())
 
-const medias = props.slice.items
-const hasOneMedia = medias?.length === 1
 
 function resolveMediaField(item: (typeof medias)[number]) {
     if (isFilled.embed(item.embed_video)) return item.embed_video
@@ -23,6 +21,8 @@ function getMediaSizes() {
 const title = props.slice.primary?.title
 const content = props.slice.primary?.content
 const layout = props.slice.primary?.layout
+const medias = props.slice.items
+
 </script>
 
 <template>

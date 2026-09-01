@@ -51,14 +51,18 @@
           },
           "type": "Text"
         },
-        "full_width": {
+        "layout": {
           "config": {
-            "default_value": false,
-            "label": "Full width",
-            "placeholder_false": "false",
-            "placeholder_true": "true"
+            "default_value": "default",
+            "label": "Layout",
+            "options": [
+              "default",
+              "fullwidth",
+              "centered"
+            ],
+            "placeholder": ""
           },
-          "type": "Boolean"
+          "type": "Select"
         }
       },
       "version": "initial"

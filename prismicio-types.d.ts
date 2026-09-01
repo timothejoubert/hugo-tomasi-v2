@@ -807,15 +807,15 @@ export interface MediaSliceSliceDefaultPrimary {
 	content: prismic.KeyTextField;
 	
 	/**
-	 * Full width field in *MediaSlice → Default → Primary*
+	 * Layout field in *MediaSlice → Default → Primary*
 	 *
-	 * - **Field Type**: Boolean
+	 * - **Field Type**: Select
 	 * - **Placeholder**: *None*
-	 * - **Default Value**: false
-	 * - **API ID Path**: media_slice.default.primary.full_width
-	 * - **Documentation**: https://prismic.io/docs/fields/boolean
+	 * - **Default Value**: default
+	 * - **API ID Path**: media_slice.default.primary.layout
+	 * - **Documentation**: https://prismic.io/docs/fields/select
 	 */
-	full_width: prismic.BooleanField;
+	layout: prismic.SelectField<"default" | "fullwidth" | "centered", "filled">;
 }
 
 /**
