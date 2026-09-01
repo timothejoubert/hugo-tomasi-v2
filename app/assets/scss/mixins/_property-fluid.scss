@@ -20,9 +20,18 @@
         @warn "property-fluid(): The values map has no XL breakpoint";
     }
 
-    $value-xl: if($is-map, map.get($value, xl), $value);
+    $value-xl: null;
+    $default-value: null;
+
+    @if $is-map {
+        $value-xl: map.get($value, xl);
+        $default-value: fluid($value);
+    } @else {
+        $value-xl: $value;
+        $default-value: px-to-rem($value);
+    }
+
     $value-hd: decimal-round(math.div(breakpoint(hd), breakpoint(xl)) * $value-xl);
-    $default-value: if($is-map, fluid($value), px-to-rem($value));
 
     @if $breakpoint {
         @include media($breakpoint) {
