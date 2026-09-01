@@ -36,16 +36,17 @@ const content = computed((): Item[] => {
     return result
 })
 
-const root = ref<HTMLElement | null>(null)
+const root = useTemplateRef('templateRoot')
+const rootElement = computed(() => root.value?.$el)
 let observer: undefined | IntersectionObserver
 
 function initIntersectionObserver() {
-    if (!root.value) return
+    if (!rootElement.value) return
 
     observer = new IntersectionObserver(([entry]) => (isVisible.value = !!entry?.isIntersecting), {
         rootMargin: '-30% 0% -30% 0%',
     })
-    observer.observe(root.value)
+    observer.observe(rootElement.value)
 }
 
 function disposeIntersectionObserver() {
@@ -53,7 +54,7 @@ function disposeIntersectionObserver() {
     observer = undefined
 }
 
-watch(root, (el) => {
+watch(rootElement, (el) => {
     if (el && !observer) initIntersectionObserver()
 })
 
@@ -62,11 +63,12 @@ onBeforeUnmount(disposeIntersectionObserver)
 </script>
 
 <template>
-    <section
+    <VSlice
+        :slice="slice"
         v-if="content"
-        ref="root"
+        ref="templateRoot"
+        spacing="xxl"
         :class="[$style.root, isVisible && $style['root--visible']]"
-        class="slice-container--xxl"
     >
         <p
             :class="$style.wrapper"
@@ -97,13 +99,12 @@ onBeforeUnmount(disposeIntersectionObserver)
                 />
             </span>
         </p>
-    </section>
+    </VSlice>
 </template>
 
 <style lang="scss" module>
 .root {
-    background-color: var(--color-background);
-    color: var(--color-content);
+    position: relative;
 }
 
 .wrapper {

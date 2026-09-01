@@ -17,27 +17,15 @@ const skillList = computed(() => {
 </script>
 
 <template>
-    <section
-        class="slice-container--xxl"
+    <VSlice
+        :slice="slice"
+        :title="title"
+        spacing="xxl"
     >
-        <h2
-            v-if="title"
-            :class="$style.title"
-            class="text-overtitle"
-        >
-            {{ title }}
-        </h2>
         <VSkill
             v-for="(skill, i) in skillList"
             :key="i + ' ' + skill.title"
             v-bind="skill"
         />
-    </section>
+    </VSlice>
 </template>
-
-<style lang="scss" module>
-.title {
-    margin-bottom: 42px;
-    opacity: 0.6;
-}
-</style>

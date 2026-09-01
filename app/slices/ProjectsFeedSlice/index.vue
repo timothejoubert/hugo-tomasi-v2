@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Content } from '@prismicio/client'
 import { getPrismicOrderingField, prismicDocumentType } from '~~/shared/prismic-schema'
+import { VSlice } from '#components'
 
 const props = defineProps(getSliceComponentProps<Content.ProjectsFeedSliceSlice>())
 const title = computed(() => props.slice.primary?.title)
@@ -14,8 +15,11 @@ const { data: listingResponse } = await usePrismicFetchDocumentListing(prismicDo
 <template>
     <VProjectsCarousel
         v-if="listingResponse"
+        :wrapper="VSlice"
+        fullwidth
+        spacing="xl"
+        :slice="slice"
         :title="title || undefined"
-        tag="section"
         :projects="listingResponse"
     />
 </template>

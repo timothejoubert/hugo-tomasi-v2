@@ -4,31 +4,22 @@ import type { Content } from '@prismicio/client'
 const props = defineProps(getSliceComponentProps<Content.PromoteSliceSlice>())
 
 const title = computed(() => props.slice.primary.title)
-
-const promoteList = computed(() => {
-    return props.slice.items
-})
+const promoteList = computed(() => props.slice.items)
 </script>
 
 <template>
-    <section
+    <VSlice
+        :slice="slice"
         :class="$style.root"
-        class="slice-container--xl"
+        spacing="xl"
+        :title="title"
     >
-        <div
-            v-if="title"
-            class="text-over-title-m"
-            :class="$style.title"
-        >
-            {{ title }}
-        </div>
-
         <template v-if="promoteList?.length">
-            <VLink
+            <VPrismicLink
                 v-for="(promote, i) in promoteList"
                 :key="`${i}-${promote.title}`"
                 :class="$style.wrapper"
-                :reference="promote.link"
+                :to="promote.link"
             >
                 <div
                     v-if="promote.title"
@@ -59,19 +50,14 @@ const promoteList = computed(() => {
                     :label="promote.link_label || $t('button.default_label')"
                     icon-name="material-symbols:arrow-outward"
                 />
-            </VLink>
+            </VPrismicLink>
         </template>
-    </section>
+    </VSlice>
 </template>
 
 <style lang="scss" module>
-/* stylelint-disable-next-line block-no-empty -- kept as a CSS module hook for $style.root in the template, like other slices */
 .root {
-}
-
-.title {
-    margin-bottom: 32px;
-    text-transform: uppercase;
+    position: relative;
 }
 
 .wrapper {

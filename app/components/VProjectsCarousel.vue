@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import type { PropType } from 'vue'
 import type { ProjectPageDocument } from '~~/prismicio-types'
+import type { VWrapperElement } from '~/components/VWrapper.vue'
 import { getRoutePath } from '~~/shared/prismic-schema'
 
-defineProps({
-    tag: String,
-    title: String,
-    projects: Array as PropType<ProjectPageDocument[]>,
-})
+defineProps<{
+    wrapper?: VWrapperElement
+    title?: string
+    projects: ProjectPageDocument[]
+}>()
 
 const carousel = ref<HTMLElement | null>(null)
 const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativeCarousel(carousel)
 </script>
 
 <template>
-    <component
-        :is="tag || 'section'"
+    <VWrapper
+        :wrapper="wrapper || 'section'"
         :class="$style.root"
     >
         <div
@@ -82,7 +82,7 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
                 wrapper="li"
             />
         </ul>
-    </component>
+    </VWrapper>
 </template>
 
 <style lang="scss" module>

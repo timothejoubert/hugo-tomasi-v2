@@ -18,11 +18,12 @@ defineProps<{
             spacing && spacing !== 'none' && `slice-container--${spacing}`,
             fullwidth && 'slice-container--fullwidth'
         ]"
-        :id="slice.id"
+        :id="slice?.id"
     >
         <VSliceTitle
             v-if="title"
             :title="title"
+            :class="fullwidth && 'grid-container'"
         />
         <slot />
     </VWrapper>
