@@ -63,6 +63,20 @@
             "placeholder": ""
           },
           "type": "Select"
+        },
+        "spacing": {
+          "config": {
+            "default_value": "xs",
+            "label": "Spacing",
+            "options": [
+              "xs",
+              "xl",
+              "xxl",
+              "none"
+            ],
+            "placeholder": ""
+          },
+          "type": "Select"
         }
       },
       "version": "initial"

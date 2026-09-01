@@ -816,6 +816,17 @@ export interface MediaSliceSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/select
 	 */
 	layout: prismic.SelectField<"default" | "fullwidth" | "centered", "filled">;
+	
+	/**
+	 * Spacing field in *MediaSlice → Default → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: xs
+	 * - **API ID Path**: media_slice.default.primary.spacing
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	spacing: prismic.SelectField<"xs" | "xl" | "xxl" | "none", "filled">;
 }
 
 /**

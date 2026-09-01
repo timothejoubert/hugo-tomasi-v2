@@ -14,14 +14,28 @@ function isBackgroundVideo(item: (typeof medias)[number]) {
     return isFilled.linkToMedia(item.media) && item.media.kind !== 'image'
 }
 
-function getMediaSizes() {
-    return 'xs:100vw sm:100md md:100vw lg:75vw xl:75vw xxl:75vw hd:75vw qhd:75vw'
-}
-
 const title = props.slice.primary?.title
 const content = props.slice.primary?.content
 const layout = props.slice.primary?.layout
+const spacing = props.slice.primary?.spacing
 const medias = props.slice.items
+
+
+const mediaSizes = computed(() => {
+    let result = 'xs:100vw sm:100md md:100vw'
+
+    if (layout === 'centered') {
+        result += ' lg:50vw xl:50vw xxl:50vw hd:50vw qhd:50vw'
+    } else if (layout === 'fullwidth') {
+        result += ' lg:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw'
+    } else if(layout === 'default' && medias?.length > 1) {
+        result += ' lg:40vw xl:40vw xxl:40vw hd:40vw qhd:40vw'
+    } else {
+        result += ' lg:90vw xl:90vw xxl:90vw hd:90vw qhd:90vw'
+    }
+
+    return result
+})
 
 </script>
 
@@ -34,7 +48,7 @@ const medias = props.slice.items
             layout && $style[`root--${layout}`],
             medias.length > 1 && $style['root--multiple'],
         ]"
-        spacing="xs"
+        :spacing="spacing"
     >
         <VSliceTitle
             v-if="title"
@@ -55,7 +69,7 @@ const medias = props.slice.items
             <VPrismicMedia
                 :class="$style.media"
                 :field="resolveMediaField(item)"
-                :sizes="getMediaSizes()"
+                :sizes="mediaSizes"
                 :background="isBackgroundVideo(item)"
             />
             <VButton

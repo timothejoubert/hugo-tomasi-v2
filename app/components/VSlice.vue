@@ -6,7 +6,7 @@ defineProps<{
     slice: SharedSlice
     wrapper?: VWrapperElement
     title?: string | null
-    spacing?: 'xs' | 'xl' | 'xxl'
+    spacing?: 'xs' | 'xl' | 'xxl' | 'none'
     fullwidth?: boolean
 }>()
 </script>
@@ -15,7 +15,7 @@ defineProps<{
         :wrapper="wrapper || 'section'"
         :class="[
             'slice-container',
-            spacing && `slice-container--${spacing}`,
+            spacing && spacing !== 'none' && `slice-container--${spacing}`,
             fullwidth && 'slice-container--fullwidth'
         ]"
         :id="slice.id"

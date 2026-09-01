@@ -39,7 +39,7 @@ export function stripUrlQuery(url: string) {
 /** Normalizes any Prismic media-ish field (Image, Link-to-media, or a video Embed field) into one
  * shape, dispatching on the field's own shape (`isFilled.*`) rather than guessing from the URL. */
 export function getPrismicMediaData(field: MediaField | null | undefined): NormalizedMedia | undefined {
-    if (isFilled.image(field)) {
+    if (!(field && 'link_type' in field) && isFilled.image(field)) {
         return {
             type: 'image',
             url: stripUrlQuery(field.url),
