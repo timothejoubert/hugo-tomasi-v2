@@ -5,12 +5,10 @@ const runtimeConfig = useRuntimeConfig()
 const siteName = computed(() => runtimeConfig.public.site.name)
 
 const credits = computed(() => setting.value?.data?.credits)
-
-// const { themeClass } = useThemeProvider({ preferredTheme: 'dark' })
 </script>
 
 <template>
-    <footer :class="[$style.root, themeClass]">
+    <footer :class="$style.root">
         <div :class="$style.infos" class="markdown">
             <span
                 :class="$style.copyright"

@@ -17,6 +17,15 @@
           "thumbnails": []
         },
         "type": "Image"
+      },
+      "credits": {
+        "config": {
+          "allowTargetBlank": true,
+          "label": "Credits",
+          "placeholder": "",
+          "single": "strong,em,hyperlink"
+        },
+        "type": "StructuredText"
       }
     },
     "Publisher": {

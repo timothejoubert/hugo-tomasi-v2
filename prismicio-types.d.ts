@@ -586,7 +586,18 @@ interface SettingDocumentData {
 	 * - **Tab**: Website
 	 * - **Documentation**: https://prismic.io/docs/fields/image
 	 */
-	website_logo: prismic.ImageField<never>;/**
+	website_logo: prismic.ImageField<never>;
+	
+	/**
+	 * Credits field in *setting*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: setting.credits
+	 * - **Tab**: Website
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	credits: prismic.RichTextField;/**
 	 * Publisher name field in *setting*
 	 *
 	 * - **Field Type**: Text

@@ -19,18 +19,6 @@
     @include grid(true);
 }
 
-.slice-container {
-    @include grid-container(true);
-
-    margin-block: 72px;
-
-    &--xl {
-        @include grid-container(true);
-
-        margin-block: 208px;
-    }
-}
-
 :root {
     // Margins
     @each $breakpoint, $value in $grid-margins {
