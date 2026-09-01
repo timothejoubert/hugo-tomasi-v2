@@ -18,6 +18,13 @@
             "placeholder": ""
           },
           "type": "Text"
+        },
+        "count": {
+          "config": {
+            "label": "Count",
+            "placeholder": ""
+          },
+          "type": "Number"
         }
       },
       "version": "initial"

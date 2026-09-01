@@ -1,0 +1,22 @@
+.markdown {
+    > *:first-child:not(:only-child) {
+        margin-top: initial;
+    }
+
+    > *:last-child:not(:only-child) {
+        margin-bottom: initial;
+    }
+
+    a {
+        color: var(--color-content, inherit);
+        text-decoration: underline;
+        text-decoration-color: color-mix(in srgb, var(--color-content) 20%, transparent);
+        text-decoration-thickness: 0.5px;
+        text-underline-offset: 3px;
+        transition: text-decoration-color 0.2s ease-in-out;
+
+        &:hover {
+            text-decoration-color: var(--color-content);
+        }
+    }
+}

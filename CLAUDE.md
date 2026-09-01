@@ -49,6 +49,12 @@ Trois fichiers, un seul rôle chacun (détail dans `README.md`) :
   dans Prismic → `pnpm type-gen` → ajouter la constante dans
   `prismicDocumentType` → ajouter l'entrée correspondante dans
   `prismicDocumentRoutes`.
+- Serveur MCP Prismic (`.mcp.json`, `https://mcp.prismic.io/mcp`, OAuth au
+  premier usage) disponible pour explorer le repo (documents, custom types,
+  slices, releases) sans quitter la conversation. Reste en lecture/usage
+  ponctuel côté agent : pour toute modification de modèle (custom types,
+  slices), continuer à passer par le CLI `npx prismic` (voir skill
+  `prismic`), qui reste la source de vérité pour les workflows de modélisation.
 
 ## Conventions composables
 

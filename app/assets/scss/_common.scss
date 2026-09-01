@@ -1,3 +1,6 @@
+@use "mixins/typography" as *;
+@use 'variables/fonts.scss' as *;
+
 * {
     box-sizing: border-box;
 }
@@ -7,6 +10,7 @@ body {
     --common-border-radius: 19px;
 
     margin: initial;
+    font-family: $fraktion-sans-family;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -26,11 +30,6 @@ body {
     margin: -1px;
     clip-path: inset(50%);
     white-space: nowrap;
-}
-
-p {
-    font-size: 16px;
-    line-height: 1.35;
 }
 
 #__nuxt {

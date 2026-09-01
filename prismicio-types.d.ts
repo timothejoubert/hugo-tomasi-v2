@@ -552,26 +552,6 @@ export type ProjectPageDocument<Lang extends string = string> = prismic.PrismicD
  */
 export interface SettingDocumentDataPublisherSocialsItem {
 	/**
-	 * Name field in *setting → Publisher socials*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: setting.publisher_socials[].name
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	name: prismic.KeyTextField;
-	
-	/**
-	 * Type field in *setting → Publisher socials*
-	 *
-	 * - **Field Type**: Select
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: setting.publisher_socials[].type
-	 * - **Documentation**: https://prismic.io/docs/fields/select
-	 */
-	type: prismic.SelectField<"instagram" | "facebook" | "twitter" | "tiktok" | "vimeo" | "behance" | "youtube" | "linkedin">;
-	
-	/**
 	 * Link field in *setting → Publisher socials*
 	 *
 	 * - **Field Type**: Link
@@ -679,6 +659,16 @@ export type AllDocumentTypes = AboutPageDocument | HomePageDocument | MenuDocume
  * Primary content in *IntroductionSlice → Default → Primary*
  */
 export interface IntroductionSliceSliceDefaultPrimary {
+	/**
+	 * Title field in *IntroductionSlice → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: introduction_slice.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title: prismic.KeyTextField;
+	
 	/**
 	 * content field in *IntroductionSlice → Default → Primary*
 	 *
@@ -927,6 +917,16 @@ export interface ProjectsFeedSliceSliceDefaultPrimary {
 	 * - **Documentation**: https://prismic.io/docs/fields/text
 	 */
 	title: prismic.KeyTextField;
+	
+	/**
+	 * Count field in *ProjectsFeedSlice → Default → Primary*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: projects_feed_slice.default.primary.count
+	 * - **Documentation**: https://prismic.io/docs/fields/number
+	 */
+	count: prismic.NumberField;
 }
 
 /**

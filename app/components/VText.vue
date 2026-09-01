@@ -9,6 +9,7 @@ interface VTextProps {
     tag?: string
     content?: VTextContent
     richTextSerializer?: VueRichTextSerializer | null
+    inline?: boolean
 }
 
 const prismic = usePrismic()
@@ -47,36 +48,18 @@ const flatRichTextContent = computed(() => {
     <component
         :is="tag || 'p'"
         v-if="rawContent || hasSlot || flatRichTextContent"
-        :class="$style.root"
+        class="markdown"
     >
         <slot>{{ flatRichTextContent ? flatRichTextContent : rawContent }}</slot>
     </component>
-    <div
+    <VWrapper
         v-else-if="!!richTextFilled?.length"
-        :class="$style.root"
+        :wrapper="inline ? false : 'div'"
+        class="markdown"
     >
         <PrismicRichText
             :field="richTextFilled"
             :components="richTextSerializer || undefined"
         />
-    </div>
+    </VWrapper>
 </template>
-
-<style lang="scss" module>
-.root {
-    > *:first-child:not(:only-child) {
-        margin-top: initial;
-    }
-
-    > *:last-child:not(:only-child) {
-        margin-bottom: initial;
-    }
-
-    a {
-        color: var(--theme-color-primary);
-        text-decoration: underline;
-        text-decoration-thickness: 0.5px;
-        text-underline-offset: 2px;
-    }
-}
-</style>
