@@ -24,7 +24,7 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
         >
             <h2
                 v-if="title"
-                class="text-h3"
+                class="text-h4"
                 :class="$style.title"
             >
                 {{ title }}
@@ -154,6 +154,7 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
     min-width: 100%;
     margin: 0;
     cursor: grab;
+    gap: var(--gutter);
     -webkit-overflow-scrolling: touch;
     overflow-x: scroll;
     padding-inline: var(--grid-margin);
@@ -178,7 +179,6 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
 .card {
     width: flex-grid(11, 12);
     flex-shrink: 0;
-    margin-right: var(--gutter);
     scroll-snap-align: start;
     scroll-snap-stop: always;
 
