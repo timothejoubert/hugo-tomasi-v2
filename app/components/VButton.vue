@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ThemeProps } from '~/types/theme'
+import { NuxtLink } from '#components'
 
 interface VButtonProps {
     tag?: string
@@ -8,10 +9,23 @@ interface VButtonProps {
     design?: 'filled' | 'outlined'
     size?: 'xs' | 'sm' | 'md'
     theme?: ThemeProps['theme']
+    url?: string
 }
 
 const props = defineProps<VButtonProps>()
 const { themeClass } = useTheme({ props })
+
+const internalTag = computed(() => {
+    if(props.tag) {
+        return props.tag
+    }
+
+    if(props.url) {
+        return NuxtLink
+    }
+
+    return 'button'
+})
 
 const $style = useCssModule()
 const rootClasses = computed(() => {
@@ -26,8 +40,9 @@ const rootClasses = computed(() => {
 
 <template>
     <component
-        :is="tag || 'button'"
+        :is="internalTag"
         :class="rootClasses"
+        :url="url"
     >
         <span
             v-if="label"

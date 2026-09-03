@@ -60,17 +60,13 @@ const filteredProjects = computed(() => {
 .item {
     grid-column: 1 / -1;
     list-style: none;
-    opacity: 0;
-    translate: 0 24px;
+
+    // For now don't set reveal animation
+    // opacity: 0;
+    // translate: 0 24px;
 
     @include media('>=md') {
         grid-column: span 6;
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-        transition: 0.5s ease(out-quad);
-        transition-delay: calc(var(--item-index, 0) * 30ms);
-        transition-property: opacity, translate;
     }
 
     &--visible {

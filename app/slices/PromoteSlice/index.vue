@@ -14,12 +14,14 @@ const promoteList = computed(() => props.slice.items)
         spacing="xl"
         :title="title"
     >
-        <template v-if="promoteList?.length">
-            <VPrismicLink
+        <ul
+            v-if="promoteList?.length"
+            :class="$style.list"
+        >
+            <li
                 v-for="(promote, i) in promoteList"
                 :key="`${i}-${promote.title}`"
-                :class="$style.wrapper"
-                :to="promote.link"
+                :class="$style.item"
             >
                 <div
                     v-if="promote.title"
@@ -45,13 +47,20 @@ const promoteList = computed(() => props.slice.items)
                 >
                     {{ promote.year }}
                 </div>
-                <VButton
-                    :class="$style.cta"
-                    :label="promote.link_label || $t('button.default_label')"
-                    icon-name="material-symbols:arrow-outward"
-                />
-            </VPrismicLink>
-        </template>
+                <VPrismicLink
+                    :to="promote.link"
+                    v-slot="scopedProps"
+                    custom
+                >
+                    <VButton
+                        v-bind="scopedProps"
+                        :class="$style.button"
+                        :label="promote.link_label || $t('button.default_label')"
+                        icon-name="material-symbols:arrow-outward"
+                    />
+                </VPrismicLink>
+            </li>
+        </ul>
     </VSlice>
 </template>
 
@@ -60,7 +69,13 @@ const promoteList = computed(() => props.slice.items)
     position: relative;
 }
 
-.wrapper {
+.list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.item {
     --v-promote-border: 1px solid color-mix(in srgb, var(--color-content) 20%, transparent);
 
     position: relative;
@@ -82,7 +97,7 @@ const promoteList = computed(() => props.slice.items)
     transition: transform 0.3s ease(out-quad);
 
     @media (hover: hover) {
-        .wrapper:hover & {
+        .item:hover & {
             transform: translateX(10px);
         }
     }
@@ -107,8 +122,11 @@ const promoteList = computed(() => props.slice.items)
     }
 }
 
-.cta {
-    --v-button-padding-inline: 0;
-    --v-button-icon-margin: #{0px 0px 0px 4px};
+.button {
+    @at-root a.button::before {
+        position: absolute;
+        content: '';
+        inset: 0;
+    }
 }
 </style>

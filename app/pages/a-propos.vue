@@ -56,7 +56,7 @@ const email = computed(() => settings.value?.data?.publisher_email || '')
 <style lang="scss" module>
 .header {
     align-items: center;
-    padding-block: 102px;
+    padding-top: 102px;
 }
 
 .media-wrapper {
