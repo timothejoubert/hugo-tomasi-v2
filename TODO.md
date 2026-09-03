@@ -1,12 +1,5 @@
 ### TODO
-- AboutPage: A partir d'un sprite (matrice de x image par x), déplacer l'image en fonction du positionnement de la souris pour rendre un effet d'animation de l'image. Génére ce sprite avec un modele de tet basique pour faire un POC et mets ce composant dans la page a-propos.
-
-- integration: faire l'integration de la page projects listing
-    - grid de 2 VProjectCard par row
-    - Ajouter un systeme de filtre par tag de projet, input radio (pour le coté accessible) qui filtre visuellement les projets affichés
-- Adapter le design, layout de MediaSlice
-- Faire et implémenter une feature de VMediaViewer (notamment pour la video dans le VHeaderHome et dans les medias dans MediaSlice)
-- useNativeCarousel: le slide ne s'arrete pas vraiment à la derniere slide, 5px apres la derniere slide ca donne un effet de slide "fantome"
+- Faire et implémenter une feature de VMediaViewer (notamment pour la video dans le VHeaderHome et dans les medias de la page projet)
 
 - A11y:
     - VMainNav: Style visible pour les liens actif (aria-current)
@@ -24,6 +17,12 @@
 - Note : `getPrismicSitemapUrls` (shared/prismic-sitemap-urls.ts) n'est actuellement branché nulle part (pas de `server/routes/__sitemap__/urls.ts`, pas de `sitemap.urls` dans nuxt.config.ts) — code mort en l'état. Le brancher au module `@nuxtjs/sitemap` est une tâche de feature à part, pas traitée ici.
 
 ### Done
+- Bug: `useNativeCarousel`/`VProjectsCarousel` — le carousel scrollait ~12px (`var(--gutter)`) au-delà de la dernière slide ("effet fantôme"). Cause : le `.card` appliquait `margin-right: var(--gutter)` même sur la dernière carte, ce qui étendait `scrollWidth` au-delà du dernier point de snap (`scroll-snap-align: start`) sans qu'aucun snap ne couvre cette zone résiduelle — `scroll-padding-inline` ne compense que le `padding-inline` du conteneur, pas cette marge de fin. Corrigé en déplaçant l'espacement de `margin-right` (par carte) vers `gap: var(--gutter)` sur le conteneur flex (`.carousel`), qui n'insère jamais d'espace après le dernier élément. `getSlideStep()` (use-native-carousel.ts) mis à jour en conséquence pour lire `columnGap` du conteneur au lieu de `marginRight` de la première carte.
+- integration: faire l'integration de la page projects listing
+    - grid de 2 VProjectCard par row
+    - Ajouter un systeme de filtre par tag de projet, input radio (pour le coté accessible) qui filtre visuellement les projets affichés
+- Adapter le design, layout de MediaSlice
+- AboutPage: A partir d'un sprite (matrice de x image par x), déplacer l'image en fonction du positionnement de la souris pour rendre un effet d'animation de l'image. Génére ce sprite avec un modele de tet basique pour faire un POC et mets ce composant dans la page a-propos.
 - VHeaderHome: lorsque VPrismicMedia display une video avec la props fit=cover, il faut que l'entiereté de la vidéo remplisse son element parent. Il faut que le rendu soit l'equivalent du object-fit: cover pour une image. il faut aussi prendre en compte le ratio de la video pour compenser les bandes horizontales.
 - feat: skeleton loading sur la video en background de `VHeaderHome` — `VHeaderHome` ne rend pas la video directement (délègue à `VPrismicMedia` → `VVideoPlayer`), et l'état `hasStartedPlaying` n'était câblé que pour les embeds YouTube/Vimeo (postMessage), pas pour la balise `<video>` native utilisée ici. Ajouté un listener `@playing` sur la balise native, généralisé le timeout de fallback (3s) à tout `background` (embed ou natif), et unifié `.embed-cover`/`.media-cover` pour les deux cas avec le mixin shimmer déjà présent mais jamais utilisé (`app/assets/scss/mixins/_loading-animation.scss`, `@include loading-animation`), thémé via `--loading-animation-background-color: var(--color-background)`.
 - feat: ajouter un composant VAnimatedText qui utilise VSplitText (render=chars) lorsqu'il recoit un props active (trouver un nom plus pertinent) chaque lettre apparait (from translate-y: -100 vers translate-y: 0) chaque lettre a un delay de transition en fonction de son index. Mettre en place se composant pour les liens dans VMainNav pour que je puisse tester le fonctionnement.
