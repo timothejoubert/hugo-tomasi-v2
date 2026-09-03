@@ -26,49 +26,7 @@ const containerEl = ref<HTMLElement | null>(null)
 const { width: viewportWidth } = useWindowSize()
 const isMobile = computed(() => viewportWidth.value < breakpoint('md'))
 
-// Modal-like behaviour: this window visually covers the page behind it, so it needs
-// dialog semantics — focus moves in on mount, is trapped while open, and returns to
-// whatever triggered it (e.g. the project card link) once the consumer closes it.
-const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-let previouslyFocused: HTMLElement | null = null
-
-function getFocusable() {
-    return rootEl.value ? Array.from(rootEl.value.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)) : []
-}
-
-function onKeydown(e: KeyboardEvent) {
-    if (e.key === 'Escape') {
-        e.stopPropagation()
-        emit('close')
-        return
-    }
-
-    if (e.key !== 'Tab') return
-
-    const focusable = getFocusable()
-    if (!focusable.length) return
-
-    const first = focusable[0]
-    const last = focusable[focusable.length - 1]
-
-    if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault()
-        last?.focus()
-    }
-    else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault()
-        first?.focus()
-    }
-}
-
-onMounted(() => {
-    previouslyFocused = document.activeElement as HTMLElement | null
-    rootEl.value?.focus()
-})
-
-onBeforeUnmount(() => {
-    previouslyFocused?.focus?.()
-})
+const { onKeydown } = useDialogA11y(rootEl, emit)
 
 onMounted(() => {
     if (!props.containerSelector) return null
