@@ -22,6 +22,7 @@ const pageMedia = computed(() => (props.slices ?? [])
 <template>
     <main
         :id="SKIP_LINKS.main.elementId"
+        tabindex="0"
     >
         <slot />
         <SliceZone

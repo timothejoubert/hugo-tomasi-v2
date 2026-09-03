@@ -28,17 +28,14 @@ defineProps<{
                     >
                         {{ title }}
                     </h2>
-                    <NuxtLink
-                        :to="getRoutePath('project_listing_page')"
+                    <VButton
                         :class="$style.link"
-                    >
-                        <VButton
-                            :label="$t('see_all_project')"
-                            design="filled"
-                            size="sm"
-                            icon-name="material-symbols:arrow-forward"
-                        />
-                    </NuxtLink>
+                        :to="getRoutePath('project_listing_page')"
+                        :label="$t('see_all_project')"
+                        design="filled"
+                        size="sm"
+                        icon-name="material-symbols:arrow-forward"
+                    />
                     <div
                         v-show="isCarouselEnable"
                         :class="$style.nav"

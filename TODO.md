@@ -7,6 +7,9 @@
     - Nom accessible pour les liens
     - Hierarchie des headings
 
+- A11Y: le contenu affiché par VAnimatedTextr n'est pas correcte, chaque lettre et calculé individuellement comme s'il y a un espace entre chaque lettre. Mettre un aria-label avec le texte brut sur le parent ?
+
+- Lors d'un changement de page, la page navigue vers le haut de la page en cours avant de charger la nouvelle page. Il faut éviter ce scroll Top avant que la prochaine page soit chargé
 
 ### Next step
 - Ajouter un systeme de statistique/tracking pour savoir le nombre de visiteur par jours avec des informations de base. Un service gratuit et idéalement sans cookie.

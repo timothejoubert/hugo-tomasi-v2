@@ -9,6 +9,8 @@ interface VButtonProps {
     design?: 'filled' | 'outlined'
     size?: 'xs' | 'sm' | 'md'
     theme?: ThemeProps['theme']
+    to?: string
+    href?: string
     url?: string
 }
 
@@ -20,7 +22,7 @@ const internalTag = computed(() => {
         return props.tag
     }
 
-    if(props.url) {
+    if(props.to || props.href || props.url) {
         return NuxtLink
     }
 
@@ -42,7 +44,8 @@ const rootClasses = computed(() => {
     <component
         :is="internalTag"
         :class="rootClasses"
-        :url="url"
+        :to="to"
+        :href="href || url"
     >
         <span
             v-if="label"

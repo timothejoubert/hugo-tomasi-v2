@@ -127,6 +127,9 @@ Pour l'effet d'inversion de la nav, envisager un calque de contraste
 minimal garanti (ex. ombre portée ou fond semi-opaque sous les liens)
 indépendant de l'effet blend, au moins pour l'état focus/actif.
 
+*(Voir la note "partiellement corrigé" plus haut : le texte est traité,
+l'effet de nav reste ouvert.)*
+
 ---
 
 ## Constats — Majeurs (P1)
@@ -154,21 +157,26 @@ titre de la nouvelle page après navigation (voir P1-2), et le composant
 `VWindow.vue` inutilisé pourrait être retiré ou clairement marqué comme
 en attente.
 
-### P1-2 — Pas de gestion de focus explicite après navigation
-**Fichiers** : `app/app.vue`, `app/router.options.ts`
+### P1-2 — Pas de gestion de focus explicite après navigation — **corrigé**
+**Fichiers** : `app/plugins/focus-on-navigate.client.ts`, `app/components/VPageWrapper.vue`
 **WCAG** : [2.4.3 Ordre de focus](https://www.w3.org/WAI/WCAG22/Understanding/focus-order) (A)
 
 `<NuxtRouteAnnouncer />` est présent (annonce le changement de titre aux
 lecteurs d'écran), et un `scrollBehavior` personnalisé gère le scroll.
-Mais rien ne déplace explicitement le focus clavier (ex. vers le `<h1>` ou
-le conteneur `<main>`) après un changement de route — le comportement par
-défaut du navigateur peut laisser le focus sur l'ancien lien cliqué ou sur
-`<body>`, ce qui désoriente un utilisateur clavier/lecteur d'écran sur un
-site à navigation interne fréquente (listing ↔ détail projet).
+Mais rien ne déplaçait explicitement le focus clavier après un changement
+de route — le comportement par défaut du navigateur peut laisser le focus
+sur l'ancien lien cliqué ou sur `<body>`, ce qui désoriente un utilisateur
+clavier/lecteur d'écran sur un site à navigation interne fréquente
+(listing ↔ détail projet).
 
-*Piste* : dans un hook de navigation Nuxt (`afterEach` ou équivalent),
-déplacer le focus vers `#main-content` (déjà ciblé par le skip link) ou
-vers le `<h1>` de la nouvelle page.
+> Corrigé : `<main id="main-content">` (`VPageWrapper.vue`) a désormais
+> `tabindex="-1"` (le rendait non focusable programmatiquement), et un
+> nouveau plugin client `focus-on-navigate.client.ts` y déplace le focus
+> dans `router.afterEach`. Il réutilise exactement la même condition que
+> `scrollBehavior` (`to.matched[0] === from.matched[0]`) pour ignorer les
+> navigations "modale projet" (cf. P1-1) et ne pas voler le focus au
+> composant qui les gère, ainsi que les navigations avec ancre (`to.hash`),
+> qui ont déjà leur propre cible de focus native.
 
 ### P1-3 — `alt` d'image entièrement dépendant de la saisie éditoriale Prismic
 **Fichier** : `app/components/VPrismicImg.vue`
@@ -211,7 +219,7 @@ sur le lecteur `<video>` natif.
 prévu (showreel commenté, interview), prévoir un champ Prismic pour un
 fichier de sous-titres (VTT) et le brancher via `<track>`.
 
-### P1-6 — Skip link : `aria-label` codé en dur en français
+### P1-6 — Skip link : `aria-label` codé en dur en français — **corrigé**
 **Fichier** : `app/components/VSkipLink.vue`
 
 `<nav aria-label="Liens d'évitement">` n'utilise pas `$t()`, contrairement
@@ -222,7 +230,7 @@ locale existe, mais incohérent et non traduisible si l'anglais est activé.
 *Piste* : ajouter une clé i18n (ex. `skip_links.aria_label`) et l'utiliser
 via `$t()`, par cohérence avec le reste du code.
 
-### P1-7 — Liens sociaux : nom accessible fragile, pas d'indication "nouvel onglet"
+### P1-7 — Liens sociaux : nom accessible fragile, pas d'indication "nouvel onglet" — **corrigé**
 **Fichier** : `app/components/VSocials.vue`
 
 La variante icon-only utilise `:title="social.name || 'social'"` — l'attribut
@@ -241,14 +249,14 @@ le `<ul>`).
 
 ## Constats — Mineurs (P2)
 
-### P2-1 — `aria-live="assertive"` trop agressif sur la confirmation de copie
+### P2-1 — `aria-live="assertive"` trop agressif sur la confirmation de copie — **corrigé**
 **Fichier** : `app/components/VClipBoard.vue`
 
 Une confirmation "copié" n'est pas une information critique nécessitant
 d'interrompre immédiatement le lecteur d'écran. `aria-live="polite"` est
 généralement recommandé pour ce type de statut non bloquant.
 
-### P2-2 — Animations hover non gardées par `prefers-reduced-motion`
+### P2-2 — Animations hover non gardées par `prefers-reduced-motion` — **corrigé**
 **Fichier** : `app/components/VProjectCard.vue`
 
 Le zoom d'image au survol (`scale: 1.05`) et les transitions de CTA/tags
@@ -259,28 +267,47 @@ avec le reste du projet qui applique systématiquement ce garde-fou
 ailleurs (`VMarquee.vue`, `VMainProjectListing.vue`, `VSettingModal.vue`,
 `VProjectListingFilter.vue`, `use-page-intro.ts`).
 
-### P2-3 — `role="navigation"` redondant sur `<nav>`
+> Corrigé : les déclarations `transition`/`transition-property`/
+> `transition-delay` des règles `.img`, `.cta` et `.tag` sont maintenant
+> dans un bloc `@media (prefers-reduced-motion: no-preference)`, même
+> pattern que les autres composants cités. L'état final au survol
+> (`scale`, `opacity`, `translate`) reste appliqué immédiatement pour les
+> utilisateurs "reduced motion", juste sans l'animation.
+
+### P2-3 — `role="navigation"` redondant sur `<nav>` — **corrigé**
 **Fichier** : `app/components/VMainNav.vue`
 
 `<nav role="navigation">` : le rôle est déjà implicite sur `<nav>`, la
 duplication est inoffensive mais inutile.
 
-### P2-4 — `VSortLink.vue` sans `aria-sort`
+### P2-4 — `VSortLink.vue` sans `aria-sort` — **non applicable en l'état**
 **Fichier** : `app/components/VSortLink.vue`
 
-Bouton natif et opérable au clavier, mais si utilisé pour trier une
-colonne de type tableau/liste, l'état de tri n'est pas exposé
-sémantiquement (`aria-sort` sur l'en-tête concerné, ou a minima
-`aria-pressed` sur le bouton).
+Vérification faite : `VSortLink.vue` n'est actuellement utilisé nulle part
+dans `app/` (composant écrit mais pas encore branché à une UI de tri
+réelle). Il rend un `<button>` natif, pas un `<th>` — `aria-sort` n'y
+aurait de toute façon jamais eu de sens (c'est un attribut d'en-tête de
+tableau). Point à reprendre seulement si ce composant sert un jour à
+trier une vraie table ; dans ce cas, `aria-sort` sur le `<th>` englobant
+est correct, ou `aria-pressed` sur le bouton dans un contexte non-tableau.
 
-### P2-5 — À confirmer : `<h1>` réel sur `/a-propos` et niveaux de titre issus du rich text
-**Fichiers** : `app/pages/a-propos.vue`, contenu Prismic de la page "about"
+### P2-5 — `<h1>` manquant sur `/a-propos` — **corrigé**
+**Fichiers** : `app/pages/a-propos.vue`, `app/components/VHeaderHome.vue` (pattern repris)
 
-Le template statique de `/a-propos` ne contient pas de `<h1>` visible —
-il dépend potentiellement d'un titre saisi dans le contenu Prismic via
-une slice. À vérifier directement sur le contenu publié plutôt que sur le
-template seul, pour confirmer qu'il existe bien exactement un `<h1>` par
-page (cf. aussi P1-4 sur le mapping des niveaux de titre du rich text).
+Vérification faite sur le code réel (pas seulement le template) : aucune
+slice de la page (`IntroductionSlice`, `MarqueeSlice`, `MediaSlice`,
+`ProjectPushSlice`, `ProjectsFeedSlice`, `PromoteSlice`, `SkillsSlice`) ne
+produit de `<h1>` — `VSliceTitle.vue` rend systématiquement un `<h2>`. Il
+n'y avait donc, de fait, aucun `<h1>` du tout sur cette page (recherche
+`<h1` sur tout `app/` : uniquement dans `VHeaderHome.vue`, `pages/projets/
+index.vue`, `VProjectHeader.vue`, `VErrorContent.vue`).
+
+> Corrigé : ajout d'un `<h1 class="text-h1 visually-hidden">` utilisant
+> `document.data.title` (champ Prismic déjà utilisé pour le `<title>` de
+> la page via `usePrismicMeta`, mais jusque-là jamais rendu dans le DOM),
+> même pattern visually-hidden que `VHeaderHome.vue` sur la home.
+> Le point plus large de P1-4 (mapping des niveaux de titre issus du rich
+> text CMS) reste ouvert.
 
 ---
 
@@ -349,14 +376,14 @@ avant chaque mise en production.
 | P0-3 | Bloquant | ✅ Corrigé | `<iframe>` embed sans `title` | `VVideoPlayer.vue`, `VPrismicMedia.vue`, `utils/prismic/media.ts` |
 | P0-4 | Bloquant | ⚠️ Partiel | Contraste `color-accent` / effet invert nav | `_themes.scss`, `VHighlightedText.vue` — effet nav laissé pour arbitrage DA |
 | P1-1 | Majeur | À faire | `VWindow.vue` non branché, focus modale à clarifier | `VWindow.vue`, `router.options.ts`, `projets/[uid].vue` |
-| P1-2 | Majeur | À faire | Pas de déplacement de focus après navigation | `app.vue`, `router.options.ts` |
+| P1-2 | Majeur | ✅ Corrigé | Pas de déplacement de focus après navigation | `plugins/focus-on-navigate.client.ts`, `VPageWrapper.vue` |
 | P1-3 | Majeur | À faire (gouvernance) | `alt` dépendant à 100% de l'éditorial | `VPrismicImg.vue` |
 | P1-4 | Majeur | À faire | Rich text headless sans mapping sémantique garanti | `VRichText.vue`, `VText.vue` |
 | P1-5 | Majeur | À faire | Vidéo native sans sous-titres | `VVideoPlayer.vue` |
 | P1-6 | Majeur | ✅ Corrigé | `aria-label` du skip link non traduit | `VSkipLink.vue` |
 | P1-7 | Majeur | ✅ Corrigé | Nom accessible des liens sociaux via `title` seul | `VSocials.vue` |
 | P2-1 | Mineur | ✅ Corrigé | `aria-live="assertive"` trop fort | `VClipBoard.vue` |
-| P2-2 | Mineur | À faire | Hover non gardé par `prefers-reduced-motion` | `VProjectCard.vue` |
+| P2-2 | Mineur | ✅ Corrigé | Hover non gardé par `prefers-reduced-motion` | `VProjectCard.vue` |
 | P2-3 | Mineur | ✅ Corrigé | `role="navigation"` redondant | `VMainNav.vue` |
-| P2-4 | Mineur | À faire | Pas de `aria-sort` | `VSortLink.vue` |
-| P2-5 | Mineur | À faire | `<h1>` de `/a-propos` à confirmer sur le contenu réel | `a-propos.vue` |
+| P2-4 | Mineur | N/A (code mort) | Pas de `aria-sort` | `VSortLink.vue` — inutilisé dans le repo |
+| P2-5 | Mineur | ✅ Corrigé | `<h1>` manquant sur `/a-propos` | `a-propos.vue` |

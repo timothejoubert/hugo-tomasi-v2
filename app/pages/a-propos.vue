@@ -26,6 +26,12 @@ const email = computed(() => settings.value?.data?.publisher_email || '')
                 <VSpriteFaceHover />
             </div>
             <div :class="$style.body">
+                <h1
+                    v-if="document?.data.title"
+                    class="text-h1 visually-hidden"
+                >
+                    {{ document?.data.title }}
+                </h1>
                 <VText
                     v-if="document?.data.content"
                     :content="document?.data.content"
