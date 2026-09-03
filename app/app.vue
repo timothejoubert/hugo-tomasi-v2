@@ -9,6 +9,8 @@
 
     <VMainNav />
 
+    <VMediaViewer />
+
     <NuxtPage />
 
     <VFooter />

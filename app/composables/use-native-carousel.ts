@@ -11,6 +11,10 @@ export function useNativeCarousel(sliderElement: Ref<TemplateElement>) {
     const positionX = ref(0)
     const mouseMove = ref(false)
     const slider = ref<HTMLElement | undefined>(undefined)
+    // The currently settled slide (as opposed to `progress`, which tracks continuously during a
+    // drag) — derived from `scrollend` so it reflects wheel/touch/programmatic scrolling too, not
+    // just the mouse-drag emulation below.
+    const activeIndex = ref(0)
 
     watch(positionX, (value) => {
         slider.value!.scrollLeft = value
@@ -57,6 +61,7 @@ export function useNativeCarousel(sliderElement: Ref<TemplateElement>) {
         slider.value.addEventListener('mouseup', onMouseUp)
         slider.value.addEventListener('mousemove', onMouseMove)
         slider.value.addEventListener('scroll', onScroll)
+        slider.value.addEventListener('scrollend', onScrollEnd)
     }
 
     function removeListener() {
@@ -67,10 +72,16 @@ export function useNativeCarousel(sliderElement: Ref<TemplateElement>) {
         slider.value.removeEventListener('mouseup', onMouseUp)
         slider.value.removeEventListener('mousemove', onMouseMove)
         slider.value.removeEventListener('scroll', onScroll)
+        slider.value.removeEventListener('scrollend', onScrollEnd)
     }
 
     function onScroll() {
         updateProgress()
+    }
+
+    function onScrollEnd() {
+        const step = getSlideStep()
+        if (step) activeIndex.value = Math.round(slider.value!.scrollLeft / step)
     }
 
     function updateProgress() {
@@ -129,6 +140,12 @@ export function useNativeCarousel(sliderElement: Ref<TemplateElement>) {
         slider.value.scrollBy({ left: direction * getSlideStep(), behavior: 'smooth' })
     }
 
+    function scrollToIndex(index: number, behavior: ScrollBehavior = 'smooth') {
+        if (!slider.value) return
+
+        slider.value.scrollTo({ left: index * getSlideStep(), behavior })
+    }
+
     function snapToNearest() {
         if (!slider.value) return
 
@@ -148,6 +165,8 @@ export function useNativeCarousel(sliderElement: Ref<TemplateElement>) {
         progress,
         positionX,
         mouseMove,
+        activeIndex,
         scrollByStep,
+        scrollToIndex,
     }
 }

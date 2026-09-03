@@ -22,9 +22,14 @@ export const vPrismicMediaProps = {
     fit: { type: String as PropType<'cover' | 'contain'> },
 }
 
+export interface PlayableRef {
+    play?: () => void
+    pause?: () => void
+}
+
 export default defineComponent({
     props: vPrismicMediaProps,
-    setup(props, { slots }) {
+    setup(props, { slots, expose }) {
         // Normalized once here (not re-derived per sub-component) so both the legacy `slot` shape
         // and the new `field` shape resolve to the exact same rendering regardless of which of the
         // two APIs produced the data.
@@ -35,6 +40,14 @@ export default defineComponent({
         const imgProps = computed(() => pick(props, Object.keys(vImgProps).filter(key => key !== 'background')))
         const videoProps = computed(() => pick(props, Object.keys(videoAttributes)))
 
+        // Forwards VVideoPlayer's play()/pause() (e.g. for VMediaViewer) through this dispatcher —
+        // a no-op when the rendered child is VImg, which doesn't expose either.
+        const childRef = ref<PlayableRef | null>(null)
+        expose({
+            play: () => childRef.value?.play?.(),
+            pause: () => childRef.value?.pause?.(),
+        })
+
         return () => {
             const data = media.value
             if (!data) return null
@@ -42,6 +55,7 @@ export default defineComponent({
             if (data.type === 'image') {
                 return h(VImg, {
                     ...imgProps.value,
+                    ref: childRef,
                     src: data.url,
                     width: props.width ?? data.width,
                     height: props.height ?? data.height,
@@ -55,6 +69,7 @@ export default defineComponent({
 
             return h(VVideoPlayer, {
                 ...videoProps.value,
+                ref: childRef,
                 background: props.background,
                 fit: props.fit,
                 ...(data.type === 'embed'

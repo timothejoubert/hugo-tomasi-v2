@@ -8,9 +8,6 @@ defineProps<{
     title?: string
     projects: ProjectPageDocument[]
 }>()
-
-const carousel = ref<HTMLElement | null>(null)
-const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativeCarousel(carousel)
 </script>
 
 <template>
@@ -18,70 +15,67 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
         :wrapper="wrapper || 'section'"
         :class="$style.root"
     >
-        <div
-            :class="$style.head"
-            class="grid-container"
-        >
-            <h2
-                v-if="title"
-                class="text-h4"
-                :class="$style.title"
-            >
-                {{ title }}
-            </h2>
-            <NuxtLink
-                :to="getRoutePath('project_listing_page')"
-                :class="$style.link"
-            >
-                <VButton
-                    :label="$t('see_all_project')"
-                    design="filled"
-                    size="sm"
-                    icon-name="material-symbols:arrow-forward"
-                />
-            </NuxtLink>
-            <div
-                v-show="isCarouselEnable"
-                :class="$style.nav"
-            >
-                <div :class="$style['nav-buttons']">
-                    <VButton
-                        design="outlined"
-                        icon-name="material-symbols:arrow-back"
-                        :class="$style['nav-button']"
-                        :disabled="progress <= 0"
-                        @click="scrollByStep(-1)"
-                    />
-                    <VButton
-                        design="outlined"
-                        icon-name="material-symbols:arrow-forward"
-                        :class="$style['nav-button']"
-                        :disabled="progress >= 1"
-                        @click="scrollByStep(1)"
-                    />
-                </div>
+        <VCarousel>
+            <template #nav="{ progress, isCarouselEnable, scrollByStep }">
                 <div
-                    :class="$style.scroll"
-                    :style="{ '--progress': progress }"
+                    :class="$style.head"
+                    class="grid-container"
+                >
+                    <h2
+                        v-if="title"
+                        class="text-h4"
+                        :class="$style.title"
+                    >
+                        {{ title }}
+                    </h2>
+                    <NuxtLink
+                        :to="getRoutePath('project_listing_page')"
+                        :class="$style.link"
+                    >
+                        <VButton
+                            :label="$t('see_all_project')"
+                            design="filled"
+                            size="sm"
+                            icon-name="material-symbols:arrow-forward"
+                        />
+                    </NuxtLink>
+                    <div
+                        v-show="isCarouselEnable"
+                        :class="$style.nav"
+                    >
+                        <div :class="$style['nav-buttons']">
+                            <VButton
+                                design="outlined"
+                                icon-name="material-symbols:arrow-back"
+                                :class="$style['nav-button']"
+                                :disabled="progress <= 0"
+                                @click="scrollByStep(-1)"
+                            />
+                            <VButton
+                                design="outlined"
+                                icon-name="material-symbols:arrow-forward"
+                                :class="$style['nav-button']"
+                                :disabled="progress >= 1"
+                                @click="scrollByStep(1)"
+                            />
+                        </div>
+                        <div
+                            :class="$style.scroll"
+                            :style="{ '--progress': progress }"
+                        />
+                    </div>
+                </div>
+            </template>
+            <template #default="{ isDragging }">
+                <VProjectCard
+                    v-for="project in projects"
+                    :key="project.uid"
+                    :project="project"
+                    :class="[$style.card, isDragging && $style['card--dragging']]"
+                    wrapper="li"
                 />
-            </div>
-        </div>
-        <ul
-            ref="carousel"
-            :class="[
-                $style.carousel,
-                mouseMove && $style['carousel--is-dragging'],
-                isDown && $style['carousel--no-snap'],
-            ]"
-        >
-            <VProjectCard
-                v-for="project in projects"
-                :key="project.uid"
-                :project="project"
-                :class="$style.card"
-                wrapper="li"
-            />
-        </ul>
+            </template>
+        </VCarousel>
     </VWrapper>
 </template>
 
@@ -134,8 +128,8 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
     position: relative;
     overflow: hidden;
     width: 100%;
-    height: 6px;
-    border-radius: 6px;
+    height: 4px;
+    border-radius: 50vmax;
     background-color: color-mix(in srgb, var(--color-content) 10%, var(--color-background));
 
     &::after {
@@ -149,40 +143,13 @@ const { isDown, mouseMove, isCarouselEnable, progress, scrollByStep } = useNativ
     }
 }
 
-.carousel {
-    display: flex;
-    min-width: 100%;
-    margin: 0;
-    cursor: grab;
-    gap: var(--gutter);
-    -webkit-overflow-scrolling: touch;
-    overflow-x: scroll;
-    padding-inline: var(--grid-margin);
-    scroll-padding-inline: var(--grid-margin);
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none; /* Firefox 64 */
-    touch-action: pan-x;
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
-
-    // The mouse-drag emulation below sets `scrollLeft` directly (not a native scroll gesture) —
-    // with `scroll-snap-type: mandatory` active, browsers snap back to the nearest slide on every
-    // intermediate assignment, which blocks the drag entirely. Snapping is restored on mouse up,
-    // when `snapToNearest()` (use-native-carousel.ts) explicitly re-snaps.
-    &--no-snap {
-        scroll-snap-type: none;
-    }
-}
-
 .card {
     width: flex-grid(11, 12);
     flex-shrink: 0;
     scroll-snap-align: start;
     scroll-snap-stop: always;
 
-    .carousel--is-dragging & {
+    &--dragging {
         pointer-events: none;
     }
 

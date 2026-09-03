@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import { isFilled, type Content } from '@prismicio/client'
+import type { MediaViewerItem } from '~/composables/use-media-viewer'
+import { resolveMediaField } from './resolve-media-field'
 
-const props = defineProps(getSliceComponentProps<Content.MediaSliceSlice>())
+const props = defineProps(getSliceComponentProps<Content.MediaSliceSlice, { media: MediaViewerItem[] }>())
 
-
-function resolveMediaField(item: (typeof medias)[number]) {
-    if (isFilled.embed(item.embed_video)) return item.embed_video
-    if (isFilled.linkToMedia(item.media)) return item.media
-    return undefined
-}
+const { open: openMediaViewer } = useMediaViewer()
 
 function isBackgroundVideo(item: (typeof medias)[number]) {
     return isFilled.linkToMedia(item.media) && item.media.kind !== 'image'
+}
+
+function isVideo(item: (typeof medias)[number]) {
+    return isFilled.embed(item.embed_video) || isBackgroundVideo(item)
 }
 
 const title = props.slice.primary?.title
@@ -36,6 +37,27 @@ const mediaSizes = computed(() => {
 
     return result
 })
+
+// Fallback for when this slice isn't rendered through VPageWrapper's SliceZone (which supplies
+// the page-wide list via `context.media`) — keeps MediaSlice usable/self-sufficient on its own.
+const localMediaItems = computed(() => (medias ?? [])
+    .map(resolveMediaField)
+    .filter((field): field is NonNullable<typeof field> => !!field)
+    .map(field => ({ field })))
+
+// A project page can have several MediaSlice instances — navigating prev/next should walk every
+// media on the page, not just this slice's own items, so this prefers the page-wide list built
+// once in VPageWrapper.vue and passed down as SliceZone context.
+const pageMediaItems = computed(() => props.context?.media?.length ? props.context.media : localMediaItems.value)
+
+// Items without a resolvable field aren't openable, so the viewer's item indexes don't line up
+// with the raw `medias`/v-for indexes — look the clicked field back up in `pageMediaItems`
+// (by reference) rather than trusting any positional index.
+function showMediaViewer(field: ReturnType<typeof resolveMediaField>) {
+    const index = pageMediaItems.value.findIndex(mediaItem => mediaItem.field === field)
+    if (index === -1) return
+    openMediaViewer(pageMediaItems.value, index)
+}
 
 </script>
 
@@ -73,10 +95,11 @@ const mediaSizes = computed(() => {
                 :background="isBackgroundVideo(item)"
             />
             <VButton
-                tag="span"
+                v-if="resolveMediaField(item) && !isVideo(item)"
                 design="filled"
                 icon-name="material-symbols:fullscreen"
                 :class="$style.cta"
+                @click="showMediaViewer(resolveMediaField(item))"
             />
         </div>
     </VSlice>

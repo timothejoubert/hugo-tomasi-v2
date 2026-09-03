@@ -38,7 +38,7 @@ export const vVideoPlayerProps = {
 
 export default defineComponent({
     props: vVideoPlayerProps,
-    setup(props) {
+    setup(props, { expose }) {
         const isEmbed = computed(() => (!!props.embedPlatform && !!props.embedId) || props.iframe)
 
         // Attributes
@@ -84,7 +84,7 @@ export default defineComponent({
                         showinfo: '0',
                         rel: '0',
                         enablejsapi: '1',
-                        muted: muted ? '1' : '0',
+                        mute: muted ? '1' : '0',
                         controls: controls.value ? '1' : '0',
                         autoplay: autoplay ? '1' : '',
                         loop: loop ? '1' : '0',
@@ -107,8 +107,10 @@ export default defineComponent({
                         sidedock: '0',
                         title: '0',
                         dnt: '1', // remove cookie
-                        // Needed for Vimeo's postMessage API to emit the `play` event we listen for.
-                        ...(props.background ? { api: '1' } : {}),
+                        // Turns on Vimeo's postMessage API — needed both to receive its `play`
+                        // event (background mode) and to send it play/pause commands (`play()`/
+                        // `pause()` below), so it's on unconditionally rather than gated by mode.
+                        api: '1',
                     }
                 }
 
@@ -159,6 +161,7 @@ export default defineComponent({
         }
 
         const embedIframe = ref<HTMLIFrameElement>()
+        const videoEl = ref<HTMLVideoElement>()
 
         // Neither platform broadcasts player events on its own — `api`/`enablejsapi` only turns
         // the postMessage channel on, each platform still needs an explicit subscribe message
@@ -175,6 +178,39 @@ export default defineComponent({
                 contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'addEventListener', args: ['onStateChange'] }), '*')
             }
         }
+
+        // Imperative play/pause, e.g. for VMediaViewer autoplaying the opened slide and stopping
+        // it on navigation/close. Native video is controlled directly; embeds have no direct DOM
+        // handle, so it's the same postMessage command channel `enablejsapi`/`api` above turns on.
+        function play() {
+            if (!isEmbed.value) {
+                videoEl.value?.play()
+                return
+            }
+
+            const contentWindow = embedIframe.value?.contentWindow
+            const platform = props.embedPlatform?.toLowerCase()
+            if (!contentWindow) return
+
+            if (platform === 'youtube') contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'playVideo' }), '*')
+            else if (platform === 'vimeo') contentWindow.postMessage(JSON.stringify({ method: 'play' }), '*')
+        }
+
+        function pause() {
+            if (!isEmbed.value) {
+                videoEl.value?.pause()
+                return
+            }
+
+            const contentWindow = embedIframe.value?.contentWindow
+            const platform = props.embedPlatform?.toLowerCase()
+            if (!contentWindow) return
+
+            if (platform === 'youtube') contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'pauseVideo' }), '*')
+            else if (platform === 'vimeo') contentWindow.postMessage(JSON.stringify({ method: 'pause' }), '*')
+        }
+
+        expose({ play, pause })
 
         onMounted(() => {
             if (isEmbed.value) {
@@ -211,7 +247,7 @@ export default defineComponent({
             }
         })
 
-        return { isEmbed, playerStyle, fitStyle, videoAttrs, videoSources, src, hasStartedPlaying, embedIframe, handleEmbedLoad }
+        return { isEmbed, playerStyle, fitStyle, videoAttrs, videoSources, src, hasStartedPlaying, embedIframe, videoEl, handleEmbedLoad }
     },
 })
 </script>
@@ -242,6 +278,7 @@ export default defineComponent({
         :class="[$style['video-wrapper'], fit && $style['video-wrapper--fill']]"
     >
         <video
+            ref="videoEl"
             v-bind="videoAttrs"
             :class="[$style.video, fit && $style['video--fill']]"
             @playing="hasStartedPlaying = true"

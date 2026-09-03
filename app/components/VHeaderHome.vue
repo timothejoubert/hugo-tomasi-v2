@@ -15,7 +15,13 @@ const hasVideo = computed(() => !!mediaField.value && (
     isFilled.embed(props.pageData?.embed_video) || isFilled.linkToMedia(props.pageData?.media)
 ))
 
-// TODO: Add media viewer
+const { open: openMediaViewer } = useMediaViewer()
+
+function showMediaViewer() {
+    if (!mediaField.value) return
+    openMediaViewer([{ field: mediaField.value }])
+}
+
 const loading = ref(false)
 </script>
 
@@ -55,6 +61,7 @@ const loading = ref(false)
                 :label="$t('showreel.cta_label')"
                 :class="$style['video-button']"
                 icon="material-symbols:fullscreen"
+                @click="showMediaViewer"
             />
             <hr :class="$style.line">
             <VText
