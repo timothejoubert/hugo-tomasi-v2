@@ -61,9 +61,9 @@ export default defineNuxtConfig({
         public: {
             version,
             site: {
-                name: '',
-                url: '',
-                env: '',
+                name: 'Hugo Tomasi | Staging',
+                url: 'https://hugo-tomasi.netlify.app',
+                env: 'staging',
             },
             pageIntro: {
                 enabled: true,

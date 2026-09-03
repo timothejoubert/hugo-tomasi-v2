@@ -29,6 +29,9 @@ Variables :
 - `NUXT_PUBLIC_SITE_NAME` — nom du site (SEO, schema.org)
 - `NUXT_PUBLIC_SITE_URL` — URL canonique du site
 - `NUXT_PUBLIC_SITE_ENV` — environnement (`local` / `production`)
+- `NUXT_PUBLIC_ANALYTICS_CLOUDFLARE_TOKEN` (optionnel) — token du beacon
+  Cloudflare Web Analytics ; le script n'est injecté que si cette variable est
+  renseignée
 - `PRISMIC_ACCESS_TOKEN` (optionnel) — token d'accès Prismic, utilisé par
   `scripts/prismic-backup.js` si le repo Prismic n'est pas public
 
