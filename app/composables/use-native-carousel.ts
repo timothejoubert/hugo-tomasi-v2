@@ -119,7 +119,8 @@ export function useNativeCarousel(sliderElement: Ref<TemplateElement>) {
         const firstSlide = slider.value.children[0] as HTMLElement | undefined
         if (!firstSlide) return slider.value.clientWidth
 
-        return firstSlide.getBoundingClientRect().width + Number.parseFloat(getComputedStyle(firstSlide).marginRight || '0')
+        const gap = Number.parseFloat(getComputedStyle(slider.value).columnGap || '0')
+        return firstSlide.getBoundingClientRect().width + gap
     }
 
     function scrollByStep(direction: 1 | -1) {
