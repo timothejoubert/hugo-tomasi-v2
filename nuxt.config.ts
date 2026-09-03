@@ -36,6 +36,17 @@ export default defineNuxtConfig({
             meta: [
                 { name: 'theme-color', content: '#151515' },
             ],
+            // Cloudflare Web Analytics : sans cookie, actif uniquement en prod
+            // pour ne pas polluer les stats avec le trafic de dev local.
+            script: process.env.NUXT_PUBLIC_ANALYTICS_CLOUDFLARE_TOKEN
+                ? [
+                    {
+                        defer: true,
+                        src: 'https://static.cloudflareinsights.com/beacon.min.js',
+                        'data-cf-beacon': JSON.stringify({ token: process.env.NUXT_PUBLIC_ANALYTICS_CLOUDFLARE_TOKEN }),
+                    },
+                ]
+                : [],
         },
     },
 
@@ -58,6 +69,9 @@ export default defineNuxtConfig({
                 enabled: true,
                 persistence: 'sessionStorage',
                 storageKey: 'page-intro-seen',
+            },
+            analytics: {
+                cloudflareToken: '',
             },
         },
     },
