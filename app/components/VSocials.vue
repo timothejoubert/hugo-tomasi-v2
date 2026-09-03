@@ -37,6 +37,7 @@ const socials = computed(() => {
                 v-if="social?.url"
                 :to="social.url"
                 :class="$style.link"
+                :aria-label="$t('socials.link_aria_label', { name: social.name || 'social' })"
             >
                 <slot :social="social">
                     <VButton
@@ -47,7 +48,6 @@ const socials = computed(() => {
                         :icon-name="social.icon"
                         theme="light"
                         :class="$style.social"
-                        :title="social.name || 'social'"
                     />
                     <template
                         v-else

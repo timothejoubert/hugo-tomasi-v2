@@ -26,7 +26,7 @@ const isCtaHovered = ref(false)
         <Transition name="indicator">
             <span
                 v-if="copied"
-                aria-live="assertive"
+                aria-live="polite"
                 :class="$style['indicator']"
                 class="text-body-xs"
             >{{ $t('copied') }}</span>

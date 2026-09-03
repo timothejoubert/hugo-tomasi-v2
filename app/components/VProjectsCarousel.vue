@@ -15,7 +15,7 @@ defineProps<{
         :wrapper="wrapper || 'section'"
         :class="$style.root"
     >
-        <VCarousel>
+        <VCarousel :aria-label="title || $t('project_page.other_projects_title')">
             <template #nav="{ progress, isCarouselEnable, scrollByStep }">
                 <div
                     :class="$style.head"
@@ -49,6 +49,7 @@ defineProps<{
                                 icon-name="material-symbols:arrow-back"
                                 :class="$style['nav-button']"
                                 :disabled="progress <= 0"
+                                :aria-label="$t('carousel.previous')"
                                 @click="scrollByStep(-1)"
                             />
                             <VButton
@@ -56,6 +57,7 @@ defineProps<{
                                 icon-name="material-symbols:arrow-forward"
                                 :class="$style['nav-button']"
                                 :disabled="progress >= 1"
+                                :aria-label="$t('carousel.next')"
                                 @click="scrollByStep(1)"
                             />
                         </div>

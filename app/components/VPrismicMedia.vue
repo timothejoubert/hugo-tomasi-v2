@@ -73,7 +73,7 @@ export default defineComponent({
                 background: props.background,
                 fit: props.fit,
                 ...(data.type === 'embed'
-                    ? { embedPlatform: data.embedPlatform, embedId: data.embedId }
+                    ? { embedPlatform: data.embedPlatform, embedId: data.embedId, title: data.title }
                     : { src: data.url }),
             })
         }

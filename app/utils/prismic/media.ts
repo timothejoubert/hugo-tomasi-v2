@@ -1,10 +1,10 @@
 import { isFilled } from '@prismicio/client'
-import type { EmbedField, ImageField, LinkField, LinkToMediaField, VideoOEmbed } from '@prismicio/client'
+import type { EmbedField, ImageField, LinkField, LinkToMediaField, OEmbedExtra, VideoOEmbed } from '@prismicio/client'
 
 export type NormalizedMedia
     = | { type: 'image', url: string, width?: number, height?: number, alt: string }
         | { type: 'video', url: string, width?: number, height?: number, mimeType?: string }
-        | { type: 'embed', embedPlatform: 'youtube' | 'vimeo', embedId: string, width?: number, height?: number }
+        | { type: 'embed', embedPlatform: 'youtube' | 'vimeo', embedId: string, width?: number, height?: number, title?: string }
 
 export type MediaField = ImageField | LinkField | LinkToMediaField | EmbedField
 
@@ -60,11 +60,11 @@ export function getPrismicMediaData(field: MediaField | null | undefined): Norma
     }
 
     if (isFilled.embed(field as EmbedField) && (field as EmbedField).type === 'video') {
-        const embedField = field as EmbedField<VideoOEmbed, 'filled'>
+        const embedField = field as EmbedField<VideoOEmbed & OEmbedExtra, 'filled'>
         const embed = parseEmbedId(embedField.embed_url, embedField.provider_name)
         if (!embed) return undefined
 
-        return { type: 'embed', ...embed, width: embedField.width, height: embedField.height }
+        return { type: 'embed', ...embed, width: embedField.width, height: embedField.height, title: embedField.title ?? undefined }
     }
 
     return undefined

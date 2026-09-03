@@ -7,12 +7,14 @@ $themes: (
         color-content: #000,
         color-surface: #2b2a2a,
         color-accent: #d7f148,
+        color-accent-text: #56601d,
     ),
     dark: (
         color-background: #181717,
         color-content: #FFF,
         color-surface: #c3c3c3,
         color-accent: #a7ef33,
+        color-accent-text: #a7ef33,
     ),
 );
 $default-theme: light;

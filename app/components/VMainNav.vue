@@ -40,13 +40,18 @@ const alternateLocales = computed(() => {
 
 const homePagePath = computed(() => getRoutePath('home_page'))
 const siteNameKey = computed(() => `site-name-key-${homePagePath.value}`)
+
+const isLangSwitchOpen = ref(false)
+
+function closeLangSwitch() {
+    isLangSwitchOpen.value = false
+}
 </script>
 
 <template>
     <nav
         :aria-label="$t('main_nav.aria_label')"
         :class="$style.root"
-        role="navigation"
     >
         <VPrismicLink
             :to="homePagePath"
@@ -98,17 +103,35 @@ const siteNameKey = computed(() => `site-name-key-${homePagePath.value}`)
             <div
                 v-if="alternateLocales.length"
                 :class="$style['lang-switch']"
+                @focusout="closeLangSwitch"
+                @keydown.escape="closeLangSwitch"
             >
-                <span :class="$style['lang-switch__current']">
+                <button
+                    type="button"
+                    :class="$style['lang-switch__current']"
+                    aria-haspopup="listbox"
+                    :aria-expanded="isLangSwitchOpen"
+                    :aria-label="$t('lang_switch.aria_label')"
+                    @click="isLangSwitchOpen = !isLangSwitchOpen"
+                >
                     {{ getFormattedLocale(locale) }}
                     <VIcon name="material-symbols:keyboard-arrow-down" />
-                </span>
-                <ul :class="$style['lang-switch__list']">
+                </button>
+                <ul
+                    v-show="isLangSwitchOpen"
+                    :class="$style['lang-switch__list']"
+                    role="listbox"
+                >
                     <li
                         v-for="altLocale in alternateLocales"
                         :key="altLocale.code"
+                        role="option"
                     >
-                        <NuxtLink :to="switchLocalePath(altLocale.code)">
+                        <NuxtLink
+                            :to="switchLocalePath(altLocale.code)"
+                            :aria-label="$t('lang_switch.link_aria_label', { locale: getFormattedLocale(altLocale.code) })"
+                            @click="closeLangSwitch"
+                        >
                             {{ getFormattedLocale(altLocale.code) }}
                         </NuxtLink>
                     </li>
@@ -173,13 +196,19 @@ const siteNameKey = computed(() => `site-name-key-${homePagePath.value}`)
     &__current {
         display: flex;
         align-items: center;
+        padding: 0;
+        border: none;
+        background: none;
+        color: inherit;
+        cursor: pointer;
+        font: inherit;
+        text-transform: inherit;
     }
 
     &__list {
         position: absolute;
         top: 100%;
         left: 0;
-        display: none;
         padding: 0;
         margin: 0;
         list-style: none;
@@ -188,11 +217,6 @@ const siteNameKey = computed(() => `site-name-key-${homePagePath.value}`)
             color: inherit;
             text-decoration: none;
         }
-    }
-
-    &:hover &__list,
-    &:focus-within &__list {
-        display: block;
     }
 }
 

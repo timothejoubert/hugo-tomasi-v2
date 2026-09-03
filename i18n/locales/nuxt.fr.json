@@ -45,5 +45,14 @@
     "extend.section": "Étendre la section {name}",
     "project_listing.filter_legend": "Filtrer les projets par étiquette",
     "project_listing.filter_all_label": "Tous",
-    "copied": "Copié !"
+    "copied": "Copié !",
+    "skip_links.aria_label": "Liens d'évitement",
+    "lang_switch.aria_label": "Changer de langue",
+    "lang_switch.link_aria_label": "Passer le site en {locale}",
+    "carousel.previous": "Projet précédent",
+    "carousel.next": "Projet suivant",
+    "media_viewer.close": "Fermer l'aperçu",
+    "media_viewer.carousel_aria_label": "Aperçu des médias",
+    "video_embed.default_title": "Vidéo intégrée",
+    "socials.link_aria_label": "Profil {name} (nouvel onglet)"
 }

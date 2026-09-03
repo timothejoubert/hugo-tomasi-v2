@@ -26,6 +26,7 @@ export const embedVideoProps = {
     iframe: { type: String },
     embedPlatform: { type: String as PropType<string | 'youtube' | 'vimeo'> },
     embedId: { type: String },
+    title: { type: String },
 }
 
 export const vVideoPlayerProps = {
@@ -247,7 +248,13 @@ export default defineComponent({
             }
         })
 
-        return { isEmbed, playerStyle, fitStyle, videoAttrs, videoSources, src, hasStartedPlaying, embedIframe, videoEl, handleEmbedLoad }
+        // WCAG 4.1.2 — an <iframe> needs an accessible name of its own; fall back to a generic
+        // translated label when the embed's oEmbed response didn't carry a `title` (or none was
+        // passed through explicitly).
+        const { t } = useI18n()
+        const iframeTitle = computed(() => props.title || t('video_embed.default_title'))
+
+        return { isEmbed, playerStyle, fitStyle, videoAttrs, videoSources, src, hasStartedPlaying, embedIframe, videoEl, handleEmbedLoad, iframeTitle }
     },
 })
 </script>
@@ -262,6 +269,7 @@ export default defineComponent({
             ref="embedIframe"
             :class="[$style['iframe'], fit === 'cover' && $style['iframe--cover']]"
             :src="src"
+            :title="iframeTitle"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;"
             allowfullscreen

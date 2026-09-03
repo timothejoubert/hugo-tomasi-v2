@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+defineProps<{
+    ariaLabel?: string
+}>()
+
 const carouselEl = useTemplateRef<HTMLElement>('carouselEl')
 const { isDown, mouseMove, isCarouselEnable, progress, activeIndex, scrollByStep, scrollToIndex } = useNativeCarousel(carouselEl)
 
@@ -15,6 +19,10 @@ defineExpose({ scrollByStep, scrollToIndex, progress, isCarouselEnable, activeIn
     <ul
         ref="carouselEl"
         v-bind="$attrs"
+        tabindex="0"
+        role="region"
+        aria-roledescription="carousel"
+        :aria-label="ariaLabel"
         :class="[
             $style.carousel,
             isDown && $style['carousel--no-snap'],

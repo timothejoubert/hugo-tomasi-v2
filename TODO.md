@@ -1,5 +1,4 @@
 ### TODO
-- Faire et implémenter une feature de VMediaViewer (notamment pour la video dans le VHeaderHome et dans les medias de la page projet)
 
 - A11y:
     - VMainNav: Style visible pour les liens actif (aria-current)
@@ -17,6 +16,8 @@
 - Note : `getPrismicSitemapUrls` (shared/prismic-sitemap-urls.ts) n'est actuellement branché nulle part (pas de `server/routes/__sitemap__/urls.ts`, pas de `sitemap.urls` dans nuxt.config.ts) — code mort en l'état. Le brancher au module `@nuxtjs/sitemap` est une tâche de feature à part, pas traitée ici.
 
 ### Done
+- Faire et implémenter une feature de VMediaViewer (notamment pour la video dans le VHeaderHome et dans les medias de la page projet)
+
 - Bug: `useNativeCarousel`/`VProjectsCarousel` — le carousel scrollait ~12px (`var(--gutter)`) au-delà de la dernière slide ("effet fantôme"). Cause : le `.card` appliquait `margin-right: var(--gutter)` même sur la dernière carte, ce qui étendait `scrollWidth` au-delà du dernier point de snap (`scroll-snap-align: start`) sans qu'aucun snap ne couvre cette zone résiduelle — `scroll-padding-inline` ne compense que le `padding-inline` du conteneur, pas cette marge de fin. Corrigé en déplaçant l'espacement de `margin-right` (par carte) vers `gap: var(--gutter)` sur le conteneur flex (`.carousel`), qui n'insère jamais d'espace après le dernier élément. `getSlideStep()` (use-native-carousel.ts) mis à jour en conséquence pour lire `columnGap` du conteneur au lieu de `marginRight` de la première carte.
 - integration: faire l'integration de la page projects listing
     - grid de 2 VProjectCard par row

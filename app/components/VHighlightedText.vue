@@ -39,6 +39,6 @@ defineProps<{
     padding: 0 2px 6px;
     border-radius: 3px;
     background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
-    color: var(--color-accent);
+    color: var(--color-accent-text);
 }
 </style>

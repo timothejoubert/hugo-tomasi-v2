@@ -80,11 +80,13 @@ const { themeClass } = useThemeProvider({ preferredTheme: 'dark' })
                 design="filled"
                 icon-name="material-symbols:close"
                 :class="$style.close"
+                :aria-label="$t('media_viewer.close')"
                 @click="close"
             />
             <VCarousel
                 v-if="items.length"
                 ref="carouselEl"
+                :aria-label="$t('media_viewer.carousel_aria_label')"
                 :class="$style.carousel"
             >
                 <template
@@ -95,12 +97,14 @@ const { themeClass } = useThemeProvider({ preferredTheme: 'dark' })
                         design="filled"
                         icon-name="material-symbols:arrow-back"
                         :class="$style.prev"
+                        :aria-label="$t('carousel.previous')"
                         @click="scrollByStep(-1)"
                     />
                     <VButton
                         design="filled"
                         icon-name="material-symbols:arrow-forward"
                         :class="$style.next"
+                        :aria-label="$t('carousel.next')"
                         @click="scrollByStep(1)"
                     />
                 </template>
