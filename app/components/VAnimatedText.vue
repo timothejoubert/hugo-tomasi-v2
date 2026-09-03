@@ -141,6 +141,7 @@ onBeforeUnmount(() => {
         position: absolute;
         inset: 0;
         translate: 0 100%;
+        user-select: none;
     }
 }
 </style>
