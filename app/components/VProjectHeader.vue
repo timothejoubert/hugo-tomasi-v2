@@ -74,6 +74,7 @@ const hasHeroMedia = computed(() => isFilled.image(project.value?.main_media))
 .header {
     @include theme('dark');
 
+    position: relative;
     background-color: var(--color-background);
     color: var(--color-content);
     grid-auto-flow: dense;
