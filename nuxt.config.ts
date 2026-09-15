@@ -238,6 +238,7 @@ export default defineNuxtConfig({
 
     // https://nuxtseo.com/sitemap/getting-started/introduction
     sitemap: {
+        enabled: isProd,
         exclude: [`${PREVIEW_PATH}/**`, '/slice-simulator/**'],
     },
 })
