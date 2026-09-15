@@ -6,7 +6,13 @@ defineProps<{
 const carouselEl = useTemplateRef<HTMLElement>('carouselEl')
 const { isDown, mouseMove, isCarouselEnable, progress, activeIndex, scrollByStep, scrollToIndex } = useNativeCarousel(carouselEl)
 
-defineExpose({ scrollByStep, scrollToIndex, progress, isCarouselEnable, activeIndex })
+defineExpose({
+    scrollByStep,
+    scrollToIndex,
+    progress,
+    isCarouselEnable,
+    activeIndex,
+})
 </script>
 
 <template>

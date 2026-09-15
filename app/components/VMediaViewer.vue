@@ -10,6 +10,10 @@ const dialogEl = useTemplateRef<HTMLDialogElement>('dialogEl')
 const carouselEl = useTemplateRef<InstanceType<typeof VCarousel>>('carouselEl')
 const scrollLock = useScrollLock(import.meta.client ? document.body : null)
 
+function closeDialog() {
+    dialogEl.value?.close()
+}
+
 // Plain (non-reactive) registry, not template state — v-for's `:ref` callback keeps it in sync
 // with whichever slides are currently mounted; nothing here needs to trigger a re-render.
 const mediaRefs: Record<number, PlayableRef | null> = {}
@@ -42,7 +46,7 @@ watch(isOpen, async (open) => {
         playSlide(startIndex.value)
     }
     else {
-        dialogEl.value?.close()
+        closeDialog()
     }
     scrollLock.value = open
 })
@@ -59,10 +63,16 @@ function onDialogClose() {
 }
 
 function onBackdropClick(e: MouseEvent) {
-    if (e.target === dialogEl.value) dialogEl.value?.close()
+    if (e.target === dialogEl.value) closeDialog()
 }
 
 const { themeClass } = useThemeProvider({ preferredTheme: 'dark' })
+
+useEventListener('keydown', (e: KeyboardEvent) => {
+    if (e.key === 'Escape') closeDialog()
+    if (e.key === 'ArrowLeft') carouselEl.value?.scrollByStep(-1)
+    if (e.key === 'ArrowRight') carouselEl.value?.scrollByStep(1)
+})
 </script>
 
 <template>
