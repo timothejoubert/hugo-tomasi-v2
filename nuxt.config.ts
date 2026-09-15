@@ -41,8 +41,8 @@ export default defineNuxtConfig({
             script: process.env.NUXT_PUBLIC_ANALYTICS_CLOUDFLARE_TOKEN
                 ? [
                     {
-                        defer: true,
-                        src: 'https://static.cloudflareinsights.com/beacon.min.js',
+                        'defer': true,
+                        'src': 'https://static.cloudflareinsights.com/beacon.min.js',
                         'data-cf-beacon': JSON.stringify({ token: process.env.NUXT_PUBLIC_ANALYTICS_CLOUDFLARE_TOKEN }),
                     },
                 ]
@@ -77,8 +77,15 @@ export default defineNuxtConfig({
         },
     },
 
-    // Redirect prismicDocumentRoutes' `alias` paths (e.g. /projets, /projects) to their canonical route.
-    routeRules: getPrismicAliasRedirects(),
+    routeRules: {
+        // Redirect prismicDocumentRoutes' `alias` paths (e.g. /projets, /projects) to their canonical route.
+        ...getPrismicAliasRedirects(),
+        // Prismic preview resolution and the Slice Simulator both need a live server on every
+        // request (draft content, postMessage payloads from the Page Builder) — excluded from
+        // prerendering so they're served by the Netlify Function instead of a build-time HTML file.
+        [`${PREVIEW_PATH}/**`]: { prerender: false },
+        '/slice-simulator/**': { prerender: false },
+    },
 
     experimental: {
         asyncContext: true,
@@ -86,13 +93,19 @@ export default defineNuxtConfig({
 
     compatibilityDate: '2025-07-15',
     nitro: {
-        // Pinned explicitly so `pnpm generate` outputs the same directory (dist) locally and on Netlify,
-        // instead of relying on Nitro's env-based auto-detection (which only kicks in on Netlify's build servers).
-        preset: 'netlify-static',
+        // Hybrid rendering: static pages are still prerendered at build time (crawled from '/'),
+        // but /preview and /slice-simulator (excluded above via routeRules) are served on demand
+        // by the Netlify Function this preset generates.
+        preset: 'netlify',
         prerender: {
-            // Aliases and llms.txt aren't linked from anywhere in the app, so the crawler won't find
-            // them on its own.
-            routes: [...Object.keys(getPrismicAliasRedirects()), '/llms.txt'],
+            // `nuxt generate` enables link-crawling automatically; plain `nuxt build` (needed here
+            // for the Netlify Function to exist) doesn't, so it has to be turned on explicitly to
+            // keep prerendering every static page reachable from '/'.
+            crawlLinks: true,
+            // '/' seeds the crawler (it normally defaults to this, but setting `routes` explicitly
+            // overrides that default). Aliases and llms.txt aren't linked from anywhere in the app,
+            // so the crawler won't find them on its own either.
+            routes: ['/', ...Object.keys(getPrismicAliasRedirects()), '/llms.txt'],
         },
     },
     vite: {
@@ -212,7 +225,7 @@ export default defineNuxtConfig({
     prismic: {
         endpoint: repositoryName,
         preview: PREVIEW_PATH,
-        toolbar: !isProd,
+        toolbar: true,
         clientConfig: {
             routes: prismicDocumentRoutes,
         },
@@ -220,11 +233,11 @@ export default defineNuxtConfig({
 
     // https://nuxtseo.com/robots/getting-started/introduction
     robots: {
-        disallow: [PREVIEW_PATH],
+        disallow: [PREVIEW_PATH, '/slice-simulator'],
     },
 
     // https://nuxtseo.com/sitemap/getting-started/introduction
     sitemap: {
-        exclude: [`${PREVIEW_PATH}/**`],
+        exclude: [`${PREVIEW_PATH}/**`, '/slice-simulator/**'],
     },
 })
