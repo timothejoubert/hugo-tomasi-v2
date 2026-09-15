@@ -78,6 +78,15 @@ const hasHeroMedia = computed(() => isFilled.image(project.value?.main_media))
     color: var(--color-content);
     grid-auto-flow: dense;
     padding-block: 24px 60px;
+
+    &::before {
+        position: absolute;
+        z-index: -1;
+        background-color: var(--color-background);
+        content: '';
+        inset: calc(var(--v-main-nav-min-height) * -1) 0 0;
+        pointer-events: none;
+    }
 }
 
 .title {
