@@ -21,7 +21,8 @@
         "media-migration:backup": "node --env-file=.env scripts/media-migration/1-backup.js",
         "media-migration:run": "node --env-file=.env scripts/media-migration/2-migrate.js",
         "schema-migration:backup": "node --env-file=.env scripts/schema-migration/1-backup.js",
-        "schema-migration:run": "node --env-file=.env scripts/schema-migration/2-migrate.js"
+        "schema-migration:run": "node --env-file=.env scripts/schema-migration/2-migrate.js",
+        "project-content-migration:run": "node --env-file=.env scripts/project-content-migration/migrate.js"
     },
     "dependencies": {
         "@nuxt/eslint": "1.17.0",
