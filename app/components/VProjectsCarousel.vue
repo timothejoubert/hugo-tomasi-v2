@@ -86,9 +86,15 @@ defineProps<{
 }
 
 .head {
-    display: flex;
+    display: grid;
     align-items: flex-start;
     margin-bottom: 22px;
+    gap: 16px;
+    grid-template-columns: 1fr;
+
+    @include media('>=md') {
+        grid-template-columns: auto auto 1fr;
+    }
 }
 
 .title {
@@ -97,17 +103,24 @@ defineProps<{
 }
 
 .link {
-    align-self: center;
+    align-self: flex-end;
     margin-right: auto;
-    margin-left: 16px;
+
+    @include media('>=md') {
+        align-self: center;
+    }
 }
 
 .nav {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: auto;
-    gap: 10px;
+    display: none;
+
+    @include media('>=md') {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-left: auto;
+        gap: 10px;
+    }
 }
 
 .nav-buttons {

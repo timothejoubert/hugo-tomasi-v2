@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { isFilled } from '@prismicio/client'
 import type { ProjectPageDocument } from '~~/prismicio-types'
+import { getPrismicMediaData } from '~/utils/prismic/media'
 
 const props = defineProps<{
     document: ProjectPageDocument
@@ -9,6 +10,22 @@ const props = defineProps<{
 const project = computed(() => props.document?.data)
 const tags = computed(() => props.document?.tags?.filter(t => t) || [])
 const hasHeroMedia = computed(() => isFilled.image(project.value?.main_media))
+const hasEmbedVideo = computed(() => getPrismicMediaData(project.value?.embed)?.type === 'embed')
+
+// Mounted as soon as the image is hovered/focused, so the player (and its iframe/video request)
+// is already warm by the time the user actually clicks play — kept mounted (not unmounted on
+// mouseleave) once triggered, since the point is to save time on the click that follows.
+const shouldMountVideo = ref(false)
+const isVideoActive = ref(false)
+
+function preloadVideo() {
+    shouldMountVideo.value = true
+}
+
+function playVideo() {
+    shouldMountVideo.value = true
+    isVideoActive.value = true
+}
 </script>
 
 <template>
@@ -41,25 +58,46 @@ const hasHeroMedia = computed(() => isFilled.image(project.value?.main_media))
             class="text-body"
             :class="$style.excerpt"
         />
-        <VPrismicImg
+        <div
             v-if="hasHeroMedia"
-            :field="project?.main_media"
-            :modifiers="{ fit: 'crop' }"
-            :class="$style.image"
+            :class="$style.media"
+            @mouseenter="hasEmbedVideo && preloadVideo()"
+            @focusin="hasEmbedVideo && preloadVideo()"
         >
-            <VPictureSource
-                media="(width < 800px)"
-                :width="800"
-                sizes="xs:92vw sm:92vw md:92vw"
-                :height="800"
+            <VPrismicImg
+                :field="project?.main_media"
+                :modifiers="{ fit: 'crop' }"
+                :class="[$style.image, isVideoActive && $style['image--hidden']]"
+            >
+                <VPictureSource
+                    media="(width < 800px)"
+                    :width="800"
+                    sizes="xs:92vw sm:92vw md:92vw"
+                    :height="800"
+                />
+                <VPictureSource
+                    media="(width >= 800px)"
+                    sizes="lg:92vw xl:92vw hq:92vw qhd:92vw"
+                    :width="1600"
+                    :height="900"
+                />
+            </VPrismicImg>
+            <VPrismicMedia
+                v-if="shouldMountVideo"
+                :field="project?.embed"
+                fit="cover"
+                :autoplay="isVideoActive"
+                :class="[$style.video, isVideoActive && $style['video--active']]"
             />
-            <VPictureSource
-                media="(width >= 800px)"
-                sizes="lg:92vw xl:92vw hq:92vw qhd:92vw"
-                :width="1600"
-                :height="900"
+            <VButton
+                v-if="hasEmbedVideo && !isVideoActive"
+                design="filled"
+                icon-name="material-symbols:play-arrow"
+                :class="$style['play-button']"
+                :aria-label="$t('project_header.play_video')"
+                @click="playVideo"
             />
-        </VPrismicImg>
+        </div>
 
         <VText
             v-if="project?.content"
@@ -122,12 +160,44 @@ const hasHeroMedia = computed(() => isFilled.image(project.value?.main_media))
     list-style: none;
 }
 
-.image {
+.media {
+    position: relative;
     overflow: hidden;
     width: 100%;
     border-radius: var(--common-border-radius);
     margin-top: 32px;
     grid-column: 1 /-1;
+}
+
+.image {
+    display: block;
+    width: 100%;
+
+    &--hidden {
+        visibility: hidden;
+    }
+}
+
+.video {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s;
+
+    &--active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+.play-button {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .content {

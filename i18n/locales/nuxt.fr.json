@@ -54,5 +54,6 @@
     "media_viewer.close": "Fermer l'aperçu",
     "media_viewer.carousel_aria_label": "Aperçu des médias",
     "video_embed.default_title": "Vidéo intégrée",
+    "project_header.play_video": "Lire la vidéo",
     "socials.link_aria_label": "Profil {name} (nouvel onglet)"
 }

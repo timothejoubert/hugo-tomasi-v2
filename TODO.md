@@ -1,6 +1,6 @@
 ### TODO
 
-- ajouter un champ embed sur les projet, si elle est rempli l'image principale à un button de play, ou fois cliqué l'image est remplacé par la video qui se lance directement
+- ajouter l'attribut fetchpriority=high sur les images importantes + loading=eager (composant header)
 - Lorsqu'on change de page dans VProjectsCarousel le scroll ne s'update pas, le scroll ne remonte pas en haut de la page
 
 - A11y:
@@ -22,6 +22,7 @@
 - Note : `getPrismicSitemapUrls` (shared/prismic-sitemap-urls.ts) n'est actuellement branché nulle part (pas de `server/routes/__sitemap__/urls.ts`, pas de `sitemap.urls` dans nuxt.config.ts) — code mort en l'état. Le brancher au module `@nuxtjs/sitemap` est une tâche de feature à part, pas traitée ici.
 
 ### Done
+- feat: `VProjectHeader` — bouton play centré sur l'image quand `project_page.embed` est rempli (vidéo YouTube/Vimeo, détecté via `getPrismicMediaData` sur le champ `embed` distinct de `main_media`). Au clic, `VPrismicMedia` (`fit="cover"`, `autoplay`) se superpose en `position: absolute` exactement dans le même conteneur que l'image (`.media`, ratio fixé par les dimensions de l'image) — aucun shift possible puisque la taille du conteneur ne dépend jamais de l'élément affiché. Le composant vidéo est monté dès le `mouseenter`/`focusin` sur l'image (`shouldMountVideo`), avant le clic (`isVideoActive`), pour que l'iframe soit déjà chargée au moment du play.
 - Faire et implémenter une feature de VMediaViewer (notamment pour la video dans le VHeaderHome et dans les medias de la page projet)
 
 - Bug: `useNativeCarousel`/`VProjectsCarousel` — le carousel scrollait ~12px (`var(--gutter)`) au-delà de la dernière slide ("effet fantôme"). Cause : le `.card` appliquait `margin-right: var(--gutter)` même sur la dernière carte, ce qui étendait `scrollWidth` au-delà du dernier point de snap (`scroll-snap-align: start`) sans qu'aucun snap ne couvre cette zone résiduelle — `scroll-padding-inline` ne compense que le `padding-inline` du conteneur, pas cette marge de fin. Corrigé en déplaçant l'espacement de `margin-right` (par carte) vers `gap: var(--gutter)` sur le conteneur flex (`.carousel`), qui n'insère jamais d'espace après le dernier élément. `getSlideStep()` (use-native-carousel.ts) mis à jour en conséquence pour lire `columnGap` du conteneur au lieu de `marginRight` de la première carte.
