@@ -64,7 +64,7 @@ const hasHeroMedia = computed(() => isFilled.image(project.value?.main_media))
         <VText
             v-if="project?.content"
             :content="project.content"
-            class="text-body-s"
+            class="text-body"
             :class="$style.content"
         />
     </header>
@@ -131,7 +131,8 @@ const hasHeroMedia = computed(() => isFilled.image(project.value?.main_media))
 }
 
 .content {
+    max-width: 56ch;
     grid-column: 1 /-1;
-    margin-block: 16px 0;
+    margin-block: 24px 0;
 }
 </style>

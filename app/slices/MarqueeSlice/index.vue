@@ -13,11 +13,13 @@ const mediaListRow = computed(() => {
     if (!filteredMedias.length) return []
 
     return filteredMedias.reduce((acc: FilledLinkToMediaField[][], curr: FilledLinkToMediaField, index) => {
-        if (index % 6 === 0) {
+        const lastItem = acc[acc.length - 1]
+
+        if (index % 7 === 0) {
             acc.push([curr])
         }
-        else {
-            acc[acc.length - 1].push(curr)
+        else if (lastItem) {
+            lastItem.push(curr)
         }
 
         return acc
@@ -43,7 +45,6 @@ const title = computed(() => props.slice.primary.title)
             :key="i + row[0].url"
             :space="18"
             :class="$style.marquee"
-            :speed="40000"
             :reverse="!!(i % 2)"
         >
             <VPrismicImg
@@ -51,7 +52,8 @@ const title = computed(() => props.slice.primary.title)
                 :key="mediaIndex + media.url"
                 :field="media"
                 width="600"
-                height="390"
+                height="300"
+                :modifiers="{ fit: 'crop' }"
                 :class="$style.media"
                 sizes="xs:40vw md:40vw vl:35vw"
             />

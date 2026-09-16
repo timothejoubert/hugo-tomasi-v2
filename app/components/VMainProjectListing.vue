@@ -52,7 +52,7 @@ const filteredProjects = computed(() => {
 .list {
     position: relative;
     height: min-content;
-    margin-block: 32px 42px;
+    margin-block: 32px 102px;
     padding-inline: initial;
     row-gap: 14px;
 }

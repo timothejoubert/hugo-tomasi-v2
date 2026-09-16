@@ -43,11 +43,11 @@
 .text-body {
     @include text-body;
 
-    @include font-size-fluid((xs: 14px, xl: 18px));
+    @include font-size-fluid((xs: 15px, xl: 18px));
 }
 
 .text-body-xs {
     @include text-body;
 
-    @include font-size-fluid((xs: 12px, xl: 14px));
+    @include font-size-fluid((xs: 13px, xl: 14px));
 }

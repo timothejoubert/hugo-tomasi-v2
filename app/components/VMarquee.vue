@@ -9,7 +9,7 @@ interface VMarqueeProps {
 
 const props = withDefaults(defineProps<VMarqueeProps>(), {
     space: 16,
-    speed: 20000,
+    speed: 100000,
 })
 </script>
 

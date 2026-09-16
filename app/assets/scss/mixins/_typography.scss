@@ -46,5 +46,5 @@
 @mixin text-body {
     font-family: $fraktion-sans-family;
     font-weight: map.get($font-weight, regular);
-    line-height: 1.3;
+    line-height: 1.4;
 }
