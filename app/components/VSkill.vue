@@ -41,7 +41,10 @@ const id = `collapsable-${useId()}`
                 :class="$style.title"
                 class="text-h3"
             >
+                <span :class="$style.title__text">{{ title }}</span>
                 <VAnimatedText
+                    :class="$style['title__animated-text']"
+                    aria-hidden="true"
                     :content="title"
                     :revealed="isHoveringHead"
                     :duration="300"
@@ -62,7 +65,7 @@ const id = `collapsable-${useId()}`
                     <VText
                         :content="content"
                         :class="$style.content"
-                        class="text-body-s"
+                        class="text-body"
                     />
                     <div
                         v-if="sideTitle"
@@ -96,7 +99,6 @@ const id = `collapsable-${useId()}`
 
 .head {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     cursor: pointer;
     gap: 10px var(--gutter);
@@ -108,8 +110,13 @@ const id = `collapsable-${useId()}`
 }
 
 .button {
-    min-width: flex-grid(1 ,12);
     min-height: 3em;
+    aspect-ratio: 1;
+
+    @include media('>=md') {
+        min-width: flex-grid(1 ,12);
+        aspect-ratio: unset;
+    }
 }
 
 .icon {
@@ -147,17 +154,32 @@ const id = `collapsable-${useId()}`
     text-transform: uppercase;
 }
 
+.title__text {
+    @include media('>=md') {
+        @include visually-hidden;
+    }
+}
+
+.title__animated-text {
+    --v-animated-text-display: none;
+
+    @include media('>=md') {
+        --v-animated-text-display: unset;
+    }
+}
+
 .body-inner {
     padding-bottom: 52px;
 }
 
 .content {
     grid-column: 1 / -1;
-    margin-block: 0;
+    margin-block: 0 28px;
 
     @include media('>md') {
         grid-column: 2 / span 5;
         grid-row: 1 / 4;
+        margin-block: 0;
     }
 }
 
@@ -172,6 +194,7 @@ const id = `collapsable-${useId()}`
 .side-content {
     grid-column: 1 / -1;
     line-height: 1.4;
+    margin-block: 10px 0;
     opacity: 0.7;
 
     @include media('>md') {

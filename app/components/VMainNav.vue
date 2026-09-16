@@ -46,10 +46,13 @@ const isLangSwitchOpen = ref(false)
 function closeLangSwitch() {
     isLangSwitchOpen.value = false
 }
+
+const siteName = computed(() => runtimeConfig.public.site.name)
 </script>
 
 <template>
     <nav
+        role="navigation"
         :aria-label="$t('main_nav.aria_label')"
         :class="$style.root"
     >
@@ -61,8 +64,9 @@ function closeLangSwitch() {
             @focus="hoveredHref = siteNameKey"
             @blur="hoveredHref = null"
         >
+            <span class="visually-hidden">{{ siteName }}</span>
             <VAnimatedText
-                :content="runtimeConfig.public.site.name"
+                :content="siteName"
                 :revealed="hoveredHref === siteNameKey"
                 swap
             />
@@ -91,6 +95,7 @@ function closeLangSwitch() {
                             @focus="hoveredHref = link.href"
                             @blur="hoveredHref = null"
                         >
+                            <span class="visually-hidden">{{ link.label }}</span>
                             <VAnimatedText
                                 :content="link.label"
                                 :revealed="hoveredHref === link.href"

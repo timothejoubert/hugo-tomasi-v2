@@ -11,6 +11,10 @@ import { getFilledLinkToWeb } from '~/utils/prismic/filled'
 export default defineNuxtPlugin(async () => {
     const { data } = await usePrismicSettingsDocument()
     const setting = computed(() => data.value?.data)
+    // Same fallback `use-page-meta.ts` uses for the <title>/og:site_name — nuxt-schema-org has no
+    // built-in fallback of its own for WebSite.name (unlike `url`, which it infers from the site
+    // config host), so without this the WebSite node would be published with no name at all.
+    const { public: { site } } = useRuntimeConfig()
 
     useSchemaOrg([
         definePerson({
@@ -23,6 +27,7 @@ export default defineNuxtPlugin(async () => {
                 .filter((url): url is string => !!url),
         }),
         defineWebSite({
+            name: site.name || undefined,
             description: setting.value?.website_description || undefined,
             image: isFilled.image(setting.value?.website_logo) ? setting.value.website_logo.url : undefined,
         }),

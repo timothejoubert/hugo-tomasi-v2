@@ -20,6 +20,7 @@ const credits = computed(() => setting.value?.data?.credits)
                 :class="$style.copyright"
             >© {{ siteName }} {{ new Date().getFullYear() }}</span>
             <span
+                aria-hidden="true"
                 :class="$style.separator"
             />
             <VText

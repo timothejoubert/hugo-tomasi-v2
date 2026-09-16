@@ -39,6 +39,7 @@ defineProps<{
                     <div
                         v-show="isCarouselEnable"
                         :class="$style.nav"
+                        aria-hidden="true"
                     >
                         <div :class="$style['nav-buttons']">
                             <VButton

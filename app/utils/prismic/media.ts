@@ -55,7 +55,7 @@ export function getPrismicMediaData(field: MediaField | null | undefined): Norma
         const height = media.height ? Number(media.height) : undefined
 
         return media.kind === 'image'
-            ? { type: 'image', url: stripUrlQuery(media.url), width, height, alt: media.name ?? '' }
+            ? { type: 'image', url: stripUrlQuery(media.url), width, height, alt: '' }
             : { type: 'video', url: media.url, width, height }
     }
 

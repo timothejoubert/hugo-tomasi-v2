@@ -4,6 +4,7 @@ import { PREVIEW_PATH } from './app/constants/prismic-preview'
 import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './i18n/i18n'
 import { version } from './package.json'
 import { getPrismicAliasRedirects, prismicDocumentRoutes } from './shared/prismic-schema'
+import { getPrismicSitemapUrls } from './shared/prismic-sitemap-urls'
 
 // const isDev = process.env.NODE_ENV === 'development'
 const isProd = process.env.NUXT_PUBLIC_SITE_ENV === 'production'
@@ -240,5 +241,8 @@ export default defineNuxtConfig({
     sitemap: {
         enabled: isProd,
         exclude: [`${PREVIEW_PATH}/**`, '/slice-simulator/**'],
+        // Static page routes (home/archive/about) are auto-discovered from app/pages — only
+        // project uids need resolving explicitly, see shared/prismic-sitemap-urls.ts.
+        urls: () => getPrismicSitemapUrls(repositoryName),
     },
 })

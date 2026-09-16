@@ -32,14 +32,8 @@ const filteredOtherProjects = computed(() => otherProjects.value?.filter(p => p.
                 v-if="filteredOtherProjects?.length"
                 :title="$t('project_page.other_projects_title')"
                 :projects="filteredOtherProjects"
-                :class="$style['cross-projects']"
+                class="slice-container--xxl"
             />
         </template>
     </VPageWrapper>
 </template>
-
-<style lang="scss" module>
-.cross-projects {
-    margin-block: 200px;
-}
-</style>

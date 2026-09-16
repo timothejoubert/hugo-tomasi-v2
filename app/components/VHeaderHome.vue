@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { isFilled } from '@prismicio/client'
+import type { EmbedField, OEmbedExtra, VideoOEmbed } from '@prismicio/client'
 import type { HomePageDocumentData } from '~~/prismicio-types'
 
 interface VHeaderHomeProps {
@@ -14,6 +15,30 @@ const mediaField = computed(() => isFilled.embed(props.pageData?.embed_video) ? 
 const hasVideo = computed(() => !!mediaField.value && (
     isFilled.embed(props.pageData?.embed_video) || isFilled.linkToMedia(props.pageData?.media)
 ))
+
+// The embed's own oEmbed thumbnail — shown immediately as a lightweight poster while the actual
+// player mount is deferred below, so the hero isn't visually empty during that wait.
+const embedVideo = computed(() => props.pageData?.embed_video as EmbedField<VideoOEmbed & OEmbedExtra>)
+const posterUrl = computed(() => isFilled.embed(embedVideo.value) ? embedVideo.value.thumbnail_url ?? undefined : undefined)
+
+// The hero's own text/title already covers the LCP — the video (an iframe embed, in production
+// content) brings nothing to it but competes for bandwidth/main-thread during the initial load.
+// Mounting it only once the browser is idle (falling back to a short timeout) keeps that cost off
+// the critical path without ever really delaying playback in practice.
+const shouldMountMedia = ref(false)
+
+function mountMedia() {
+    shouldMountMedia.value = true
+}
+
+onMounted(() => {
+    if (import.meta.client && 'requestIdleCallback' in window) {
+        window.requestIdleCallback(mountMedia, { timeout: 2000 })
+    }
+    else {
+        setTimeout(mountMedia, 200)
+    }
+})
 
 const { open: openMediaViewer } = useMediaViewer()
 
@@ -78,8 +103,16 @@ const loading = ref(false)
             />
         </div>
         <div :class="$style['media-wrapper']">
+            <img
+                v-if="posterUrl"
+                :src="posterUrl"
+                alt=""
+                loading="eager"
+                fetchpriority="high"
+                :class="$style.poster"
+            >
             <VPrismicMedia
-                v-if="hasVideo"
+                v-if="hasVideo && shouldMountMedia"
                 :field="mediaField"
                 :class="$style.media"
                 background
@@ -224,5 +257,13 @@ const loading = ref(false)
             background: linear-gradient(var(--color-background) 4%, var(--overlay-transition-color), var(--color-background) 96%);
         }
     }
+}
+
+.poster {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+    object-fit: cover;
 }
 </style>

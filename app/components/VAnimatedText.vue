@@ -60,6 +60,7 @@ onBeforeUnmount(() => {
 <template>
     <span
         :class="$style.root"
+        aria-hidden="true"
         :style="{ '--v-animated-text-duration': `${durationMs}ms`, '--v-animated-text-stagger': `${effectiveStaggerMs}ms` }"
     >
         <template v-if="swap">

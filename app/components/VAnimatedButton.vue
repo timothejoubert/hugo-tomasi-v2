@@ -11,6 +11,7 @@ const isCtaHovered = ref(false)
     <button
         :class="$style.root"
     >
+        <span class="visually-hidden">{{ label }}</span>
         <VAnimatedText
             :content="label"
             :revealed="isCtaHovered"
