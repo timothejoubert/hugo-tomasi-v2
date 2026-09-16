@@ -1,4 +1,5 @@
 @use 'mixins/grid' as *;
+@use 'mixins/include-media' as *;
 
 .slice-container {
     @include grid-container(true);
@@ -8,14 +9,28 @@
     }
 
     &--xs {
-        margin-block: 72px;
+        margin-block: 42px;
     }
 
     &--xl {
-        margin-block: 208px;
+        margin-block: 78px;
     }
 
     &--xxl {
-        margin-block: 308px;
+        margin-block: 128px;
+    }
+
+    @include media('>=md') {
+        &--xs {
+            margin-block: 72px;
+        }
+
+        &--xl {
+            margin-block: 208px;
+        }
+
+        &--xxl {
+            margin-block: 308px;
+        }
     }
 }

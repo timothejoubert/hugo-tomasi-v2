@@ -4,7 +4,8 @@ $gutters: (
     0: 12px,
 ) !default;
 $grid-margins: (
-    0: 24px,
+    0: 12px,
+    md: 24px,
 ) !default;
 $grid-widths: (
     0: calc(100% - 2 * var(--grid-margin)),

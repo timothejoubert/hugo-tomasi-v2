@@ -10,15 +10,16 @@ defineProps<{
     fullwidth?: boolean
 }>()
 </script>
+
 <template>
     <VWrapper
+        :id="slice?.id"
         :wrapper="wrapper || 'section'"
         :class="[
             'slice-container',
             spacing && spacing !== 'none' && `slice-container--${spacing}`,
-            fullwidth && 'slice-container--fullwidth'
+            fullwidth && 'slice-container--fullwidth',
         ]"
-        :id="slice?.id"
     >
         <VSliceTitle
             v-if="title"

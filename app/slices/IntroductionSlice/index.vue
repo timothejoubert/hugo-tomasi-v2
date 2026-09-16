@@ -64,9 +64,9 @@ onBeforeUnmount(disposeIntersectionObserver)
 
 <template>
     <VSlice
-        :slice="slice"
         v-if="content"
         ref="templateRoot"
+        :slice="slice"
         spacing="xxl"
         :class="[$style.root, isVisible && $style['root--visible']]"
     >

@@ -11,10 +11,10 @@ const props = defineProps<{
 const _output = computed(() => props.output || 'button')
 
 const socials = computed(() => {
-    return props.field.map(item => {
+    return props.field.map((item) => {
         const link = isFilled.link(item?.link) ? item.link : null
 
-        if(!link?.url) return null
+        if (!link?.url) return null
 
         return {
             ...getSocial(link.url),
@@ -23,6 +23,7 @@ const socials = computed(() => {
     }).filter(social => social?.url)
 })
 </script>
+
 <template>
     <ul
         v-if="socials?.length"
@@ -63,6 +64,7 @@ const socials = computed(() => {
         </li>
     </ul>
 </template>
+
 <style lang="scss" module>
 .root {
     display: flex;

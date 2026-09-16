@@ -115,36 +115,15 @@ const loading = ref(false)
 
 .tagline {
     grid-column: 1 / -1;
-    margin-block: 22px;
 
     @include media('>=md') {
         max-width: 25ch;
+        margin-block: 22px;
     }
 }
 
 .footer {
     margin-top: auto;
-}
-
-.media-wrapper {
-    position: absolute;
-    z-index: -2;
-    inset: 0;
-    pointer-events: none;
-
-    > * {
-        height: 100%;
-    }
-
-    &::after {
-        --overlay-transition-color: color-mix(in srgb, var(--color-background) 20%, transparent);
-
-        position: absolute;
-        background: linear-gradient(var(--color-background) 4%, var(--overlay-transition-color), var(--color-background) 96%);
-        content: '';
-        inset: 0;
-        pointer-events: none;
-    }
 }
 
 .sub-content {
@@ -156,7 +135,7 @@ const loading = ref(false)
 }
 
 .sub-title {
-    grid-column: 1 / -1;
+    grid-column: 1 / -3;
 
     @include media('>=md') {
         grid-column: 1 / span 5;
@@ -164,7 +143,9 @@ const loading = ref(false)
 }
 
 .video-button {
-    grid-column: 1 / -1;
+    @include media('<md') {
+        --v-animated-text-display: none;
+    }
 
     @include media('>=md') {
         grid-column: 9 / -1;
@@ -201,12 +182,47 @@ const loading = ref(false)
     max-width: 46ch;
     grid-column: 1 / -1;
 
+    & p {
+        margin-block: 0;
+    }
+
     & *:not(strong) {
         opacity: 0.8;
     }
 
     @include media('>=md') {
         grid-column: 9 / -1;
+
+        & p {
+            margin-block: 16px;
+        }
+    }
+}
+
+.media-wrapper {
+    position: absolute;
+    z-index: -2;
+    inset: 0;
+    pointer-events: none;
+
+    > * {
+        height: 100%;
+    }
+
+    &::after {
+        --overlay-transition-color: color-mix(in srgb, var(--color-background) 20%, transparent);
+
+        position: absolute;
+        background: linear-gradient(var(--color-background) 12%, var(--overlay-transition-color), var(--color-background) 70%);
+        content: '';
+        inset: 0;
+        pointer-events: none;
+    }
+
+    @include media('>=md') {
+        &::after {
+            background: linear-gradient(var(--color-background) 4%, var(--overlay-transition-color), var(--color-background) 96%);
+        }
     }
 }
 </style>

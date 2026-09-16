@@ -1,6 +1,6 @@
 {
-  "name": "",
-  "short_name": "",
+  "name": "Hugo Tomasi | Portfolio",
+  "short_name": "Hugo Tomasi",
   "icons": [
     {
       "src": "/favicon-16x16.png",
@@ -18,7 +18,7 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#151515",
-  "background_color": "#151515",
+  "theme_color": "#fff",
+  "background_color": "#fff",
   "display": "standalone"
 }

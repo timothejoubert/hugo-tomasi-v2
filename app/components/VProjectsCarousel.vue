@@ -89,7 +89,7 @@ defineProps<{
     display: grid;
     align-items: flex-start;
     margin-bottom: 22px;
-    gap: 16px;
+    gap: 8px 16px;
     grid-template-columns: 1fr;
 
     @include media('>=md') {

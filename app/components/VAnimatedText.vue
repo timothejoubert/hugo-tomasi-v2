@@ -87,7 +87,7 @@ onBeforeUnmount(() => {
 
 <style lang="scss" module>
 .root {
-    display: inline-block;
+    display: var(--v-animated-text-display, inline-block);
     overflow: hidden;
 }
 
