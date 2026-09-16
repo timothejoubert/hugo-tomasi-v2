@@ -16,6 +16,24 @@
         },
         "type": "Text"
       },
+      "main_media": {
+        "config": {
+          "constraint": {
+            "height": 1080,
+            "width": 1920
+          },
+          "label": "Thumbnail",
+          "thumbnails": []
+        },
+        "type": "Image"
+      },
+      "embed": {
+        "config": {
+          "label": "Embed",
+          "placeholder": "Vidéo principale (youtube, vimeo)"
+        },
+        "type": "Embed"
+      },
       "excerpt": {
         "config": {
           "allowTargetBlank": true,
@@ -24,14 +42,6 @@
           "placeholder": ""
         },
         "type": "StructuredText"
-      },
-      "main_media": {
-        "config": {
-          "constraint": {},
-          "label": "Main",
-          "thumbnails": []
-        },
-        "type": "Image"
       },
       "content": {
         "config": {

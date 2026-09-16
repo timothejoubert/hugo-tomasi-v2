@@ -439,6 +439,28 @@ interface ProjectPageDocumentData {
 	title: prismic.KeyTextField;
 	
 	/**
+	 * Thumbnail field in *Project page*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: project_page.main_media
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	main_media: prismic.ImageField<never>;
+	
+	/**
+	 * Embed field in *Project page*
+	 *
+	 * - **Field Type**: Embed
+	 * - **Placeholder**: Vidéo principale (youtube, vimeo)
+	 * - **API ID Path**: project_page.embed
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/embed
+	 */
+	embed: prismic.EmbedField
+	
+	/**
 	 * Excerpt field in *Project page*
 	 *
 	 * - **Field Type**: Rich Text
@@ -448,17 +470,6 @@ interface ProjectPageDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
 	 */
 	excerpt: prismic.RichTextField;
-	
-	/**
-	 * Main field in *Project page*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: project_page.main_media
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/fields/image
-	 */
-	main_media: prismic.ImageField<never>;
 	
 	/**
 	 * Content field in *Project page*
