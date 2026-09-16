@@ -84,6 +84,8 @@ const loading = ref(false)
                 :class="$style.media"
                 background
                 fit="cover"
+                loading="eager"
+                fetch-priority="high"
             />
         </div>
     </header>

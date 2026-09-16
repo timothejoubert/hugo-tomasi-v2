@@ -19,6 +19,9 @@ export const vImgProps = {
     crossorigin: { type: [String, Boolean] as PropType<'' | 'anonymous' | 'use-credentials' | boolean>, required: false },
     nonce: { type: String, required: false },
     loading: { type: String as PropType<'lazy' | 'eager'>, default: 'lazy' },
+    // Native HTML attribute (Priority Hints), separate from `preload`'s own `fetchPriority`
+    // option (which only affects its <link rel="preload">) — this one sets it on the <img> itself.
+    fetchPriority: { type: String as PropType<'auto' | 'high' | 'low'>, required: false },
     decoding: { type: String as PropType<'async' | 'auto' | 'sync'>, required: false },
     longdesc: { type: String, required: false },
     // @nuxt/image options
@@ -178,6 +181,7 @@ export default defineComponent({
                 height: height.value,
                 alt: props.alt || '',
                 loading: props.loading,
+                fetchpriority: props.fetchPriority,
                 crossorigin: props.crossorigin,
                 decoding: props.decoding,
                 longdesc: props.longdesc,

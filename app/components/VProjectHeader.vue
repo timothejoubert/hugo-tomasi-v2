@@ -67,6 +67,8 @@ function playVideo() {
             <VPrismicImg
                 :field="project?.main_media"
                 :modifiers="{ fit: 'crop' }"
+                loading="eager"
+                fetch-priority="high"
                 :class="[$style.image, isVideoActive && $style['image--hidden']]"
             >
                 <VPictureSource
