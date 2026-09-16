@@ -1,8 +1,5 @@
 ### TODO
 
-- ajouter l'attribut fetchpriority=high sur les images importantes + loading=eager (composant header)
-- Lorsqu'on change de page dans VProjectsCarousel le scroll ne s'update pas, le scroll ne remonte pas en haut de la page
-
 - A11y:
     - VMainNav: Style visible pour les liens actif (aria-current)
     - VProjectCard: Style visible pour les liens actif (aria-current)
@@ -22,6 +19,8 @@
 - Note : `getPrismicSitemapUrls` (shared/prismic-sitemap-urls.ts) n'est actuellement branché nulle part (pas de `server/routes/__sitemap__/urls.ts`, pas de `sitemap.urls` dans nuxt.config.ts) — code mort en l'état. Le brancher au module `@nuxtjs/sitemap` est une tâche de feature à part, pas traitée ici.
 
 ### Done
+- Bug: `app/router.options.ts` — naviguer d'une page projet à une autre via `VProjectsCarousel` ne remontait pas le scroll en haut. Cause : `to.matched[0] === from.matched[0]` était vrai dès que deux routes partagent le même fichier de route, ce qui inclut à la fois le cas voulu (filtre de `/projets` par query, même route exacte) et le cas non voulu (`/projets/[uid-a]` → `/projets/[uid-b]`, même route dynamique mais page/contenu réellement différents). Ajouté `&& to.path === from.path` pour ne garder l'exception "pas de scroll" que quand le chemin est strictement identique (changement de query sur la même page) ; un changement de paramètre de route (donc de chemin) retombe désormais sur `{ top: 0 }`. Le commentaire du fichier référençait aussi un routing "modal" imbriqué (`docs/project-modal-routing.md`) qui n'existe pas et ne correspond pas à la structure de routes actuelle (`app/pages/projets/[uid].vue` et `index.vue` sont des routes sœurs, pas imbriquées) — commentaire réécrit en conséquence.
+- feat: `fetchpriority="high"` + `loading="eager"` sur les images importantes des composants header. `VImg.vue` n'avait qu'un `loading` ('lazy' par défaut) et un `preload` (qui ne pose `fetchpriority` que sur un `<link rel=preload>`, jamais sur l'`<img>` lui-même) — ajouté une prop `fetchPriority` distincte, posée directement en attribut HTML `fetchpriority` sur le `<img>`. Remonte automatiquement à travers `VPrismicImg`/`VPrismicMedia` (spread de `vImgProps`). Appliqué sur l'image hero de `VProjectHeader` (`main_media`) et sur le média de `VHeaderHome` (n'a d'effet que si ce champ résout en image — le contenu actuel y est une vidéo embed, pour laquelle `fetchpriority`/`loading` ne s'appliquent pas via ce chemin).
 - feat: `VProjectHeader` — bouton play centré sur l'image quand `project_page.embed` est rempli (vidéo YouTube/Vimeo, détecté via `getPrismicMediaData` sur le champ `embed` distinct de `main_media`). Au clic, `VPrismicMedia` (`fit="cover"`, `autoplay`) se superpose en `position: absolute` exactement dans le même conteneur que l'image (`.media`, ratio fixé par les dimensions de l'image) — aucun shift possible puisque la taille du conteneur ne dépend jamais de l'élément affiché. Le composant vidéo est monté dès le `mouseenter`/`focusin` sur l'image (`shouldMountVideo`), avant le clic (`isVideoActive`), pour que l'iframe soit déjà chargée au moment du play.
 - Faire et implémenter une feature de VMediaViewer (notamment pour la video dans le VHeaderHome et dans les medias de la page projet)
 
