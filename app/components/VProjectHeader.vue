@@ -38,7 +38,7 @@ const hasHeroMedia = computed(() => isFilled.image(project.value?.main_media))
         <VText
             v-if="project?.excerpt"
             :content="project.excerpt"
-            class="text-body-s"
+            class="text-body"
             :class="$style.excerpt"
         />
         <VPrismicImg
@@ -78,7 +78,7 @@ const hasHeroMedia = computed(() => isFilled.image(project.value?.main_media))
     background-color: var(--color-background);
     color: var(--color-content);
     grid-auto-flow: dense;
-    padding-block: 24px 60px;
+    padding-block: 24px 82px;
 
     &::before {
         position: absolute;
@@ -101,10 +101,9 @@ const hasHeroMedia = computed(() => isFilled.image(project.value?.main_media))
 }
 
 .excerpt {
-    max-width: 40ch;
-    align-self: flex-end;
+    max-width: 50ch;
     grid-column: 1 /-1;
-    margin-block: 0;
+    margin-block: 0.9lh 0;
     opacity: 0.8;
 
     @include media('>=md') {

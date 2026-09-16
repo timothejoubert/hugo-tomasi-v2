@@ -1,7 +1,7 @@
 ### TODO
 
+- ajouter un champ embed sur les projet, si elle est rempli l'image principale à un button de play, ou fois cliqué l'image est remplacé par la video qui se lance directement
 - Lorsqu'on change de page dans VProjectsCarousel le scroll ne s'update pas, le scroll ne remonte pas en haut de la page
-- ajouter un champ mainVideo sur les projet, si elle est rempli l'image principale à un button de play, ou fois cliqué l'image est remplacé par la video qui se lance directement
 
 - A11y:
     - VMainNav: Style visible pour les liens actif (aria-current)

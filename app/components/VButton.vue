@@ -18,11 +18,11 @@ const props = defineProps<VButtonProps>()
 const { themeClass } = useTheme({ props })
 
 const internalTag = computed(() => {
-    if(props.tag) {
+    if (props.tag) {
         return props.tag
     }
 
-    if(props.to || props.href || props.url) {
+    if (props.to || props.href || props.url) {
         return NuxtLink
     }
 
@@ -133,17 +133,17 @@ const rootClasses = computed(() => {
     }
 
     &--sm {
-        font-size: var(--v-button-font-size, 14px);
-        gap: var(--v-button-gap, 10px);
-        padding-block: var(--v-button-padding-block, 10px);
-        padding-inline: var(--v-button-padding-inline, 20px);
+        font-size: var(--v-button-font-size, 16px);
+        gap: var(--v-button-gap, 6px);
+        padding-block: var(--v-button-padding-block, 4px);
+        padding-inline: var(--v-button-padding-inline, 14px);
     }
 
     &--md {
-        font-size: var(--v-button-font-size, 16px);
+        font-size: var(--v-button-font-size, 18px);
         gap: var(--v-button-gap, 10px);
-        padding-block: var(--v-button-padding-block, 12px);
-        padding-inline: var(--v-button-padding-inline, 20px);
+        padding-block: var(--v-button-padding-block, 8px);
+        padding-inline: var(--v-button-padding-inline, 14px);
     }
 }
 

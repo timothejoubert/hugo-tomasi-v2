@@ -93,6 +93,7 @@ defineProps<{
 
 .title {
     margin-block: 0;
+    text-transform: uppercase;
 }
 
 .link {
