@@ -128,7 +128,7 @@ const img = computed(() => data.value?.thumbnail || data.value?.main_media)
 
     @media (hover: hover) {
         .root:hover & {
-            scale: 1.05;
+            scale: 1.04;
         }
     }
 }
@@ -163,9 +163,9 @@ const img = computed(() => data.value?.thumbnail || data.value?.main_media)
     position: relative;
     margin: initial;
     opacity: 0;
-    transition: 0.3s ease(out-quad);
+    transition: 0.35s ease(out-quad);
     transition-delay: calc(var(--v-tag-index, 0) * 30ms);
-    translate: 0 12px;
+    translate: 0 8px;
 
     .root:hover & {
         opacity: 1;

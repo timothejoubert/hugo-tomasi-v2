@@ -6,6 +6,7 @@ defineProps<{
     wrapper?: VWrapperElement
 }>()
 </script>
+
 <template>
     <VWrapper
         :wrapper="wrapper || 'h2'"
@@ -15,6 +16,7 @@ defineProps<{
         {{ title }}
     </VWrapper>
 </template>
+
 <style lang="scss" module>
 .title {
     margin-bottom: var(--v-slice-title-margin-bottom, 42px);

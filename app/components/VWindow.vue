@@ -150,9 +150,9 @@ $handle-corner: 10px;
 .root {
     position: var(--v-window-display, fixed);
     border: 1PX solid var(--color-surface);
-    border-radius: 12px;
+    border-radius: var(--common-border-radius);
     background-color: var(--color-background);
-    box-shadow: -5px 5px 20PX 10PX rgb(0, 0, 0, 20%);
+    box-shadow: 0 24px 48px -12px rgb(0 0 0 / 12%);
 
     &--resizing {
         pointer-events: none;

@@ -74,7 +74,7 @@ const title = computed(() => props.slice.primary.title)
 .marquee {
     display: flex;
     min-width: 100vw;
-    margin-block: 18px;
+    margin-block: 30px;
 }
 
 .media {

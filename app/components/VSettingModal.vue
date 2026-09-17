@@ -102,7 +102,8 @@ const { activate: onButtonMagnetEvent } = useMagnetHover()
             transition: opacity 0.3s ease(out-quart), scale 0.3s ease(out-quart), translate 0.3s ease(out-quart);
         }
 
-        .root:hover & {
+        .root:hover &,
+        .root:focus-within & {
             opacity: 1;
             scale: 1;
             translate: 0 0;
