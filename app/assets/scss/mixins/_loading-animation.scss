@@ -25,11 +25,6 @@
     background-position: 120% 0;
     background-size: 120% 100%;
     content: '';
-
-    @media (prefers-reduced-motion: reduce) {
-        animation: none;
-        background: none;
-    }
 }
 
 @mixin loading-animation-text-placeholder($radius: true) {

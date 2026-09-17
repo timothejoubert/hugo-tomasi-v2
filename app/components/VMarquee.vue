@@ -51,10 +51,6 @@ const props = withDefaults(defineProps<VMarqueeProps>(), {
     width: max-content;
     animation: v-marquee-scroll var(--v-marquee-duration, 20000ms) linear infinite;
     animation-direction: var(--v-marquee-direction, normal);
-
-    @media (prefers-reduced-motion: reduce) {
-        animation-play-state: paused;
-    }
 }
 
 .group {

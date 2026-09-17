@@ -78,9 +78,19 @@ const title = computed(() => props.slice.primary.title)
 }
 
 .media {
-    width: 260px;
-    max-width: initial;
+    --v-img-width: 180px;
+
     flex-shrink: 0;
-    border-radius: 30px;
+    border-radius: var(--common-border-radius);
+
+    @include media('>=md') {
+        --v-img-width: 220px;
+
+    }
+
+    @include media('>=lg') {
+        --v-img-width: 260px;
+
+    }
 }
 </style>

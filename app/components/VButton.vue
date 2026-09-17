@@ -79,8 +79,6 @@ const rootClasses = computed(() => {
     color: var(--color-content, inherit);
     font-size: var(--v-button-font-size, 14px);
     gap: var(--v-button-gap, 6px);
-    padding-block: var(--v-button-padding-block, 6px);
-    padding-inline: var(--v-button-padding-inline, 12px);
     transition:
         background-color 0.3s ease(out-quad),
         color 0.3s ease(out-quad),

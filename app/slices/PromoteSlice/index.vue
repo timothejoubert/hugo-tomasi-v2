@@ -23,38 +23,43 @@ const promoteList = computed(() => props.slice.items)
                 :key="`${i}-${promote.title}`"
                 :class="$style.item"
             >
-                <div
+                <h3
                     v-if="promote.title"
                     :class="$style['promote-title']"
+                    class="text-body"
                 >
                     {{ promote.title }}
-                </div>
+                </h3>
                 <div
                     v-if="promote.content"
                     :class="$style.content"
+                    class="text-body-xs"
                 >
                     {{ promote.content }}
                 </div>
                 <div
                     v-if="promote.place"
                     :class="$style.place"
+                    class="text-body"
                 >
                     {{ promote.place }}
                 </div>
                 <div
                     v-if="promote.year"
                     :class="$style.year"
+                    class="text-body"
                 >
                     {{ promote.year }}
                 </div>
                 <VPrismicLink
-                    :to="promote.link"
                     v-slot="scopedProps"
+                    :to="promote.link"
                     custom
                 >
                     <VButton
                         v-bind="scopedProps"
                         :class="$style.button"
+                        size="sm"
                         :label="promote.link_label || $t('button.default_label')"
                         icon-name="material-symbols:arrow-outward"
                     />
@@ -80,19 +85,23 @@ const promoteList = computed(() => props.slice.items)
 
     position: relative;
     display: flex;
-    min-height: 73px;
     align-items: center;
     border-top: var(--v-promote-border);
-    gap: 16px;
-    padding-block: 16px;
+    gap: 8px;
+    padding-block: 12px;
 
     &:last-child {
         border-bottom: var(--v-promote-border);
     }
+
+    @include media('>=md') {
+        gap: 16px;
+    }
 }
 
 .promote-title {
-    min-width: 130px;
+    min-width: 8ch;
+    margin: 0;
     font-weight: 700;
     transition: transform 0.3s ease(out-quad);
 
@@ -113,7 +122,8 @@ const promoteList = computed(() => props.slice.items)
 
 .year,
 .place {
-    text-wrap: nowrap;
+    opacity: 0.8;
+    white-space: nowrap;
 
     &:not(:last-child)::after {
         position: relative;
@@ -123,10 +133,10 @@ const promoteList = computed(() => props.slice.items)
 }
 
 .button {
-    @at-root a.button::before {
-        position: absolute;
-        content: '';
-        inset: 0;
-    }
+    // @at-root a.button::before {
+    //     position: absolute;
+    //     content: '';
+    //     inset: 0;
+    // }
 }
 </style>

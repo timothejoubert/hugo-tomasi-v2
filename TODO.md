@@ -1,5 +1,6 @@
 ### TODO
 
+- VAboutPage: finir le responsive
 - A11y:
     - VMainNav: Style visible pour les liens actif (aria-current)
     - VProjectCard: Style visible pour les liens actif (aria-current)
