@@ -48,6 +48,7 @@ defineProps<{
                                 :class="$style['nav-button']"
                                 :disabled="progress <= 0"
                                 :aria-label="$t('carousel.previous')"
+                                size="sm"
                                 @click="scrollByStep(-1)"
                             />
                             <VButton
@@ -56,6 +57,7 @@ defineProps<{
                                 :class="$style['nav-button']"
                                 :disabled="progress >= 1"
                                 :aria-label="$t('carousel.next')"
+                                size="sm"
                                 @click="scrollByStep(1)"
                             />
                         </div>
@@ -130,8 +132,6 @@ defineProps<{
 }
 
 .nav-button {
-    border-radius: 999px;
-
     &:disabled {
         cursor: default;
         opacity: 0.35;

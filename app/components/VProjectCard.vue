@@ -65,6 +65,7 @@ const img = computed(() => data.value?.thumbnail || data.value?.main_media)
                 tag="span"
                 design="filled"
                 theme="dark"
+                size="sm"
                 icon-name="material-symbols:arrow-outward"
             />
         </div>

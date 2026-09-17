@@ -81,7 +81,7 @@ const promoteList = computed(() => props.slice.items)
 }
 
 .item {
-    --v-promote-border: 1px solid color-mix(in srgb, var(--color-content) 20%, transparent);
+    --v-promote-border: 1px solid color-mix(in srgb, var(--color-content) 10%, transparent);
 
     position: relative;
     display: flex;

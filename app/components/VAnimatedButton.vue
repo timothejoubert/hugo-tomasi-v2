@@ -22,6 +22,7 @@ const isCtaHovered = ref(false)
             v-if="icon"
             design="filled"
             tag="span"
+            size="sm"
             :icon-name="icon"
             :class="$style.icon"
             @mouseenter="isCtaHovered = true"
