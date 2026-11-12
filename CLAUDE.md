@@ -6,10 +6,9 @@ Portfolio Nuxt 4 + Prismic pour Hugo Tomasi (motion designer / monteur /
 réalisateur). Repo Prismic : `hugo-tomasi-v2`.
 
 Ce repo a été construit à partir d'un précédent portfolio personnel
-("timothe-joubert") puis nettoyé pour servir de base saine aux prochains
-projets clients sur la même stack : **quand tu démarres un nouveau projet,
-duplique ce repo (une fois nettoyé/à jour) plutôt qu'un ancien.** Voir la
-checklist en bas de ce fichier.
+("timothe-joubert"). Ce n'est pas la base des nouveaux projets : ils partent
+de `prismic-nuxt-4-starter` (checklist dans le home repo,
+`../home/docs/new-nuxt-prismic-project.md`).
 
 ## Stack
 
@@ -30,9 +29,8 @@ Trois fichiers, un seul rôle chacun (détail dans `README.md`) :
 
 ## Architecture Prismic
 
-- `prismic.config.json` : `repositoryName` (**le premier champ à changer
-  quand on duplique ce repo pour un nouveau client**), `libraries` (chemin
-  des slices), `routes`.
+- `prismic.config.json` : `repositoryName`, `libraries` (chemin des
+  slices), `routes`.
   - ⚠️ Le champ `routes` de ce fichier est **généré** par
     `scripts/sync-prismic-routes.js` (appelé par `pnpm type-gen`) à partir
     de `shared/prismic-schema.ts`. Ne jamais l'éditer à la main.
@@ -122,22 +120,6 @@ réintroduire sans raison forte.
 Voir le tableau détaillé dans `README.md` (`dev`, `build`, `generate`,
 `preview`, `lint`, `lint-fix`, `type-gen`, `prismic:backup`).
 
-## Checklist : dupliquer ce repo pour un nouveau projet client
-
-À changer systématiquement :
-
-1. `package.json` → `name`
-2. `prismic.config.json` → `repositoryName`
-3. `bruno/bruno.json` → `name`
-4. `bruno/environments/*.bru` → `baseUrl` (doit pointer sur le nouveau repo
-   Prismic, ex. `https://<nouveau-repo>.cdn.prismic.io/api/v2`) — **piège
-   connu** : ce champ a été oublié lors de la dernière duplication et
-   pointait encore sur l'ancien repo Prismic pendant un moment.
-5. `.env` / `.env.netlify` → `NUXT_PUBLIC_SITE_NAME`, `NUXT_PUBLIC_SITE_URL`
-6. Contenu des custom types / slices propre au nouveau client (si le
-   scope diffère du template de base)
-7. `i18n/locales/*.json` → copie UI si elle référence le projet précédent
-
 ## Historique / pièges connus
 
 Ce repo vient d'une duplication depuis un ancien portfolio
@@ -146,8 +128,8 @@ Prismic en clair (commenté) dans `.env`, la config Bruno qui pointait
 encore sur l'ancien repo Prismic, et des entrées obsolètes dans
 `.claude/settings.local.json` référençant un ancien projet sibling et
 d'anciens chemins de composants (`atoms/molecules/organisms`, supprimés
-depuis un flattening de `app/components/`). La checklist ci-dessus existe
-pour éviter que ça se reproduise sur le prochain projet.
+depuis un flattening de `app/components/`). La checklist du home repo
+(`new-nuxt-prismic-project.md`) existe pour éviter que ça se reproduise.
 
 ## Points en suspens (non traités automatiquement)
 
