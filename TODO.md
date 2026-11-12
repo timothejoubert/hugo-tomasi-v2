@@ -1,5 +1,6 @@
 ### TODO
 
+- ajouter des animation d'apparitions sur les images comme sur https://www.paulkalkbrenner.net/
 - VAboutPage: finir le responsive
 - A11y:
     - VMainNav: Style visible pour les liens actif (aria-current)
